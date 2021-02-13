@@ -1,0 +1,19 @@
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 76px;
+    min-height: calc(100vh - 76px);
+    width: 300px;
+    padding: 1.5rem;
+    border-top: 1px solid #e2e2e2;
+    box-shadow: 6px 1rem 1rem rgb(0 0 0 / 15%);
+    transform: translateX(-400px);
+    @extend .bg-light;
+    transition: transform 200ms ease-in-out;
+}
+
+.menu-sidebar:checked + .sidebar {
+    transform: translateX(0);
+}
+
+
