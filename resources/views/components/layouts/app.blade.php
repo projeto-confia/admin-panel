@@ -16,7 +16,7 @@
     <script src="/js/app.js" defer></script>
 
 </head>
-<body class="font-sans antialiased min-h-screen">
+<body>
     <nav class="navbar navbar-light bg-light shadow">
         <div class="container-fluid overflow-hidden">
             <a href="/" class="d-flex align-items-center px-3 text-decoration-none text-dark">
@@ -31,10 +31,9 @@
 
             <x-navigation.sidebar />
         </div>
-
-
     </nav>
-    <div class="container-fluid">
+
+    <div>
         {{ $slot }}
     </div>
 
