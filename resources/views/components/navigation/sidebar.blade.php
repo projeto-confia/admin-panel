@@ -17,7 +17,7 @@
 
         <x-navigation.dropdown label="Relatórios" id="actions">
 
-            <x-navigation.dropdown-item href="{{ url('news') }}">
+            <x-navigation.dropdown-item href="{{ url('report/news') }}">
                 Notícias
             </x-navigation.dropdown-item>
 
