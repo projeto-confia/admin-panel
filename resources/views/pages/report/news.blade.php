@@ -9,7 +9,7 @@
                 <tr>
                     <th scope="col">#Id</th>    
                     <th scope="col">Texto</th>
-                    <th scope="col">Data de Publicação</th>
+                    <th scope="col">Publicação</th>
                     <th scope="col">Avaliação</th>
                 </tr>
             </thead>
@@ -18,8 +18,8 @@
                     <tr>
                         <th scope="row">{{ $news_item->id_news }}</th>
                         <td>{{ $news_item->text_news }}</td>
-                        <td>{{ $news_item->datetime_publication }}</td>
-                        <td>{{ $news_item->classification_outcome }}</td>
+                        <td>{{ Carbon\Carbon::parse($news_item->datetime_publication)->format('d M y') }}</td>
+                        <td>{{ $news_item->classification_outcome ? 'Falsa' : 'Verdadeira' }}</td>
                     </tr>
                 @endforeach
             </tbody>
