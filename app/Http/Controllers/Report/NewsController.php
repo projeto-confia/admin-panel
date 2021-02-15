@@ -13,11 +13,38 @@ class NewsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $text = $request->get('text_news');
+        $start_date = $request->get('start_date');
+        $end_date = $request->get('end_date');
+        $classification = $request->get('classification');
+
+        switch ($classification) {
+            case '1':
+                $classification_filter = 'false';
+                break;
+            case '0':
+                $classification_filter = 'true';
+                break;
+        }
+
         $news = News::where('id_news', '>', 600)
-            ->whereNotNull('classification_outcome')
-            ->paginate(8);
+        ->when($text, function($query, $text){
+            return $query->where('text_news', 'ilike', '%'.$text.'%');
+        })
+        ->when(isset($classification_filter), function($query, $classification_filter){
+            return $query->where('classification_outcome', $classification_filter);
+        }, function($query){
+            return $query->whereNotNull('classification_outcome');
+        })
+        ->when($start_date, function($query, $start_date){
+            return $query->where('datetime_publication', '>=', $start_date);
+        })
+        ->when($end_date, function($query, $end_date){
+            return $query->where('datetime_publication', '<=', $end_date);
+        })
+        ->paginate(5);
         return view('pages.report.news')->with(['news' => $news]);
     }
 
