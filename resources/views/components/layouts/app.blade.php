@@ -33,7 +33,7 @@
         </div>
     </nav>
 
-    <div>
+    <div class='container'>
         {{ $slot }}
     </div>
 
