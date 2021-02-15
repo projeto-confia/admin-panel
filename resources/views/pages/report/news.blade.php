@@ -24,6 +24,7 @@
                 @endforeach
             </tbody>
         </table>
+        {{ $news->links() }}
     </div>
 
 </x-layouts.app>

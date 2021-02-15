@@ -17,7 +17,7 @@ class NewsController extends Controller
     {
         $news = News::where('id_news', '>', 600)
             ->whereNotNull('classification_outcome')
-            ->get();
+            ->paginate(8);
         return view('pages.report.news')->with(['news' => $news]);
     }
 
