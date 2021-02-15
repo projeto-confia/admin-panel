@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Report;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\News;
 
 class NewsController extends Controller
 {
@@ -14,7 +15,10 @@ class NewsController extends Controller
      */
     public function index()
     {
-        dd('index for news page');
+        $news = News::where('id_news', '>', 600)
+            ->whereNotNull('classification_outcome')
+            ->get();
+        return view('pages.report.news')->with(['news' => $news]);
     }
 
     /**
