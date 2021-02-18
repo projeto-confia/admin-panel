@@ -9,9 +9,8 @@ class News extends Model
 {
     use HasFactory;
 
+    protected $connection = 'detectenv';
     protected $table = 'news';
-
     protected $primaryKey = 'id_news';
     public $timestamps = false;
-
 }
