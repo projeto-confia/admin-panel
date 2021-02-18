@@ -14,8 +14,7 @@ class NewsChartController extends Controller
      */
     public function index()
     {
-        // return view('pages.report.news_chart');
-        dd('index for news chart page');
+        return view('pages.report.news_chart');
     }
 
     /**
