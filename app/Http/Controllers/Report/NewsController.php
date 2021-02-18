@@ -44,8 +44,10 @@ class NewsController extends Controller
         ->when($end_date, function($query, $end_date){
             return $query->where('datetime_publication', '<=', $end_date);
         })
-        ->paginate(5);
-        return view('pages.report.news')->with(['news' => $news]);
+        ->paginate(5)
+        ->withQueryString();
+
+        return view('pages.report.news')->with(['news' => $news, 'request' => $request]);
     }
 
     /**
