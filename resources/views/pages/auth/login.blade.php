@@ -34,10 +34,7 @@
                     </label>
                 </div>
 
-                <div class="col-12 d-flex flex-row justify-content-between mt-3">
-                    <a class="link-primary" href="#">
-                        Esqueceu a senha ?
-                    </a>
+                <div class="col-12 d-flex flex-row-reverse justify-content-between mt-3">
                     <button class="btn btn-primary" type="submit">{{ __('Submit') }}</button>
                 </div>
 
