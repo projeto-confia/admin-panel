@@ -18,3 +18,4 @@ Route::get('/', function () {
 })->middleware('auth');
 
 require __DIR__ . '/auth.php';
+require __DIR__ . '/report_chart.php';
