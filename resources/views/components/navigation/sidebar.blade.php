@@ -1,6 +1,6 @@
 <nav class="sidebar">
     <button
-        class="btn btn-close d-block ml-auto"
+        class="btn btn-close d-block mr-auto"
         aria-label="Fechar menu de navegação"
         onclick="document.querySelector('#navigation').checked = false"
     >
@@ -19,7 +19,8 @@
         </form>
     </div>
 
-    <hr />
+    <hr/>
+
     <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
         <x-navigation.nav-item :active="true" href="#">
             Home
