@@ -1,15 +1,15 @@
 @charset "UTF-8";
 .sidebar {
   position: fixed;
-  left: 0;
+  right: 0;
   top: 76px;
   min-height: calc(100vh - 76px);
   width: 300px;
   padding: 1.5rem;
   border-top: 1px solid #e2e2e2;
   box-shadow: 6px 1rem 1rem rgba(0, 0, 0, 0.15);
-  transform: translateX(-400px);
-  transition: transform 200ms ease-in-out;
+  transform: translateX(100%);
+  transition: transform 150ms ease-in-out;
 }
 
 .menu-sidebar:checked + .sidebar {
@@ -53,6 +53,18 @@
 
 .card-search {
   margin-bottom: 15px;
+}
+
+.ml-auto {
+  margin-left: auto;
+}
+
+.mr-auto {
+  margin-right: auto;
+}
+
+.bg-none {
+  background: none;
 }
 
 /*!
