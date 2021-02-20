@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ $title ??  config('app.name', 'CONFIA') }}</title>
+    <title>{{ $title ?? config('app.name', 'CONFIA') }}</title>
 
     <!-- Styles -->
     <link rel="stylesheet" href="/css/app.css">
@@ -27,6 +27,7 @@
             <label for="navigation" class="btn btn-light" tabindex="0" role="button" aria-label="Abre e fecha menu de navegação">
                 <x-icons.menu width="30"/>
             </label>
+
             <input class="visually-hidden menu-sidebar" id="navigation" type="checkbox">
 
             <x-navigation.sidebar />
