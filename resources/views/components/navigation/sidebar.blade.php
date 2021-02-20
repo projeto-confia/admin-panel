@@ -22,18 +22,14 @@
     <hr/>
 
     <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
-        <x-navigation.nav-item :active="true" href="#">
+        <x-navigation.nav-item :active="true" href="/">
             Home
         </x-navigation.nav-item>
 
-        <x-navigation.nav-item href="#">
-            Link
-        </x-navigation.nav-item>
+        <x-navigation.dropdown label="Relatórios" id="actions">
 
-        <x-navigation.dropdown label="Dropdown" id="actions">
-
-            <x-navigation.dropdown-item href="#">
-                Action
+            <x-navigation.dropdown-item href="{{ url('report/news') }}">
+                Notícias
             </x-navigation.dropdown-item>
 
             <x-navigation.dropdown-item href="#">

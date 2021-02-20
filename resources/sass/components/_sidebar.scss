@@ -1,4 +1,5 @@
 .sidebar {
+    z-index: $zindex-sidebar;
     position: fixed;
     right: 0;
     top: 76px;
