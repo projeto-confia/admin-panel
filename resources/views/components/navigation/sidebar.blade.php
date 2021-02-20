@@ -32,8 +32,8 @@
                 Notícias
             </x-navigation.dropdown-item>
 
-            <x-navigation.dropdown-item href="#">
-                Another action
+            <x-navigation.dropdown-item href="{{ url('report/news_chart') }}">
+                Notícias (consolidado)
             </x-navigation.dropdown-item>
 
             <li><hr class="dropdown-divider"></li>
