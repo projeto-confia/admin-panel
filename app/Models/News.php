@@ -13,4 +13,8 @@ class News extends Model
     protected $table = 'news';
     protected $primaryKey = 'id_news';
     public $timestamps = false;
+
+    protected $casts = [
+        'datetime_publication' => 'datetime',
+    ];
 }
