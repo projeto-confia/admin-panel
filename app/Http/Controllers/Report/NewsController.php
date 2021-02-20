@@ -3,51 +3,43 @@
 namespace App\Http\Controllers\Report;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\News;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\Request;
 
 class NewsController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return View
      */
-    public function index(Request $request)
+    public function index(Request $request): View
     {
-        $text = $request->get('text_news');
-        $start_date = $request->get('start_date');
-        $end_date = $request->get('end_date');
-        $classification = $request->get('classification');
+        $news = News::query()
+            ->when(
+                $request->text_news,
+                fn($query) => $query->where('text_news', 'ilike', "%{$request->text_news}%")
+            )
+            ->when(
+                $request->classification !== '*',
+                fn($query) => $query->where('classification_outcome', !$request->classification),
+                fn($query) => $query->whereNotNull('classification_outcome'),
+            )
+            ->when(
+                $request->start_date,
+                fn($query) => $query->whereDate('datetime_publication', '>=', $request->start_date),
+            )
+            ->when(
+                $request->end_date,
+                fn($query) => $query->whereDate('datetime_publication', '<=', $request->end_date),
+            )
+            ->paginate()
+            ->withQueryString();
 
-        switch ($classification) {
-            case '1':
-                $classification_filter = 'false';
-                break;
-            case '0':
-                $classification_filter = 'true';
-                break;
-        }
 
-        $news = News::where('id_news', '>', 600)
-        ->when($text, function($query, $text){
-            return $query->where('text_news', 'ilike', '%'.$text.'%');
-        })
-        ->when(isset($classification_filter), function($query, $classification_filter){
-            return $query->where('classification_outcome', $classification_filter);
-        }, function($query){
-            return $query->whereNotNull('classification_outcome');
-        })
-        ->when($start_date, function($query, $start_date){
-            return $query->where('datetime_publication', '>=', $start_date);
-        })
-        ->when($end_date, function($query, $end_date){
-            return $query->where('datetime_publication', '<=', $end_date);
-        })
-        ->paginate(5)
-        ->withQueryString();
-
-        return view('pages.report.news')->with(['news' => $news, 'request' => $request]);
+        return view('pages.report.news', compact('news', 'request'));
     }
 
     /**
