@@ -7,7 +7,7 @@
     <main>
         {{--    filtros    --}}
         <div class="card mb-3 p-4">
-            <form action="/report/news" method="GET" class="row g-3">
+            <form action="{{ route('news.index') }}" method="GET" class="row g-3">
                 @csrf
                 <div class="col-12">
                     <div class="form-floating">

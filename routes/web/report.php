@@ -3,4 +3,7 @@
 use App\Http\Controllers\Report\NewsController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/report/news', [NewsController::class, 'index']);
+Route::prefix('report')->middleware('auth')->group(function () {
+    Route::get('news', [NewsController::class, 'index'])->name('news.index');
+});
+
