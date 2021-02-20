@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Report;
 
 use App\Http\Controllers\Controller;
+use App\Models\News;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
 class NewsChartController extends Controller
@@ -10,9 +12,10 @@ class NewsChartController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return View
      */
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         // $start_date = $request->get('start_date');
         // $end_date = $request->get('end_date');
@@ -24,14 +27,18 @@ class NewsChartController extends Controller
         // ->when($end_date, function($query, $end_date){
         //     return $query->where('datetime_publication', '<=', $end_date);
         // })
-        // ->get();
+        // ->get()
+        // ->withQueryString();
 
         $data = [
-            "labels" => ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-            "data" => [12, 19, 3, 5, 2, 3]
+            "labels" => ['12/02/2021', '14/02/2021', '20/02/2021', '21/02/2021', '22/02/2021', '23/02/2021'],
+            "data_true" => [12, 19, 3, 12, 19, 3],
+            "data_false" => [20, 15, 8, 12, 19, 3]
         ];
 
-        return view('pages.report.news_chart')->with(['data' => json_encode($data)]);
+        $data_json = json_encode($data);
+
+        return view('pages.report.news_chart', compact('data_json', 'request'));
     }
 
     /**
