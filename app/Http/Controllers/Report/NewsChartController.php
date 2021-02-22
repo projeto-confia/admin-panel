@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Report;
 
+use Illuminate\Support\Arr;
 use App\Http\Controllers\Controller;
 use App\Models\News;
 use Illuminate\Contracts\View\View;
@@ -17,28 +18,50 @@ class NewsChartController extends Controller
      */
     public function index(Request $request): View
     {
-        // $start_date = $request->get('start_date');
-        // $end_date = $request->get('end_date');
+        $reportData = News::query()
+            ->select(News::raw('datetime_publication::DATE'), 'classification_outcome', News::raw('count(*) as total'))
+            ->where('id_news', '>', 600)
+            ->whereNotNull('classification_outcome')
+            ->whereNull('ground_truth_label')
+            ->when(
+                $request->start_date,
+                fn($query) => $query->whereDate('datetime_publication', '>=', $request->start_date),
+            )
+            ->when(
+                $request->end_date,
+                fn($query) => $query->whereDate('datetime_publication', '<=', $request->end_date),
+            )
+            ->groupBy(News::raw('datetime_publication::DATE'), 'classification_outcome')
+            ->orderby('datetime_publication')
+            ->orderby('classification_outcome')
+            ->get()
+            ->reduce(function ($acc, $item) {
+                $label = $item->datetime_publication->format('d/m/Y');
+                $hasLabel = (bool) Arr::first($acc['labels'], fn($it) => $it == $label);
+                
+                if (!$hasLabel) {
+                    array_push($acc['labels'], $label);
+                }
 
-        // $news = News::where('id_news', '>', 600)
-        // ->when($start_date, function($query, $start_date){
-        //     return $query->where('datetime_publication', '>=', $start_date);
-        // })
-        // ->when($end_date, function($query, $end_date){
-        //     return $query->where('datetime_publication', '<=', $end_date);
-        // })
-        // ->get()
-        // ->withQueryString();
+                $key = $item->classification_outcome ? 'data_true' : 'data_false';
+                array_push($acc[$key], $item->total);
 
-        $data = [
-            "labels" => ['12/02/2021', '14/02/2021', '20/02/2021', '21/02/2021', '22/02/2021', '23/02/2021'],
-            "data_true" => [12, 19, 3, 12, 19, 3],
-            "data_false" => [20, 15, 8, 12, 19, 3]
-        ];
+                return $acc;
+            }, [
+                'labels' => [],
+                'data_true' => [],
+                'data_false' => []
+            ]);
 
-        $data_json = json_encode($data);
+        // $data = [
+        //     "labels" => ['12/02/2021', '14/02/2021', '20/02/2021', '21/02/2021', '22/02/2021', '23/02/2021'],
+        //     "data_true" => [12, 19, 3, 12, 19, 3],
+        //     "data_false" => [20, 15, 8, 12, 19, 3]
+        // ];
 
-        return view('pages.report.news_chart', compact('data_json', 'request'));
+        $reportJson = json_encode($reportData);
+
+        return view('pages.report.news_chart', compact('reportJson', 'request'));
     }
 
     /**

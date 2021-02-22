@@ -47,15 +47,13 @@
 
             document.addEventListener('DOMContentLoaded', () => {
 
-                var { labels, data_true, data_false } = {!! $data_json !!};
-                // console.log(dataJson.labels);
+                var { labels, data_true, data_false } = {!! $reportJson !!};
 
                 var ctx = document.getElementById('myChart').getContext('2d');
                 var myChart = new Chart(ctx, {
                     type: 'bar',
                     data: {
-                        // labels: labels,
-                        labels,  // forma simplificada
+                        labels,
                         datasets: [{
                             label: 'Verdadeira',
                             data: data_true,
@@ -73,7 +71,6 @@
                     },
                     options: {
                         responsive: true,
-                        // barValueSpacing: 20,
                         scales: {
                             yAxes: [{
                                 ticks: {
