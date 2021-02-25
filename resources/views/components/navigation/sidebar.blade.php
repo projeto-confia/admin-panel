@@ -36,12 +36,6 @@
                 Notícias (consolidado)
             </x-navigation.dropdown-item>
 
-            <li><hr class="dropdown-divider"></li>
-
-            <x-navigation.dropdown-item href="#">
-                Something else here
-            </x-navigation.dropdown-item>
-
         </x-navigation.dropdown>
 
     </ul>
