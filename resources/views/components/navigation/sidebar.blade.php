@@ -36,6 +36,10 @@
                 Notícias (consolidado)
             </x-navigation.dropdown-item>
 
+            <x-navigation.dropdown-item href="{{ url('report/news_tagcloud') }}">
+                Notícias (Tag Cloud)
+            </x-navigation.dropdown-item>
+
         </x-navigation.dropdown>
 
     </ul>
