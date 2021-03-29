@@ -73,7 +73,7 @@ docker-compose exec app php artisan key:generate
 ```bash
 docker-compose exec app php artisan migrate
 ```
-Para inserir os dados iniciais da aplicação rode o comando
+### 8- Para inserir os dados iniciais da aplicação rode o comando
 ```bash
 docker-compose exec app php artisan db:seed
 ```
@@ -96,7 +96,7 @@ Caso esteja trabalhando com arquivos do frontend, recomenda-se  a execução do 
 npm run watch
 ```
 
-### 3- Para acessar a aplicação, digite o seguinte endereço no seu browser: ``http://localhost:8000``.
+Para acessar a aplicação, digite o seguinte endereço no seu browser: ``http://localhost:8000``.
 
 
 ## Licença
