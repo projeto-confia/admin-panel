@@ -62,7 +62,7 @@ Em seguida
     ```
 - Para inserir os dados iniciais da aplicação rode o comando
   ```bash
-  docker-compose exec app php db:seed
+  docker-compose exec app php artisan db:seed
   ```
 
 ### Frontend
