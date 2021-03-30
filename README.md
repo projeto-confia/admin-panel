@@ -28,7 +28,7 @@ docker-compose up -d
 ```
 
 Acesse a base com as credencias das variáveis ``DB_DATABASE, DB_USERNAME e DB_PASSWORD`` 
-o host será ``localhost`` na porta `5433` e então crie os schemas ``admin_panel`` e ``detecenv``.
+o host será ``localhost`` na porta `5433` e então crie os schemas ``admin_panel`` e ``detectenv``.
 
 Em seguida
 
@@ -46,7 +46,7 @@ Em seguida
     ```
 - Para inserir os dados iniciais da aplicação rode o comando
   ```bash
-  docker-compose exec app php db:seed
+  docker-compose exec app php artisan db:seed
   ```
 
 ### Frontend
@@ -71,7 +71,7 @@ este observa alterações no arquivo e executa o a compilação sem a necessidad
 Acesse a aplicação em ``http://localhost:8000``.
 
 Para que funcione corretamente as páginas com relatórios e gráficos com dados do AUTOMATA,
-deve-se criar a estrutura e dados no schema ``detecenv``
+deve-se criar a estrutura e dados no schema ``detectenv``
 
 
 ## Licença
