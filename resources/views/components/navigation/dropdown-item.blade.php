@@ -2,7 +2,7 @@
 
 <li class="dropdown-item {{ $attributes->get('class') }}">
     <a
-        class="nav-link  {{ $active ? 'active' : '' }}"
+        class="nav-link {{ $active ? 'active' : '' }}"
         href="{{ $attributes->get('href') }}"
     >
             {{ $slot }}

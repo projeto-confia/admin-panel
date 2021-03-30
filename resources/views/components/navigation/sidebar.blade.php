@@ -1,4 +1,4 @@
-<nav class="sidebar">
+<nav class="sidebar px-3" style="min-height: 20%;">
     <hr/>
 
     <div class="d-flex flex-row align-items-center">
