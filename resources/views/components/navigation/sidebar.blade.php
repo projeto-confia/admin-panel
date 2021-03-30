@@ -13,11 +13,12 @@
             <span class="text-dark mr-auto">{{ Auth::user()->name }}</span>
             <span class="text-muted mr-auto">{{ Auth::user()->email }}</span>
         </div>
-        <form method="POST" action="{{ route('logout') }}">
-            @csrf
-            <button class="bg-none border-0 link-primary" type="submit">Sair</button>
-        </form>
     </div>
+
+    <form method="POST" action="{{ route('logout') }}">
+        @csrf
+        <button class="bg-none border-0 p-0 mt-2 link-primary" type="submit">Sair</button>
+    </form>
 
     <hr/>
 
