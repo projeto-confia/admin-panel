@@ -3514,6 +3514,13 @@ textarea.form-control-lg {
   border: 1px solid rgba(0, 0, 0, 0.15);
   border-radius: 0.25rem;
 }
+
+.dropdown-menu-overlapped {
+  position:fixed !important;
+  left:auto !important; 
+  top:auto !important;
+}
+
 .dropdown-menu[data-bs-popper] {
   left: 0;
   margin-top: 0.125rem;

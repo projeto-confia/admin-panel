@@ -42,7 +42,7 @@
                 </x-navigation.dropdown>
             </ul>
 
-            <label for="navigation" class="btn btn-light" tabindex="0" role="button" aria-label="Abre e fecha menu de navegação">
+            <label for="navigation" class="btn btn-light" tabindex="0" role="button" aria-label="Abre e fecha menu de usuário.">
                 <x-icons.menu width="30"/>
             </label>
 
