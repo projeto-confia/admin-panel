@@ -15,7 +15,7 @@
 
     <hr/>
 
-    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
+    <!-- <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
         <x-navigation.nav-item :active="true" href="/">
             Home
         </x-navigation.nav-item>
@@ -32,5 +32,5 @@
 
         </x-navigation.dropdown>
 
-    </ul>
+    </ul> -->
 </nav>
