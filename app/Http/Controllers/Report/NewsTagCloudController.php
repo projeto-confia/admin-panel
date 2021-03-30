@@ -17,8 +17,38 @@ class NewsTagCloudController extends Controller
      */
     public function index(Request $request): View
     {
-        // return view('pages.report.news_tagcloud', compact('reportJson', 'request'));
-        return view('pages.report.news_tagcloud', compact('request'));
+
+        // TODO: mover stopWords para arquivo
+        $stopWords = ['o', 'a', 'os', 'as', 'em', 'no', 'com', 'de', 'eu', 'que', 'é', 'esse', 'https', 'co', 't', 'do', 'da'];
+
+        $reportJson = News::query()
+            ->select('text_news')
+            ->where('id_news', '>', 600)
+            ->whereNotNull('classification_outcome')
+            ->whereNull('ground_truth_label')
+            ->when(
+                $request->start_date,
+                fn($query) => $query->whereDate('datetime_publication', '>=', $request->start_date),
+            )
+            ->when(
+                $request->end_date,
+                fn($query) => $query->whereDate('datetime_publication', '<=', $request->end_date),
+            )
+            ->get()
+            ->flatMap(function (News $news) use($stopWords) {
+                $words = preg_split('/[^-\w\']+/', $news->text_news, -1, PREG_SPLIT_NO_EMPTY);
+                $words = array_map('strtolower', $words);
+                return array_diff($words, $stopWords);
+            })
+            ->countBy()
+            ->sort()
+            ->reverse()
+            ->take(100)  // TODO: receber esse parâmetro da interface
+            ->map(fn (int $wordCount, string $key) => ['x' => $key, 'value' => $wordCount])
+            ->values()
+            ->toJson();
+
+        return view('pages.report.news_tagcloud', compact('reportJson', 'request'));
     }
 
     /**
