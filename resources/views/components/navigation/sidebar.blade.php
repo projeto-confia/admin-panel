@@ -1,11 +1,4 @@
 <nav class="sidebar">
-    <button
-        class="btn btn-close d-block mr-auto"
-        aria-label="Fechar menu de navegação"
-        onclick="document.querySelector('#navigation').checked = false"
-    >
-    </button>
-
     <hr/>
 
     <div class="d-flex flex-row align-items-center">
