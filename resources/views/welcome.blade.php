@@ -3,24 +3,35 @@
 
     <h2 class="text-center mt-3">Bem vindo, {{$loggedUser}}.</h2>
 
+    <div class="card">
+        <canvas id="myChart" width="770" height="385" style="display:block"></canvas>
+    </div>
 
-    <!-- <div style="display:flex;">
-        <div style="width:50%;height:500px;background-color:red;"></div>
-        <div style="width:50%;height:500px;background-color:blue;"></div>
-    <div> -->
+    @push('scripts')
+        <script defer>
 
+            document.addEventListener('DOMContentLoaded', () => {
+                
+                var {id_account_social_media, screen_name, total_fake_news} = {!! $json_top_users !!};
+                console.log(id_account_social_media, screen_name, total_fake_news);
 
-    <!-- query para ranquear os usuários que mais compartilharam notícias falsas (ICS) -->
+                var ctx = document.getElementById('myChart').getContext('2d');
+                var chart = new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+                         datasets: [{
+                            total_fake_news
+                         }],
+                         labels: [
+                             screen_name
+                         ],
+                         options: {
+                            responsive: true
+                        }
+                    }
+                });
+            });
 
-    <!-- select * from
-	(select detectenv.social_media_account.id_account_social_media, count(detectenv.news.classification_outcome) as total_fake_news
-	from detectenv.post
-	inner join detectenv.social_media_account
-	 	on detectenv.post.id_social_media_account = detectenv.social_media_account.id_social_media_account
-	inner join detectenv.news
-	 	on detectenv.post.id_news = detectenv.news.id_news
-	where detectenv.news.classification_outcome = true
-	group by
-		detectenv.social_media_account.id_account_social_media) tbl
-    order by tbl.total_fake_news desc; -->
+        </script>
+    @endpush
 </x-layouts.app>
