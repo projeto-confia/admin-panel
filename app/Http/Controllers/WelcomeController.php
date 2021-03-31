@@ -10,7 +10,6 @@ class WelcomeController extends Controller
     public function show()
     {
         $loggedUser = auth()->user()->name;
-
         return view('welcome')->with('loggedUser', $loggedUser);
     }
 }

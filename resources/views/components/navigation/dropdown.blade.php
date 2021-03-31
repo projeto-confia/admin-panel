@@ -1,6 +1,6 @@
 @props(['id', 'label'])
 
-<li class="nav-item dropdown {{ $attributes->get('class') }}">
+<li class="nav-item dropdown pe-5 {{ $attributes->get('class') }}">
     <a class="nav-link dropdown-toggle" href="#" id="{{ $id }}" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         {{ $label }}
     </a>
