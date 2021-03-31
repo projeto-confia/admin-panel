@@ -27,17 +27,20 @@
 
                 var ctx = document.getElementById('myChart').getContext('2d');
                 var chart = new Chart(ctx, {
-                    type: 'doughnut',
+                    type: 'pie',
+                    options: {
+                        title: {
+                            display: true,
+                            text: 'Usuários que mais transmitiram fake news (ICS)'
+                        }
+                    },
                     data: {
                          datasets: [{
                             data: total_fake_news,
                             backgroundColor: colors,
                          }],
                          labels: screen_name,
-                         options: {
-                            responsive: true
-                        }
-                    }
+                    },
                 });
             });
 
