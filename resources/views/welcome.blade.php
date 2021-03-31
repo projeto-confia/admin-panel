@@ -20,11 +20,9 @@
                     type: 'pie',
                     data: {
                          datasets: [{
-                            total_fake_news
+                            data: total_fake_news
                          }],
-                         labels: [
-                             screen_name
-                         ],
+                         labels: screen_name,
                          options: {
                             responsive: true
                         }
