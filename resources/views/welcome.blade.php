@@ -14,13 +14,24 @@
                 
                 var {id_account_social_media, screen_name, total_fake_news} = {!! $json_top_users !!};
                 console.log(id_account_social_media, screen_name, total_fake_news);
+                
+                colors = [];
+                for (i = 0; i < screen_name.length; i++)
+                {
+                    r = Math.floor(Math.random() * 200);
+                    g = Math.floor(Math.random() * 200);
+                    b = Math.floor(Math.random() * 200);
+
+                    colors.push('rgb(' + r + ', ' + g + ', ' + b + ')');
+                }
 
                 var ctx = document.getElementById('myChart').getContext('2d');
                 var chart = new Chart(ctx, {
-                    type: 'pie',
+                    type: 'doughnut',
                     data: {
                          datasets: [{
-                            data: total_fake_news
+                            data: total_fake_news,
+                            backgroundColor: colors,
                          }],
                          labels: screen_name,
                          options: {
