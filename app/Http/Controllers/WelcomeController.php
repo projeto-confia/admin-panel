@@ -13,11 +13,12 @@ use Illuminate\Support\Facades\Auth;
 
 class WelcomeController extends Controller
 {
-    public function show()
+    public function show(Request $request)
     {
         $loggedUser = auth()->user()->name;
+        $number_top_users = $request->inputTopUsers;
         
-        $data_top_users = DB::select('select * from detectenv.get_top_users_which_shared_most_fake_news_ics(?);', array('5'));
+        $data_top_users = DB::select('select * from detectenv.get_top_users_which_shared_most_fake_news_ics(?);', array($number_top_users));
         
         # pega as chaves dos dados recuperados.
         $keys = array_keys(json_decode(json_encode($data_top_users[0]), true));
