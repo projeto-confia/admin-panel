@@ -3,7 +3,7 @@
 
     <h2 class="text-center mt-3">Bem vindo, {{$loggedUser}}.</h2>
 
-    <div class="d-flex">
+    <div class="d-flex flex-wrap">
         <div class="card flex-row w-50" style="height:600px;">
             <canvas id="myChart" style="display:block; width: 100%; height: 100%;"></canvas>
         </div>
@@ -25,17 +25,17 @@
             document.getElementById("btnSubmit").addEventListener('click', (e) => {
                 var number = document.getElementById('inputTopUsers').value;
 
-                if (number > 1 && number <= 50) {
+                if (number > 1 && number <= 20) {
                     document.getElementById('form_top_users').submit();
                 }
                 else {
-                    var text = document.getElementById("msg").innerHTML = "Digite um número entre 1 e 50.";
+                    var text = document.getElementById("msg").innerHTML = "Digite um número entre 1 e 20.";
                     e.preventDefault();
                 }
             });
 
             document.addEventListener('DOMContentLoaded', () => {
-                
+
                 var {id_account_social_media, screen_name, total_fake_news} = {!! $json_top_users !!};
                 
                 colors = [];
@@ -54,7 +54,8 @@
                     options: {
                         title: {
                             display: true,
-                            text: 'Usuários que mais transmitiram fake news (ICS)'
+                            responsive: true,
+                            text: 'Usuários que mais transmitiram fake news de acordo com o ICS.'
                         }
                     },
                     data: {
