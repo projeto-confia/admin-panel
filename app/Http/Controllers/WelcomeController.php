@@ -18,8 +18,6 @@ class WelcomeController extends Controller
     {
         $number_top_users = $request->inputTopUsers;
         $data_top_users = DB::select('select * from detectenv.get_top_users_which_shared_news_ics(?) order by total_fake_news desc, total_news asc;', array($number_top_users));
-
-        dd($data_top_users);
         
         # pega as chaves dos dados recuperados.
         $keys = array_keys(json_decode(json_encode($data_top_users[0]), true));

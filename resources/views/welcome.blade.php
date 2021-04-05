@@ -25,18 +25,21 @@
             document.getElementById("btnSubmit").addEventListener('click', (e) => {
                 var number = document.getElementById('inputTopUsers').value;
 
-                if (number > 1 && number <= 20) {
+                if (number > 4 && number <= 20) {
                     document.getElementById('form_top_users').submit();
                 }
                 else {
-                    var text = document.getElementById("msg").innerHTML = "Digite um número entre 1 e 20.";
+                    var text = document.getElementById("msg").innerHTML = "Digite um número entre 5 e 20.";
                     e.preventDefault();
                 }
             });
 
             document.addEventListener('DOMContentLoaded', () => {
 
-                var {id_account_social_media, screen_name, total_fake_news} = {!! $json_top_users !!};
+                var {id_account_social_media, screen_name, total_news, total_fake_news, total_not_fake_news} = {!! $json_top_users !!};
+                var rates = total_fake_news.map(function (num, idx) { return (num / total_news[idx]).toFixed(3) * 100; })
+                // console.log(rates);
+                // console.log(id_account_social_media, screen_name, total_news, total_fake_news, total_not_fake_news);
                 
                 colors = [];
                 for (i = 0; i < screen_name.length; i++)
@@ -55,12 +58,12 @@
                         title: {
                             display: true,
                             responsive: true,
-                            text: 'Usuários que mais transmitiram fake news de acordo com o ICS.'
+                            text: 'Usuários que possivelmente mais transmitiram fake news, de acordo com o ICS (%).'
                         }
                     },
                     data: {
                          datasets: [{
-                            data: total_fake_news,
+                            data: rates,
                             backgroundColor: colors,
                          }],
                          labels: screen_name,
