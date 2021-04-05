@@ -36,9 +36,9 @@
 
             document.addEventListener('DOMContentLoaded', () => {
 
-                var {id_account_social_media, screen_name, total_news, total_fake_news, total_not_fake_news} = {!! $json_top_users !!};
-                var rates = total_fake_news.map(function (num, idx) { return (num / total_news[idx]).toFixed(3) * 100; })
-                // console.log(rates);
+                var {id_account_social_media, screen_name, total_news, total_fake_news, total_not_fake_news, rate_fake_news, rate_not_fake_news} = {!! $json_top_users !!};
+                var rates = rate_fake_news.map(function (num, idx) { return Number(num).toFixed(3) * 100 });
+                console.log(rates);
                 // console.log(id_account_social_media, screen_name, total_news, total_fake_news, total_not_fake_news);
                 
                 colors = [];
