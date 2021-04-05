@@ -43,22 +43,18 @@
         <script defer>
             
             var btn = document.getElementById('btnSubmit');
-
             document.getElementById("btnSubmit").addEventListener('click', (e) => {
                 var number = document.getElementById('inputTopUsers').value;
-
-                if (number >= 5 && number <= 20) {
+                if (number >= 5 && number <= 50) {
                     document.getElementById('form_top_users').submit();
                 }
                 else {
-                    var text = document.getElementById("msg").innerHTML = "Digite um número entre 5 e 20.";
+                    var text = document.getElementById("msg").innerHTML = "Digite um número entre 5 e 50.";
                     e.preventDefault();
                 }
             });
-
             // Gráfico dos top usuários que transmitiram fake news.
             document.addEventListener('DOMContentLoaded', () => {
-
                 var {id_account_social_media, screen_name, total_news, total_fake_news, total_not_fake_news, rate_fake_news, rate_not_fake_news} = {!! $json_top_fake_users !!};
                 var rates = rate_fake_news.map(function (num, idx) { return Number(num).toFixed(3) * 100 });
                 console.log(rates);
@@ -70,10 +66,8 @@
                     r = Math.floor(Math.random() * 200);
                     g = Math.floor(Math.random() * 200);
                     b = Math.floor(Math.random() * 200);
-
                     colors.push('rgb(' + r + ', ' + g + ', ' + b + ')');
                 }
-
                 var ctx = document.getElementById('rateFakeChart').getContext('2d');
                 var chart = new Chart(ctx, {
                     type: 'pie',
@@ -93,7 +87,6 @@
                     },
                 });
             });
-
         </script>
     @endpush
 </x-layouts.app>
