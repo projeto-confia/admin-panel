@@ -14,12 +14,14 @@ use App\Models\News;
 
 class WelcomeController extends Controller
 {
-    private function graph_top_users_fake_ics(Request $request)
+    private function graph_top_users_fake_not_fake(Request $request, $fake=true)
     {
         $number_top_users = $request->inputTopUsers;
-        $data_top_users = DB::select('select * from detectenv.get_top_users_which_shared_news_ics() order by rate_fake_news desc limit ?;', array($number_top_users));
 
-        // dd($data_top_users);
+
+        $data_top_users = $fake ? 
+            DB::select('select * from detectenv.get_top_users_which_shared_news_ics() order by rate_fake_news desc limit ?;', array($number_top_users)) :
+            DB::select('select * from detectenv.get_top_users_which_shared_news_ics() order by rate_not_fake_news desc limit ?;', array($number_top_users));
 
         # pega as chaves dos dados recuperados.
         $keys = array_keys(json_decode(json_encode($data_top_users[0]), true));
@@ -71,14 +73,14 @@ class WelcomeController extends Controller
 
     public function show(Request $request)
     {
-        $loggedUser = auth()->user()->name;  
-        $json_top_fake_users = $this->graph_top_users_fake_ics($request);
+        $json_top_fake_users = $this->graph_top_users_fake_not_fake($request);
+        $json_top_not_fake_users = $this->graph_top_users_fake_not_fake($request, false);
         $total_news = $this->get_total_news();
         $total_news_predicted = $this->get_total_news_predicted_ics();
         $total_news_checked = $this->get_total_news_checked();
         $total_news_to_be_checked = $this->get_total_news_to_be_checked();
 
-        return view('welcome', compact('loggedUser', 'json_top_fake_users', 'total_news', 'total_news_predicted', 
+        return view('welcome', compact('json_top_fake_users', 'json_top_not_fake_users', 'total_news', 'total_news_predicted', 
                                        'total_news_checked', 'total_news_to_be_checked'));
     }
 }

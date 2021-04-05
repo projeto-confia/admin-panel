@@ -21,7 +21,11 @@
 }
 
 .p-card-number{
-    font-size: 22px;
+    font-size: 28px;
     font-weight: bold;
     color: red;
+}
+
+canvas div{
+    margin: 0 auto;
 }

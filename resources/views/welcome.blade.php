@@ -25,24 +25,45 @@
     <div class="d-flex flex-wrap">
         <div class="flex-row w-50 mb-1" style="height:600px;">
             <canvas id="rateFakeChart" style="width: 100%; height: 100%;"></canvas>
+            <div class="d-inline-block w-100 text-center">
+                <form id="form_top_users" action="{{ route('welcome.show') }}" method="GET">
+                    @csrf
+                    <input type="number" id="inputTopUsers" name="inputTopUsers" placeholder="Digite um número válido"/>
+                    <button id="btnSubmit" type="submit">Consultar</button>
+                    <p id="msg" style="color: red;"></p>
+                </form>
+            </div>
         </div>
+        
         <div class="flex-row w-50 mb-1" style="height:600px;">
             <canvas id="rateNotFakeChart" style="width: 100%; height: 100%;"></canvas>
+            <div class="d-inline-block w-100 text-center">
+                <form id="form_not_fake_users" action="{{ route('welcome.show') }}" method="GET">
+                    @csrf
+                    <input type="number" id="inputTopNotFakeUsers" name="inputTopNotFakeUsers" placeholder="Digite um número válido"/>
+                    <button id="btnSubmitNotFake" type="submit">Consultar</button>
+                    <p id="msgNotFake" style="color: red;"></p>
+                </form>
+            </div>
         </div>
-    </div>
-    <div class="d-block w-50 text-center">
-        <form id="form_top_users" action="{{ route('welcome.show') }}" method="GET">
-            @csrf
-            <input type="number" id="inputTopUsers" name="inputTopUsers" placeholder="Digite um número válido"/>
-            <button id="btnSubmit" type="submit">Consultar</button>
-            <p id="msg" style="color: red;"></p>
-        </form>
     </div>
 
     @push('scripts')
         <script defer>
-            
-            var btn = document.getElementById('btnSubmit');
+
+            // Gráfico dos top usuários que transmitiram notícias reais.
+            document.getElementById("btnSubmitNotFake").addEventListener('click', (e) => {
+                var number = document.getElementById('inputTopNotFakeUsers').value;
+                if (number >= 5 && number <= 50) {
+                    document.getElementById('form_not_fake_users').submit();
+                }
+                else {
+                    var text = document.getElementById("msgNotFake").innerHTML = "Digite um número entre 5 e 50.";
+                    e.preventDefault();
+                }
+            });
+
+            // gráfico dos top-fake usuários.
             document.getElementById("btnSubmit").addEventListener('click', (e) => {
                 var number = document.getElementById('inputTopUsers').value;
                 if (number >= 5 && number <= 50) {
@@ -53,12 +74,13 @@
                     e.preventDefault();
                 }
             });
-            // Gráfico dos top usuários que transmitiram fake news.
-            document.addEventListener('DOMContentLoaded', () => {
-                var {id_account_social_media, screen_name, total_news, total_fake_news, total_not_fake_news, rate_fake_news, rate_not_fake_news} = {!! $json_top_fake_users !!};
+            
+           window.onload = () => {
+                // var json = <?php echo $json_top_fake_users; ?>;
+                // console.log(json);
+
+                var {rate_fake_news, screen_name} = {!! $json_top_fake_users !!};
                 var rates = rate_fake_news.map(function (num, idx) { return Number(num).toFixed(3) * 100 });
-                console.log(rates);
-                // console.log(id_account_social_media, screen_name, total_news, total_fake_news, total_not_fake_news);
                 
                 colors = [];
                 for (i = 0; i < screen_name.length; i++)
@@ -86,7 +108,37 @@
                          labels: screen_name,
                     },
                 });
-            });
+
+                var {screen_name, rate_not_fake_news} = {!! $json_top_not_fake_users !!};
+                var rates = rate_fake_news.map(function (num, idx) { return Number(num).toFixed(3) * 100 });
+                
+                colors = [];
+                for (i = 0; i < screen_name.length; i++)
+                {
+                    r = Math.floor(Math.random() * 200);
+                    g = Math.floor(Math.random() * 200);
+                    b = Math.floor(Math.random() * 200);
+                    colors.push('rgb(' + r + ', ' + g + ', ' + b + ')');
+                }
+                var ctx2 = document.getElementById('rateNotFakeChart').getContext('2d');
+                var chart2 = new Chart(ctx2, {
+                    type: 'pie',
+                    options: {
+                        title: {
+                            display: true,
+                            responsive: true,
+                            text: 'Taxa de transmissão de possíveis notícias reais por usuário, de acordo com o ICS (%).'
+                        }
+                    },
+                    data: {
+                         datasets: [{
+                            data: rates,
+                            backgroundColor: colors,
+                         }],
+                         labels: screen_name,
+                    },
+                });
+            }
         </script>
     @endpush
 </x-layouts.app>
