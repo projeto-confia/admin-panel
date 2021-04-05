@@ -58,7 +58,7 @@
                         title: {
                             display: true,
                             responsive: true,
-                            text: 'Usuários que possivelmente mais transmitiram fake news, de acordo com o ICS (%).'
+                            text: 'Taxa de transmissão de possíveis fake news por usuário, de acordo com o ICS (%).'
                         }
                     },
                     data: {
