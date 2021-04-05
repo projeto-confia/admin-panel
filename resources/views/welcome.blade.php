@@ -1,11 +1,33 @@
 <x-layouts.app>
     <x-slot name="title">Início | CONFIA</x-slot>
 
-    <h2 class="text-center mt-3">Bem vindo, {{$loggedUser}}.</h2>
+    <link rel="stylesheet" href="{{ asset('css/welcome.css') }}">
+
+    <div id="cards" class="d-flex flex-wrap mb-5">
+        <div class="card card-text">
+            <p class="p-card">Total de Notícias capturadas</p>
+            <p class="p-card-number">{{ $total_news }}</p>
+        </div>
+        <div class="card card-text">
+            <p class="p-card">Notícias analisadas pelo ICS</p>
+            <p class="p-card-number">{{ $total_news_predicted }}</p>
+        </div>
+        <div class="card card-text">
+            <p class="p-card">Notícias checadas pelas agências</p>
+            <p class="p-card-number">{{ $total_news_checked }}</p>
+        </div>
+        <div class="card card-text">
+            <p class="p-card">Notícias aguardando checagem</p>
+            <p class="p-card-number">{{ $total_news_to_be_checked }}</p>
+        </div>
+    </div>
 
     <div class="d-flex flex-wrap">
-        <div class="card flex-row w-50" style="height:600px;">
-            <canvas id="myChart" style="display:block; width: 100%; height: 100%;"></canvas>
+        <div class="flex-row w-50 mb-1" style="height:600px;">
+            <canvas id="rateFakeChart" style="width: 100%; height: 100%;"></canvas>
+        </div>
+        <div class="flex-row w-50 mb-1" style="height:600px;">
+            <canvas id="rateNotFakeChart" style="width: 100%; height: 100%;"></canvas>
         </div>
     </div>
     <div class="d-block w-50 text-center">
@@ -25,7 +47,7 @@
             document.getElementById("btnSubmit").addEventListener('click', (e) => {
                 var number = document.getElementById('inputTopUsers').value;
 
-                if (number > 4 && number <= 20) {
+                if (number >= 5 && number <= 20) {
                     document.getElementById('form_top_users').submit();
                 }
                 else {
@@ -34,9 +56,10 @@
                 }
             });
 
+            // Gráfico dos top usuários que transmitiram fake news.
             document.addEventListener('DOMContentLoaded', () => {
 
-                var {id_account_social_media, screen_name, total_news, total_fake_news, total_not_fake_news, rate_fake_news, rate_not_fake_news} = {!! $json_top_users !!};
+                var {id_account_social_media, screen_name, total_news, total_fake_news, total_not_fake_news, rate_fake_news, rate_not_fake_news} = {!! $json_top_fake_users !!};
                 var rates = rate_fake_news.map(function (num, idx) { return Number(num).toFixed(3) * 100 });
                 console.log(rates);
                 // console.log(id_account_social_media, screen_name, total_news, total_fake_news, total_not_fake_news);
@@ -51,7 +74,7 @@
                     colors.push('rgb(' + r + ', ' + g + ', ' + b + ')');
                 }
 
-                var ctx = document.getElementById('myChart').getContext('2d');
+                var ctx = document.getElementById('rateFakeChart').getContext('2d');
                 var chart = new Chart(ctx, {
                     type: 'pie',
                     options: {
