@@ -25,45 +25,23 @@
     <div class="d-flex flex-wrap">
         <div class="flex-row w-50 mb-1" style="height:600px;">
             <canvas id="rateFakeChart" style="width: 100%; height: 100%;"></canvas>
-            <div class="d-inline-block w-100 text-center">
-                <form id="form_top_users" action="{{ route('welcome.show') }}" method="GET">
-                    @csrf
-                    <input type="number" id="inputTopUsers" name="inputTopUsers" placeholder="Digite um número válido"/>
-                    <button id="btnSubmit" type="submit">Consultar</button>
-                    <p id="msg" style="color: red;"></p>
-                </form>
-            </div>
-        </div>
-        
+        </div>        
         <div class="flex-row w-50 mb-1" style="height:600px;">
             <canvas id="rateNotFakeChart" style="width: 100%; height: 100%;"></canvas>
-            <div class="d-inline-block w-100 text-center">
-                <form id="form_not_fake_users" action="{{ route('welcome.show') }}" method="GET">
-                    @csrf
-                    <input type="number" id="inputTopNotFakeUsers" name="inputTopNotFakeUsers" placeholder="Digite um número válido"/>
-                    <button id="btnSubmitNotFake" type="submit">Consultar</button>
-                    <p id="msgNotFake" style="color: red;"></p>
-                </form>
-            </div>
         </div>
+    </div>
+    <div class="d-inline-block w-100 text-center">
+        <form id="form_top_users" action="{{ route('welcome.show') }}" method="GET">
+            @csrf
+            <input type="number" id="inputTopUsers" name="inputTopUsers" placeholder="Digite um número válido"/>
+            <button id="btnSubmit" type="submit">Consultar</button>
+            <p id="msg" style="color: red;"></p>
+        </form>
     </div>
 
     @push('scripts')
         <script defer>
-
-            // Gráfico dos top usuários que transmitiram notícias reais.
-            document.getElementById("btnSubmitNotFake").addEventListener('click', (e) => {
-                var number = document.getElementById('inputTopNotFakeUsers').value;
-                if (number >= 5 && number <= 50) {
-                    document.getElementById('form_not_fake_users').submit();
-                }
-                else {
-                    var text = document.getElementById("msgNotFake").innerHTML = "Digite um número entre 5 e 50.";
-                    e.preventDefault();
-                }
-            });
-
-            // gráfico dos top-fake usuários.
+            
             document.getElementById("btnSubmit").addEventListener('click', (e) => {
                 var number = document.getElementById('inputTopUsers').value;
                 if (number >= 5 && number <= 50) {
