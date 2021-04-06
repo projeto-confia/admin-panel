@@ -54,8 +54,11 @@
             });
             
            window.onload = () => {
-                // var json = <?php echo $json_top_fake_users; ?>;
-                // console.log(json);
+                
+                if (window.location.search == "") {
+                    document.getElementById('inputTopUsers').value = 10;
+                    document.getElementById('btnSubmit').click();
+                }
 
                 var {rate_fake_news, screen_name} = {!! $json_top_fake_users !!};
                 var rates = rate_fake_news.map(function (num, idx) { return Number(num).toFixed(3) * 100 });
@@ -86,7 +89,6 @@
                          labels: screen_name,
                     },
                 });
-
                 var {screen_name, rate_not_fake_news} = {!! $json_top_not_fake_users !!};
                 var rates = rate_fake_news.map(function (num, idx) { return Number(num).toFixed(3) * 100 });
                 
