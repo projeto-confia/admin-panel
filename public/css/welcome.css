@@ -1,5 +1,5 @@
 #cards {
-    margin-top: 30px;
+    margin-top: 10px;
     height:130px;
 }
 
@@ -25,6 +25,18 @@
     font-weight: bold;
     color: red;
 }
+
+.text{
+    padding-top: 10px;
+    padding-bottom: 20px;
+    margin-top: 50px;
+}
+
+.text h1 {
+    text-align: center !important;
+    margin: 0 auto !important;
+}
+
 
 canvas div{
     margin: 0 auto;

@@ -3,7 +3,8 @@
 
     <link rel="stylesheet" href="{{ asset('css/welcome.css') }}">
 
-    <div id="cards" class="d-flex flex-wrap mb-5">
+    <div class="text"><h1 class="text-dark">Estatísticas</h1></div>
+    <div id="cards" class="d-flex flex-wrap mb-4">
         <div class="card card-text">
             <p class="p-card">Total de Notícias capturadas</p>
             <p class="p-card-number">{{ $total_news }}</p>
@@ -22,11 +23,13 @@
         </div>
     </div>
 
+    <div class="text"><h1 class="text-dark">Usuários</h1></div>
+
     <div class="d-flex flex-wrap">
-        <div class="flex-row w-50 mb-1" style="height:600px;">
+        <div class="flex-row w-50 mb-1" style="height:500px;">
             <canvas id="rateFakeChart" style="width: 100%; height: 100%;"></canvas>
         </div>        
-        <div class="flex-row w-50 mb-1" style="height:600px;">
+        <div class="flex-row w-50 mb-1" style="height:500px;">
             <canvas id="rateNotFakeChart" style="width: 100%; height: 100%;"></canvas>
         </div>
     </div>
@@ -73,13 +76,21 @@
                 }
                 var ctx = document.getElementById('rateFakeChart').getContext('2d');
                 var chart = new Chart(ctx, {
-                    type: 'pie',
+                    type: 'bar',
                     options: {
+                        legend: { display: false },
                         title: {
                             display: true,
                             responsive: true,
                             text: 'Taxa de transmissão de possíveis fake news por usuário, de acordo com o ICS (%).'
-                        }
+                        },
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        },
                     },
                     data: {
                          datasets: [{
@@ -102,8 +113,16 @@
                 }
                 var ctx2 = document.getElementById('rateNotFakeChart').getContext('2d');
                 var chart2 = new Chart(ctx2, {
-                    type: 'pie',
+                    type: 'bar',
                     options: {
+                        legend: { display: false },
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        },
                         title: {
                             display: true,
                             responsive: true,
