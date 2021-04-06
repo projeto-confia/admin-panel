@@ -38,13 +38,51 @@
         </div>
     
         <div class="card">
-            <div id="container" style="width: 100%; height:580px; margin: 0; padding: 0;"></div>
-            <!-- <canvas id="myChart" width="770" height="385" style="display:block"></canvas> -->
+            <!-- <div id="container" style="width: 100%; height:580px; margin: 0; padding: 0;"></div> -->
+            <canvas id="myChart" width="770" height="385" style="display:block"></canvas>
         </div>
     </main>
     
     @push('scripts')
-        <script>
+        <script defer>
+
+            document.addEventListener('DOMContentLoaded', () => {
+
+                var { labels, detected_fake, actual_fake } = {!! $data_json !!};
+                // console.log(dataJson.labels);
+
+                var ctx = document.getElementById('myChart');
+                var myChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        // labels: labels,
+                        labels,  // forma simplificada
+                        datasets: [
+                            {
+                                label: 'Detectado como Fake News',
+                                data: detected_fake,
+                                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                                borderColor: 'rgba(54, 162, 235, 1)',
+                                borderWidth: 1,
+                            },
+                            {
+                                label: 'Confirmado como Fake News',
+                                data: actual_fake,
+                                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                                borderColor: 'rgba(255, 99, 132, 1)',
+                                borderWidth: 1,
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        title: {
+                            display: true,
+                            text: 'Gráfico de precisão do modelo de detecção (valores absolutos)'
+                        },
+                    },
+                });
+            });
         </script>
     @endpush
 </x-layouts.app>

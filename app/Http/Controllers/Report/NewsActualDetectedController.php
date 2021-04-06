@@ -44,8 +44,16 @@ class NewsActualDetectedController extends Controller
         //     ->values()
         //     ->toJson();
 
+        $data = [
+            "labels" => ['12/02/2021', '13/02/2021', '14/02/2021', '15/02/2021', '16/02/2021', '17/02/2021'],
+            "detected_fake" => [12, 19, 3, 12, 19, 3],
+            "actual_fake" => [11, 17, 1, 12, 13, 3]
+        ];
+
+        $data_json = json_encode($data);
+
         // return view('pages.report.news_tagcloud', compact('reportJson', 'request'));
-        return view('pages.report.news_actual_detected', compact('request'));
+        return view('pages.report.news_actual_detected', compact('data_json', 'request'));
     }
 
     /**
