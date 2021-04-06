@@ -18,9 +18,6 @@ class WelcomeController extends Controller
     {
         $number_top_users = $request->inputTopUsers;
 
-        // dd($number_top_users);
-
-
         $data_top_users = $fake ? 
             DB::select('select * from detectenv.get_top_users_which_shared_news_ics() order by rate_fake_news desc limit ?;', array($number_top_users)) :
             DB::select('select * from detectenv.get_top_users_which_shared_news_ics() order by rate_not_fake_news desc limit ?;', array($number_top_users));
