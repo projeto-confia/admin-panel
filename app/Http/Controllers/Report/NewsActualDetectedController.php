@@ -17,43 +17,37 @@ class NewsActualDetectedController extends Controller
      */
     public function index(Request $request): View
     {
-        // $reportJson = News::query()
-        //     ->select('text_news')
-        //     ->where('id_news', '>', 600)
-        //     ->whereNotNull('classification_outcome')
-        //     ->whereNull('ground_truth_label')
-        //     ->when(
-        //         $request->start_date,
-        //         fn($query) => $query->whereDate('datetime_publication', '>=', $request->start_date),
-        //     )
-        //     ->when(
-        //         $request->end_date,
-        //         fn($query) => $query->whereDate('datetime_publication', '<=', $request->end_date),
-        //     )
-        //     ->get()
-        //     ->flatMap(function (News $news) use($stopWords) {
-        //         $words = preg_split('/[^-\w\']+/', $news->text_news, -1, PREG_SPLIT_NO_EMPTY);
-        //         $words = array_map('strtolower', $words);
-        //         return array_diff($words, $stopWords);
-        //     })
-        //     ->countBy()
-        //     ->sort()
-        //     ->reverse()
-        //     ->take(100)  // TODO: receber esse parâmetro da interface
-        //     ->map(fn (int $wordCount, string $key) => ['x' => $key, 'value' => $wordCount])
-        //     ->values()
-        //     ->toJson();
+        $reportData = News::query()
+            ->select(News::raw('datetime_publication::DATE'), 
+                     News::raw('count(classification_outcome) as num_detected'), 
+                     News::raw('count(case when ground_truth_label then 1 end) as num_actual'))
+            ->where('id_news', '>', 600)
+            ->where('classification_outcome', '=', True)
+            ->whereNotNull('ground_truth_label')
+            ->when(
+                $request->start_date,
+                fn($query) => $query->whereDate('datetime_publication', '>=', $request->start_date),
+            )
+            ->when(
+                $request->end_date,
+                fn($query) => $query->whereDate('datetime_publication', '<=', $request->end_date),
+            )
+            ->groupBy(News::raw('datetime_publication::DATE'))
+            ->orderby('datetime_publication')
+            ->get()
+            ->reduce(function ($acc, $item) {
+                array_push($acc['labels'], $item->datetime_publication->format('d/m/Y'));
+                array_push($acc['detected_fake'], $item->num_detected);
+                array_push($acc['actual_fake'], $item->num_actual);
+                return $acc;
+            }, [
+                'labels' => [],
+                'detected_fake' => [],
+                'actual_fake' => []
+            ]);
 
-        $data = [
-            "labels" => ['12/02/2021', '13/02/2021', '14/02/2021', '15/02/2021', '16/02/2021', '17/02/2021'],
-            "detected_fake" => [12, 19, 3, 12, 19, 3],
-            "actual_fake" => [11, 17, 1, 12, 13, 3]
-        ];
-
-        $data_json = json_encode($data);
-
-        // return view('pages.report.news_tagcloud', compact('reportJson', 'request'));
-        return view('pages.report.news_actual_detected', compact('data_json', 'request'));
+        $reportJson = json_encode($reportData);
+        return view('pages.report.news_actual_detected', compact('reportJson', 'request'));
     }
 
     /**

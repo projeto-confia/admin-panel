@@ -38,7 +38,6 @@
         </div>
     
         <div class="card">
-            <!-- <div id="container" style="width: 100%; height:580px; margin: 0; padding: 0;"></div> -->
             <canvas id="myChart" width="770" height="385" style="display:block"></canvas>
         </div>
     </main>
@@ -48,7 +47,7 @@
 
             document.addEventListener('DOMContentLoaded', () => {
 
-                var { labels, detected_fake, actual_fake } = {!! $data_json !!};
+                var { labels, detected_fake, actual_fake } = {!! $reportJson !!};
                 // console.log(dataJson.labels);
 
                 var ctx = document.getElementById('myChart');
