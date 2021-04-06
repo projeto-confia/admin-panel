@@ -63,7 +63,8 @@
                     document.getElementById('btnSubmit').click();
                 }
 
-                var {rate_fake_news, screen_name} = {!! $json_top_fake_users !!};
+                var {total_news, total_fake_news, rate_fake_news, screen_name} = {!! $json_top_fake_users !!};
+                console.log(total_news, total_fake_news);
                 var rates = rate_fake_news.map(function (num, idx) { return Number(num).toFixed(3) * 100 });
                 
                 colors = [];
@@ -77,6 +78,13 @@
                 var ctx = document.getElementById('rateFakeChart').getContext('2d');
                 var chart = new Chart(ctx, {
                     type: 'bar',
+                    data: {
+                         datasets: [{
+                            data: rates,
+                            backgroundColor: colors,
+                         }],
+                         labels: screen_name,
+                    },
                     options: {
                         legend: { display: false },
                         title: {
@@ -91,13 +99,21 @@
                                 }
                             }]
                         },
-                    },
-                    data: {
-                         datasets: [{
-                            data: rates,
-                            backgroundColor: colors,
-                         }],
-                         labels: screen_name,
+                        tooltips: {
+                            enabled: true,
+                            mode: 'single',
+                            callbacks: {
+                                label: function(tooltipItems, data) { 
+                                    var total = total_news[tooltipItems.index];
+                                    var total_fake = total_fake_news[tooltipItems.index];
+                                    var multistringText = [tooltipItems.yLabel];
+                                    
+                                    multistringText.push('Fake news: ' + total_fake);
+                                    multistringText.push('Notícias compartilhadas: ' + total);
+                                    return multistringText;
+                                }
+                            }
+                        },
                     },
                 });
                 var {screen_name, rate_not_fake_news} = {!! $json_top_not_fake_users !!};
