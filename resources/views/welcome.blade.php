@@ -63,12 +63,11 @@
                     document.getElementById('btnSubmit').click();
                 }
 
-                var {total_news, total_fake_news, rate_fake_news, screen_name} = {!! $json_top_fake_users !!};
-                console.log(total_news, total_fake_news);
-                var rates = rate_fake_news.map(function (num, idx) { return Number(num).toFixed(3) * 100 });
+                var obj1 = {!! $json_top_fake_users !!};
+                var rates = obj1.rate_fake_news.map(function (num, idx) { return Number(num).toFixed(3) * 100 });
                 
                 colors = [];
-                for (i = 0; i < screen_name.length; i++)
+                for (i = 0; i < obj1.screen_name.length; i++)
                 {
                     r = Math.floor(Math.random() * 200);
                     g = Math.floor(Math.random() * 200);
@@ -83,14 +82,14 @@
                             data: rates,
                             backgroundColor: colors,
                          }],
-                         labels: screen_name,
+                         labels: obj1.screen_name,
                     },
                     options: {
                         legend: { display: false },
                         title: {
                             display: true,
                             responsive: true,
-                            text: 'Taxa de transmissão de possíveis fake news por usuário, de acordo com o ICS (%).'
+                            text: 'Taxa de transmissão de possíveis fake news por usuário, de acordo com o ICS.'
                         },
                         scales: {
                             yAxes: [{
@@ -101,26 +100,24 @@
                         },
                         tooltips: {
                             enabled: true,
-                            mode: 'single',
                             callbacks: {
-                                label: function(tooltipItems, data) { 
-                                    var total = total_news[tooltipItems.index];
-                                    var total_fake = total_fake_news[tooltipItems.index];
-                                    var multistringText = [tooltipItems.yLabel];
-                                    
-                                    multistringText.push('Fake news: ' + total_fake);
-                                    multistringText.push('Notícias compartilhadas: ' + total);
-                                    return multistringText;
+                                label: function(tooltipItem, data) { 
+                                    var rate = rates[tooltipItem.index] + '%';
+                                    return 'Taxa de ' + rate;
+                                },
+                                afterLabel: function(tooltipItem, data) { 
+                                    return 'Fake news: ' + obj1.total_fake_news[tooltipItem.index] + '\nNotícias disseminadas: ' + obj1.total_news[tooltipItem.index];
                                 }
                             }
                         },
                     },
                 });
-                var {screen_name, rate_not_fake_news} = {!! $json_top_not_fake_users !!};
-                var rates = rate_fake_news.map(function (num, idx) { return Number(num).toFixed(3) * 100 });
+                
+                var obj2 = {!! $json_top_not_fake_users !!};
+                var rates_2 = obj2.rate_not_fake_news.map(function (num, idx) { return Number(num).toFixed(3) * 100 });
                 
                 colors = [];
-                for (i = 0; i < screen_name.length; i++)
+                for (i = 0; i < obj2.screen_name.length; i++)
                 {
                     r = Math.floor(Math.random() * 200);
                     g = Math.floor(Math.random() * 200);
@@ -130,6 +127,13 @@
                 var ctx2 = document.getElementById('rateNotFakeChart').getContext('2d');
                 var chart2 = new Chart(ctx2, {
                     type: 'bar',
+                    data: {
+                         datasets: [{
+                            data: rates_2,
+                            backgroundColor: colors,
+                         }],
+                         labels: obj2.screen_name,
+                    },
                     options: {
                         legend: { display: false },
                         scales: {
@@ -139,18 +143,25 @@
                                 }
                             }]
                         },
+                        tooltips: {
+                            enabled: true,
+                            callbacks: {
+                                label: function(tooltipItem, data) { 
+                                    var rate = rates_2[tooltipItem.index] + '%';
+                                    return 'Taxa de ' + rate;
+                                },
+                                afterLabel: function(tooltipItem, data) { 
+                                    var total = obj2.total_news[tooltipItem.index];
+                                    var total_real = obj2.total_not_fake_news[tooltipItem.index];
+                                    return 'Notícias reais: ' + total_real + '\nNotícias disseminadas: ' + total;
+                                }
+                            }
+                        },
                         title: {
                             display: true,
                             responsive: true,
-                            text: 'Taxa de transmissão de possíveis notícias reais por usuário, de acordo com o ICS (%).'
+                            text: 'Taxa de transmissão de possíveis notícias reais por usuário, de acordo com o ICS.'
                         }
-                    },
-                    data: {
-                         datasets: [{
-                            data: rates,
-                            backgroundColor: colors,
-                         }],
-                         labels: screen_name,
                     },
                 });
             }
