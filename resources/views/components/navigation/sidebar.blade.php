@@ -40,6 +40,10 @@
                 Notícias (Tag Cloud)
             </x-navigation.dropdown-item>
 
+            <x-navigation.dropdown-item href="{{ url('report/news_actual_detected') }}">
+                Notícias (precisão)
+            </x-navigation.dropdown-item>
+
         </x-navigation.dropdown>
 
     </ul>
