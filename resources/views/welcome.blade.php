@@ -94,7 +94,8 @@
                         scales: {
                             yAxes: [{
                                 ticks: {
-                                    beginAtZero: true
+                                    beginAtZero: true,
+                                    max: 100
                                 }
                             }]
                         },
@@ -139,7 +140,8 @@
                         scales: {
                             yAxes: [{
                                 ticks: {
-                                    beginAtZero: true
+                                    beginAtZero: true,
+                                    max: 100
                                 }
                             }]
                         },

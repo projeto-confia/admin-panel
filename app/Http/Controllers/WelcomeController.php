@@ -20,7 +20,7 @@ class WelcomeController extends Controller
 
         $data_top_users = $fake ? 
             DB::select('select * from detectenv.get_top_users_which_shared_news_ics() order by rate_fake_news desc offset 105 limit ?;', array($number_top_users)) :
-            DB::select('select * from detectenv.get_top_users_which_shared_news_ics() order by rate_not_fake_news desc offset 105 limit ?;', array($number_top_users));
+            DB::select('select * from detectenv.get_top_users_which_shared_news_ics() order by rate_not_fake_news desc offset 325 limit ?;', array($number_top_users));
 
         # pega as chaves dos dados recuperados.
         $keys = array_keys(json_decode(json_encode($data_top_users[0]), true));
