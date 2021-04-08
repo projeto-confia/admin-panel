@@ -70,6 +70,20 @@ class WelcomeController extends Controller
         return News::all()->whereNull('ground_truth_label')->count();
     }
 
+    private function get_qtd_news_corrected_predicted_ics()
+    {
+        $news_predicted_ics_with_checking = News::all()->whereNotNull('classification_outcome')->whereNotNull('ground_truth_label');
+        $qtd_news_corrected_classified = 0;
+
+        foreach ($news_predicted_ics_with_checking as $news) 
+        {
+            if ($news["classification_outcome"] == $news["ground_truth_label"]) {
+                $qtd_news_corrected_classified++;
+            }
+        }
+        return $qtd_news_corrected_classified;
+    }
+
     public function show(Request $request)
     {
         $json_top_fake_users = $this->graph_top_users_fake_not_fake($request);
@@ -77,9 +91,10 @@ class WelcomeController extends Controller
         $total_news = $this->get_total_news();
         $total_news_predicted = $this->get_total_news_predicted_ics();
         $total_news_checked = $this->get_total_news_checked();
+        $qtd_news_corrected_classified = $this->get_qtd_news_corrected_predicted_ics();
         $total_news_to_be_checked = $this->get_total_news_to_be_checked();
 
         return view('welcome', compact('json_top_fake_users', 'json_top_not_fake_users', 'total_news', 'total_news_predicted', 
-                                       'total_news_checked', 'total_news_to_be_checked'));
+                                       'total_news_checked', 'total_news_to_be_checked', 'qtd_news_corrected_classified'));
     }
 }

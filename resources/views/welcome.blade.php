@@ -4,13 +4,14 @@
     <link rel="stylesheet" href="{{ asset('css/welcome.css') }}">
 
     <div class="text"><h1 class="text-dark">Estatísticas</h1></div>
+
     <div id="cards" class="d-flex flex-wrap mb-4">
         <div class="card card-text">
             <p class="p-card">Total de Notícias capturadas</p>
             <p class="p-card-number">{{ $total_news }}</p>
         </div>
         <div class="card card-text">
-            <p class="p-card">Notícias analisadas pelo ICS</p>
+            <p class="p-card">Notícias analisadas pelo Automata</p>
             <p class="p-card-number">{{ $total_news_predicted }}</p>
         </div>
         <div class="card card-text">
@@ -22,6 +23,10 @@
             <p class="p-card-number">{{ $total_news_to_be_checked }}</p>
         </div>
     </div>
+
+    <div class="d-block" style="height:500px;">
+        <canvas id="performanceAutomata" style="width: 100%; height: 100%;"></canvas>
+    </div> 
 
     <div class="text"><h1 class="text-dark">Usuários</h1></div>
 
@@ -64,7 +69,7 @@
                 }
 
                 var obj1 = {!! $json_top_fake_users !!};
-                var rates = obj1.rate_fake_news.map(function (num, idx) { return Number(num).toFixed(3) * 100 });
+                var rates = obj1.rate_fake_news.map(function (num, idx) { return (Number(num) * 100).toFixed(2) });
                 
                 colors = [];
                 for (i = 0; i < obj1.screen_name.length; i++)
@@ -89,7 +94,7 @@
                         title: {
                             display: true,
                             responsive: true,
-                            text: 'Taxa de transmissão de possíveis fake news por usuário, de acordo com o ICS.'
+                            text: 'Taxa de transmissão de possíveis fake news por usuário, de acordo com o Automata'
                         },
                         scales: {
                             yAxes: [{
@@ -115,7 +120,7 @@
                 });
                 
                 var obj2 = {!! $json_top_not_fake_users !!};
-                var rates_2 = obj2.rate_not_fake_news.map(function (num, idx) { return Number(num).toFixed(3) * 100 });
+                var rates_2 = obj2.rate_not_fake_news.map(function (num, idx) { return (Number(num).toFixed(2) * 100).toFixed(2) });
                 
                 colors = [];
                 for (i = 0; i < obj2.screen_name.length; i++)
@@ -162,7 +167,43 @@
                         title: {
                             display: true,
                             responsive: true,
-                            text: 'Taxa de transmissão de possíveis notícias reais por usuário, de acordo com o ICS.'
+                            text: 'Taxa de transmissão de possíveis notícias reais por usuário, de acordo com o Automata'
+                        }
+                    },
+                });
+
+                var news_corrected_classified = "<?php echo $qtd_news_corrected_classified ?>";
+                var news_checked = "<?php echo $total_news_checked ?>"
+                var dados = [Number(news_corrected_classified), (Number(news_checked) - Number(news_corrected_classified))];
+
+                var ctx3 = document.getElementById('performanceAutomata').getContext('2d');
+                var chart3 = new Chart(ctx3, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Acertos', 'Erros'],
+                        datasets: [{
+                            data: dados,
+                            backgroundColor: ['rgba(50, 205, 50, 0.75)', 'rgba(220, 20, 60, 0.75)'],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        tooltips: {
+                            enabled: true,
+                            callbacks: {
+                                afterLabel: function(tooltipItem, data) { 
+                                     var qtd =  dados[tooltipItem.index];
+                                     return ((qtd / (dados[0] + dados[1])) * 100).toFixed(2) + '%';
+                                },
+                                label: function(tooltipItem, data) { 
+                                    return dados[tooltipItem.index];
+                                }
+                            }
+                        },
+                        title: {
+                            display: true,
+                            responsive: true,
+                            text: 'Desempenho geral do Automata'
                         }
                     },
                 });
