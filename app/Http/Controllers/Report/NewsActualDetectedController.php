@@ -18,11 +18,12 @@ class NewsActualDetectedController extends Controller
     public function index(Request $request): View
     {
         $reportData = News::query()
-            ->select(News::raw('datetime_publication::DATE'), 
-                     News::raw('count(classification_outcome) as num_detected'), 
-                     News::raw('count(case when ground_truth_label then 1 end) as num_actual'))
-            ->where('id_news', '>', 600)
-            ->where('classification_outcome', '=', True)
+            ->select(
+                News::raw('datetime_publication::DATE'),
+                News::raw('count(classification_outcome) as num_detected'),
+                News::raw('count(case when ground_truth_label then 1 end) as num_actual')
+            )
+            ->where('classification_outcome', '=', true)
             ->whereNotNull('ground_truth_label')
             ->when(
                 $request->start_date,

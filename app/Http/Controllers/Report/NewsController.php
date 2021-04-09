@@ -18,8 +18,6 @@ class NewsController extends Controller
     public function index(Request $request): View
     {
         $news = News::query()
-            // @todo temporarily added to ignores registers used to basic training of modules
-            ->where('id_news', '>', 600)
             ->when(
                 $request->text_news,
                 fn($query) => $query->where('text_news', 'ilike', "%{$request->text_news}%")
