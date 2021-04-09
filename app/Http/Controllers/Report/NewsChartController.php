@@ -20,9 +20,7 @@ class NewsChartController extends Controller
     {
         $reportData = News::query()
             ->select(News::raw('datetime_publication::DATE'), 'classification_outcome', News::raw('count(*) as total'))
-            ->where('id_news', '>', 600)
             ->whereNotNull('classification_outcome')
-            ->whereNull('ground_truth_label')
             ->when(
                 $request->start_date,
                 fn($query) => $query->whereDate('datetime_publication', '>=', $request->start_date),
@@ -60,7 +58,6 @@ class NewsChartController extends Controller
         // ];
 
         $reportJson = json_encode($reportData);
-
         return view('pages.report.news_chart', compact('reportJson', 'request'));
     }
 
