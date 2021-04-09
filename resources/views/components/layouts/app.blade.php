@@ -36,7 +36,15 @@
                     </x-navigation.dropdown-item>
 
                     <x-navigation.dropdown-item href="{{ url('report/news_chart') }}">
-                        Notícias (consolidado)
+                        Notícias (Consolidado)
+                    </x-navigation.dropdown-item>
+
+                    <x-navigation.dropdown-item href="{{ url('report/news_tagcloud') }}">
+                        Notícias (Tag Cloud)
+                    </x-navigation.dropdown-item>
+
+                    <x-navigation.dropdown-item href="{{ url('report/news_actual_detected') }}">
+                        Notícias (Precisão)
                     </x-navigation.dropdown-item>
 
                 </x-navigation.dropdown>
