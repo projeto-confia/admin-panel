@@ -78,9 +78,14 @@ docker-compose exec app php artisan migrate
 docker-compose exec app php artisan db:seed
 ```
 
+Para que funcione corretamente as páginas com relatórios e gráficos com dados do AUTOMATA,
+deve-se criar a estrutura e dados no schema ``detectenv``
+
+
 ## Instalação (Frontend)
 
 ### 1. Instale as dependências do projeto com o comando:
+
 ```bash
 npm install
 ```
@@ -97,7 +102,6 @@ npm run watch
 ```
 
 Para acessar a aplicação, digite o seguinte endereço no seu browser: ``http://localhost:8000``.
-
 
 ## Licença
 [MIT](https://choosealicense.com/licenses/mit/)
