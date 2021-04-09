@@ -40,7 +40,7 @@ class WelcomeController extends Controller
 
                 array_push($values[$key], $user->$key);
 
-                if ($key == "screen_name" && is_null($user->$key)) {
+                if ($key == "screen_name") {
                     $values[$key][$i] = $values['id_account_social_media'][$i];
                 }
             }
