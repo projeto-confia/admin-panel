@@ -42,7 +42,7 @@ class WelcomeController extends Controller
     }
 
     /**
-     * Returns encoded json from top fake news sharing users
+     * Returns encoded json from top NOT fake news sharing users
      * @param int $userCount
      * @return string
      */
