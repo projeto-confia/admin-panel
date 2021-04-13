@@ -1,53 +1,51 @@
 <x-layouts.app>
     <x-slot name="title">Início | CONFIA</x-slot>
+    <main class="welcome-page">
+        <h1 class="display-1 my-4">Estatísticas</h1>
 
-    <link rel="stylesheet" href="{{ asset('css/welcome.css') }}">
-
-    <div class="text"><h1 class="text-dark">Estatísticas</h1></div>
-
-    <div id="cards" class="d-flex flex-wrap mb-4">
-        <div class="card card-text">
-            <p class="p-card">Total de Notícias capturadas</p>
-            <p class="p-card-number">{{ $totalNews }}</p>
+        <div id="cards" class="d-flex flex-wrap gap-3 justify-content-center my-4">
+            <div class="card">
+                <p class="card-title fs-4">Total de notícias capturadas</p>
+                <p class="fs-1 text card__number-count">{{ $totalNews }}</p>
+            </div>
+            <div class="card">
+                <p class="card-title fs-4">Notícias analisadas pelo Automata</p>
+                <p class="fs-1 text card__number-count">{{ $totalNewsPredicted }}</p>
+            </div>
+            <div class="card">
+                <p class="card-title fs-4">Notícias checadas pelas agências</p>
+                <p class="fs-1 text card__number-count">{{ $totalNewsChecked }}</p>
+            </div>
+            <div class="card">
+                <p class="card-title fs-4">Notícias aguardando checagem</p>
+                <p class="fs-1 text card__number-count">{{ $totalNewsToBeChecked }}</p>
+            </div>
         </div>
-        <div class="card card-text">
-            <p class="p-card">Notícias analisadas pelo Automata</p>
-            <p class="p-card-number">{{ $totalNewsPredicted }}</p>
-        </div>
-        <div class="card card-text">
-            <p class="p-card">Notícias checadas pelas agências</p>
-            <p class="p-card-number">{{ $totalNewsChecked }}</p>
-        </div>
-        <div class="card card-text">
-            <p class="p-card">Notícias aguardando checagem</p>
-            <p class="p-card-number">{{ $totalNewsToBeChecked }}</p>
-        </div>
-    </div>
 
-    <div class="d-block" style="height:500px;">
-        <canvas id="performanceAutomata" style="width: 100%; height: 100%;"></canvas>
-    </div>
-
-    <div class="text"><h1 class="text-dark">Usuários</h1></div>
-
-    <div class="d-flex flex-wrap">
-        <div class="flex-row w-50 mb-1" style="height:500px;">
-            <canvas id="rateFakeChart" style="width: 100%; height: 100%;"></canvas>
+        <div class="d-block" style="height:500px;">
+            <canvas id="performanceAutomata" style="width: 100%; height: 100%;"></canvas>
         </div>
-        <div class="flex-row w-50 mb-1" style="height:500px;">
-            <canvas id="rateNotFakeChart" style="width: 100%; height: 100%;"></canvas>
+
+        <div class="text"><h1 class="text-dark">Usuários</h1></div>
+
+        <div class="d-flex flex-wrap">
+            <div class="flex-row w-50 mb-1" style="height:500px;">
+                <canvas id="rateFakeChart" style="width: 100%; height: 100%;"></canvas>
+            </div>
+            <div class="flex-row w-50 mb-1" style="height:500px;">
+                <canvas id="rateNotFakeChart" style="width: 100%; height: 100%;"></canvas>
+            </div>
         </div>
-    </div>
 
-    <div class="d-inline-block w-100 text-center">
-        <form id="form_top_users" action="/" method="GET">
-            @csrf
-            <input type="input" id="user-count" name="user-count" value="10"/>
-            <button id="btnSubmit" type="submit">Consultar</button>
-            <p id="msg" style="color: red;"></p>
-        </form>
-    </div>
-
+        <div class="d-inline-block w-100 text-center">
+            <form id="form_top_users" action="/" method="GET">
+                @csrf
+                <input type="input" id="user-count" name="user-count" value="10"/>
+                <button id="btnSubmit" type="submit">Consultar</button>
+                <p id="msg" style="color: red;"></p>
+            </form>
+        </div>
+    </main>
     @push('scripts')
         <script defer>
 

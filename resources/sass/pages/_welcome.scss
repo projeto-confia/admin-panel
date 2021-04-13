@@ -1,0 +1,11 @@
+.welcome-page {
+    .card {
+        width: 300px;
+
+        &__number-count {
+            color: darken($primary, 20);
+        }
+    }
+
+
+}
