@@ -8,40 +8,41 @@
     <div id="cards" class="d-flex flex-wrap mb-4">
         <div class="card card-text">
             <p class="p-card">Total de Notícias capturadas</p>
-            <p class="p-card-number">{{ $total_news }}</p>
+            <p class="p-card-number">{{ $totalNews }}</p>
         </div>
         <div class="card card-text">
             <p class="p-card">Notícias analisadas pelo Automata</p>
-            <p class="p-card-number">{{ $total_news_predicted }}</p>
+            <p class="p-card-number">{{ $totalNewsPredicted }}</p>
         </div>
         <div class="card card-text">
             <p class="p-card">Notícias checadas pelas agências</p>
-            <p class="p-card-number">{{ $total_news_checked }}</p>
+            <p class="p-card-number">{{ $totalNewsChecked }}</p>
         </div>
         <div class="card card-text">
             <p class="p-card">Notícias aguardando checagem</p>
-            <p class="p-card-number">{{ $total_news_to_be_checked }}</p>
+            <p class="p-card-number">{{ $totalNewsToBeChecked }}</p>
         </div>
     </div>
 
     <div class="d-block" style="height:500px;">
         <canvas id="performanceAutomata" style="width: 100%; height: 100%;"></canvas>
-    </div> 
+    </div>
 
     <div class="text"><h1 class="text-dark">Usuários</h1></div>
 
     <div class="d-flex flex-wrap">
         <div class="flex-row w-50 mb-1" style="height:500px;">
             <canvas id="rateFakeChart" style="width: 100%; height: 100%;"></canvas>
-        </div>        
+        </div>
         <div class="flex-row w-50 mb-1" style="height:500px;">
             <canvas id="rateNotFakeChart" style="width: 100%; height: 100%;"></canvas>
         </div>
     </div>
+
     <div class="d-inline-block w-100 text-center">
-        <form id="form_top_users" action="{{ route('welcome.show') }}" method="GET">
+        <form id="form_top_users" action="/" method="GET">
             @csrf
-            <input type="number" id="inputTopUsers" name="inputTopUsers" placeholder="Digite um número válido"/>
+            <input type="input" id="user-count" name="user-count" value="10"/>
             <button id="btnSubmit" type="submit">Consultar</button>
             <p id="msg" style="color: red;"></p>
         </form>
@@ -49,9 +50,9 @@
 
     @push('scripts')
         <script defer>
-            
+
             document.getElementById("btnSubmit").addEventListener('click', (e) => {
-                var number = document.getElementById('inputTopUsers').value;
+                var number = document.getElementById('user-count').value;
                 if (number >= 5 && number <= 50) {
                     document.getElementById('form_top_users').submit();
                 }
@@ -60,17 +61,17 @@
                     e.preventDefault();
                 }
             });
-            
+
            window.onload = () => {
-                
+
                 if (window.location.search == "") {
-                    document.getElementById('inputTopUsers').value = 10;
+                    document.getElementById('user-count').value = 10;
                     document.getElementById('btnSubmit').click();
                 }
 
-                var obj1 = {!! $json_top_fake_users !!};
+                var obj1 = {!! $topFakeUsersJson !!};
                 var rates = obj1.rate_fake_news.map(function (num, idx) { return (Number(num) * 100).toFixed(2) });
-                
+
                 colors = [];
                 for (i = 0; i < obj1.screen_name.length; i++)
                 {
@@ -107,21 +108,21 @@
                         tooltips: {
                             enabled: true,
                             callbacks: {
-                                label: function(tooltipItem, data) { 
+                                label: function(tooltipItem, data) {
                                     var rate = rates[tooltipItem.index] + '%';
                                     return 'Taxa de ' + rate;
                                 },
-                                afterLabel: function(tooltipItem, data) { 
+                                afterLabel: function(tooltipItem, data) {
                                     return 'Fake news: ' + obj1.total_fake_news[tooltipItem.index] + '\nNotícias disseminadas: ' + obj1.total_news[tooltipItem.index];
                                 }
                             }
                         },
                     },
                 });
-                
-                var obj2 = {!! $json_top_not_fake_users !!};
+
+                var obj2 = {!! $topNotFakeUsersJson !!};
                 var rates_2 = obj2.rate_not_fake_news.map(function (num, idx) { return (Number(num).toFixed(2) * 100).toFixed(2) });
-                
+
                 colors = [];
                 for (i = 0; i < obj2.screen_name.length; i++)
                 {
@@ -153,11 +154,11 @@
                         tooltips: {
                             enabled: true,
                             callbacks: {
-                                label: function(tooltipItem, data) { 
+                                label: function(tooltipItem, data) {
                                     var rate = rates_2[tooltipItem.index] + '%';
                                     return 'Taxa de ' + rate;
                                 },
-                                afterLabel: function(tooltipItem, data) { 
+                                afterLabel: function(tooltipItem, data) {
                                     var total = obj2.total_news[tooltipItem.index];
                                     var total_real = obj2.total_not_fake_news[tooltipItem.index];
                                     return 'Notícias reais: ' + total_real + '\nNotícias disseminadas: ' + total;
@@ -172,8 +173,8 @@
                     },
                 });
 
-                var news_corrected_classified = "<?php echo $qtd_news_corrected_classified ?>";
-                var news_checked = "<?php echo $total_news_checked ?>"
+                var news_corrected_classified = '{!! $newsCorrectlyPredictedCount !!}';
+                var news_checked = '{!! $totalNewsChecked !!}';
                 var dados = [Number(news_corrected_classified), (Number(news_checked) - Number(news_corrected_classified))];
 
                 var ctx3 = document.getElementById('performanceAutomata').getContext('2d');
@@ -191,11 +192,11 @@
                         tooltips: {
                             enabled: true,
                             callbacks: {
-                                afterLabel: function(tooltipItem, data) { 
+                                afterLabel: function(tooltipItem, data) {
                                      var qtd =  dados[tooltipItem.index];
                                      return ((qtd / (dados[0] + dados[1])) * 100).toFixed(2) + '%';
                                 },
-                                label: function(tooltipItem, data) { 
+                                label: function(tooltipItem, data) {
                                     return dados[tooltipItem.index];
                                 }
                             }
