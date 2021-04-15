@@ -1,62 +1,107 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# Painel privado
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+O painel privado é uma apliação web cuja finalidade é expor visões estratégicas com os dados coletados pelo AUTOMATA.
 
-## About Laravel
+## Requisitos
+ 
+ - Docker;
+ - Docker-Compose (versão 1.28.6);
+ - Node JS (~v12)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Instalação (Backend)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### 1. Copie o arquivo `.env.example` e cole renomeando para `.env`.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+No arquivo criado, altere o valor das variáveis `ADMIN_EMAIL` e `ADMIN_PASSWORD` para um email e senha de sua escolha. Caso esteja usando um ambiente Linux, no mesmo arquivo, altere o valor da variável `USER` para o nome do seu usuário e o valor da variável
+`UID` para o resultado de:
 
-## Learning Laravel
+```bash
+id -u
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### 2. Para iniciar os containers rode o comando:
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```bash
+docker-compose up -d
+```
 
-## Laravel Sponsors
+Caso tenha problemas de permissão, crie um novo grupo (se ainda não existir), adicione o `$USER` ao grupo docker, e reinicie o serviço:
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+```bash
+sudo groupadd docker
+sudo usermod -aG docker $USER
+sudo gpasswd -a $USER docker
+newgrp docker
+sudo service docker restart
+```
 
-### Premium Partners
+### 3. Para ter acesso ao id do container `postgres`, digite no terminal o seguinte comando:  
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/)**
-- **[OP.GG](https://op.gg)**
+```bash
+docker ps -aqf "name=confia-admin-db"
+```
 
-## Contributing
+Acesse a base de dados (o host será ``localhost``, na porta `5433`) com as credencias das variáveis ``DB_DATABASE, DB_USERNAME e DB_PASSWORD`` (utilize algum *client* para acesso, como a extensão `PostgreSQL Explorer`, disponível no Visual Code). Após, digite o seguinte comando no terminal (substitua os parâmetros entre '<>' pelos valores reais, sem os '<>'):
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```bash
+docker exec -it <db_container_id> psql -U <DB_USERNAME> <DB_DATABASE>
+```
+e então crie os schemas ``admin_panel`` e ``detectenv``:
 
-## Code of Conduct
+```bash
+CREATE SCHEMA IF NOT EXISTS detectenv;
+CREATE SCHEMA IF NOT EXISTS admin-panel;
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 4. Restaure a base do Automata
 
-## Security Vulnerabilities
+Para que funcione corretamente as páginas com relatórios e gráficos com dados do AUTOMATA, deve-se criar a estrutura e dados no schema ``detectenv``. Para isso, rode o seguinte comando:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```bash
+cat db_script_automata.sql | docker exec -i <db_container_id> psql -U <DB_USERNAME> <DB_DATABASE>
+```
 
-## License
+### 5- Para instalar as dependências do projeto, rode o comando:
+```bash
+docker-compose exec app composer install
+```
+### 6- Para criar chave da aplicação, rode o comando:
+```bash
+docker-compose exec app php artisan key:generate
+```  
+### 7- Para criar as tabelas na base de dados do painel, rode o comando:
+```bash
+docker-compose exec app php artisan migrate
+```
+### 8- Para inserir os dados iniciais da aplicação rode o comando
+```bash
+docker-compose exec app php artisan db:seed
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Para que funcione corretamente as páginas com relatórios e gráficos com dados do AUTOMATA,
+deve-se criar a estrutura e dados no schema ``detectenv``
+
+
+## Instalação (Frontend)
+
+### 1. Instale as dependências do projeto com o comando:
+
+```bash
+npm install
+```
+
+### 2. Para compilar os arquivos sass/css e javascript, execute:
+```bash
+npm run dev
+```
+
+Caso esteja trabalhando com arquivos do frontend, recomenda-se  a execução do seguinte comando para observar as alterações feitas nesses arquivos e atualizá-las as respectivas páginas web automaticamente:
+
+```bash
+npm run watch
+```
+
+Para acessar a aplicação, digite o seguinte endereço no seu browser: ``http://localhost:8000``.
+
+## Licença
+[MIT](https://choosealicense.com/licenses/mit/)

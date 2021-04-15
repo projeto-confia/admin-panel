@@ -19,12 +19,38 @@
 <body>
     <nav class="navbar navbar-light bg-light shadow">
         <div class="container-fluid overflow-hidden">
-            <a href="/" class="d-flex align-items-center px-3 text-decoration-none text-dark">
+            <a href="/" class="d-flex align-items-center pe-5 text-decoration-none text-dark">
                 <x-common.logo class="py-0 mx-1" />
                 <span class="h4">CONFIA</span>
             </a>
 
-            <label for="navigation" class="btn btn-light" tabindex="0" role="button" aria-label="Abre e fecha menu de navegação">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 flex-row ">
+                <x-navigation.nav-item :active="true" href="/">
+                    Home
+                </x-navigation.nav-item>
+
+                <x-navigation.dropdown label="Relatórios" id="actions">
+
+                    <x-navigation.dropdown-item href="{{ url('report/news') }}">
+                        Notícias
+                    </x-navigation.dropdown-item>
+
+                    <x-navigation.dropdown-item href="{{ url('report/news_chart') }}">
+                        Notícias (Consolidado)
+                    </x-navigation.dropdown-item>
+
+                    <x-navigation.dropdown-item href="{{ url('report/news_tagcloud') }}">
+                        Notícias (Tag Cloud)
+                    </x-navigation.dropdown-item>
+
+                    <x-navigation.dropdown-item href="{{ url('report/news_actual_detected') }}">
+                        Notícias (Precisão)
+                    </x-navigation.dropdown-item>
+
+                </x-navigation.dropdown>
+            </ul>
+
+            <label for="navigation" class="btn btn-light" tabindex="0" role="button" aria-label="Abre e fecha menu de usuário.">
                 <x-icons.menu width="30"/>
             </label>
 

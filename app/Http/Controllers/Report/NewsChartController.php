@@ -20,9 +20,7 @@ class NewsChartController extends Controller
     {
         $reportData = News::query()
             ->select(News::raw('datetime_publication::DATE'), 'classification_outcome', News::raw('count(*) as total'))
-            ->where('id_news', '>', 600)
             ->whereNotNull('classification_outcome')
-            ->whereNull('ground_truth_label')
             ->when(
                 $request->start_date,
                 fn($query) => $query->whereDate('datetime_publication', '>=', $request->start_date),
@@ -38,7 +36,7 @@ class NewsChartController extends Controller
             ->reduce(function ($acc, $item) {
                 $label = $item->datetime_publication->format('d/m/Y');
                 $hasLabel = (bool) Arr::first($acc['labels'], fn($it) => $it == $label);
-                
+
                 if (!$hasLabel) {
                     array_push($acc['labels'], $label);
                 }
@@ -60,73 +58,6 @@ class NewsChartController extends Controller
         // ];
 
         $reportJson = json_encode($reportData);
-
         return view('pages.report.news_chart', compact('reportJson', 'request'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

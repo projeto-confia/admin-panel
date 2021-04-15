@@ -1,0 +1,43 @@
+#cards {
+    margin-top: 10px;
+    height:130px;
+}
+
+#cards div{
+    width:25%; 
+    min-width:300px; 
+    height:100%;
+}
+
+.card-text{
+    text-align: center;
+    padding: 15px;
+}
+
+.p-card{
+    font-size: 18px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.p-card-number{
+    font-size: 28px;
+    font-weight: bold;
+    color: red;
+}
+
+.text{
+    padding-top: 10px;
+    padding-bottom: 20px;
+    margin-top: 50px;
+}
+
+.text h1 {
+    text-align: center !important;
+    margin: 0 auto !important;
+}
+
+
+canvas div{
+    margin: 0 auto;
+}

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\WelcomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,10 +13,7 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', function () {
-    return view('welcome');
-})->middleware('auth');
+Route::get('/', [WelcomeController::class, 'show'])->name('welcome.show')->middleware('auth');
 
 require __DIR__ . '/auth.php';
 require __DIR__.'/web/report.php';
