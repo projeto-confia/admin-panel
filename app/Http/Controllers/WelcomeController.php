@@ -38,7 +38,7 @@ class WelcomeController extends Controller
      */
     private function getTopFakeNewsSharingUsers(int $userCount = 10): string
     {
-        $query = 'select * from detectenv.get_top_users_which_shared_news_ics() order by rate_fake_news desc offset 105 limit ?;';
+        $query = 'select * from detectenv.get_top_users_which_shared_news_ics() order by rate_fake_news desc limit ?;';
         $userDataResult = DB::select($query, [$userCount]);
 
         return $this->groupResultByKey($userDataResult)->toJson();
@@ -51,7 +51,7 @@ class WelcomeController extends Controller
      */
     private function getTopNotFakeNewsSharingUsers(int $userCount = 10): string
     {
-        $query = 'select * from detectenv.get_top_users_which_shared_news_ics() order by rate_not_fake_news desc offset 325 limit ?;';
+        $query = 'select * from detectenv.get_top_users_which_shared_news_ics() order by rate_not_fake_news desc limit ?;';
         $userDataResult = DB::select($query, [$userCount]);
 
         return $this->groupResultByKey($userDataResult)->toJson();
