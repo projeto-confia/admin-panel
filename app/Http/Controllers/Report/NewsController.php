@@ -23,7 +23,7 @@ class NewsController extends Controller
                 fn($query) => $query->where('text_news', 'ilike', "%{$request->text_news}%")
             )
             ->when(
-                !empty($request->classification) && $request->classification !== '*',
+                in_array($request->classification, [0, 1]) && $request->classification !== '*',
                 fn($query) => $query->where('classification_outcome', !$request->classification),
                 fn($query) => $query->whereNotNull('classification_outcome'),
             )
