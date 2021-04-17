@@ -22,8 +22,11 @@ class WelcomeController extends Controller
                 'totalNews' => News::count(),
                 'totalNewsPredicted' => News::whereNotNull('classification_outcome')->count(),
                 'totalNewsChecked' => News::whereNotNull('ground_truth_label')->count(),
-                'totalNewsToBeChecked' => News::all()->whereNull('ground_truth_label')->count(),
-                'newsCorrectlyPredictedCount' => News::whereNull('ground_truth_label')->count(),
+                'totalNewsToBeChecked' => News::whereNull('ground_truth_label')->count(),
+                'newsCorrectlyPredictedCount' => News::whereNotNull('ground_truth_label')
+                    ->whereNotNull('classification_outcome')
+                    ->whereColumn('ground_truth_label', 'classification_outcome')
+                    ->count(),
             ]
         );
     }
