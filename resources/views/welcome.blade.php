@@ -44,7 +44,7 @@
                         <input type="text" class="form-control" id="user-count" name="user-count" placeholder="Digite um número entre 5 e 50" value="{{ old('user-count') }}">
                         <label for="user-count">Quantidade de usuários que deseja visualizar</label>
                     </div>
-                    <span class="d-block text-muted">Digite um número entre 5 e 50</span>
+                    <span id="feedback-message" class="d-block text-muted">Digite um número entre 5 e 50</span>
 
                     <button id="btnSubmit" type="submit" class="btn btn-primary mt-3">Consultar</button>
                 </form>
@@ -63,47 +63,60 @@
     </main>
     @push('scripts')
         <script defer>
+           window.addEventListener('load', function () {
+               {{--      Validatge user count form      --}}
+               const formTopUsers = document.getElementById('form_top_users');
+               const btnSubmit = document.getElementById("btnSubmit");
+               const inputUserCount = document.getElementById('user-count');
+               const feedbackInputMessage =  document.getElementById("feedback-message");
 
-            document.getElementById("btnSubmit").addEventListener('click', (e) => {
-                var number = document.getElementById('user-count').value;
-                if (number >= 5 && number <= 50) {
-                    document.getElementById('form_top_users').submit();
-                }
-                else {
-                    var text = document.getElementById("msg").innerHTML = "Digite um número entre 5 e 50.";
-                    e.preventDefault();
-                }
-            });
+               btnSubmit.addEventListener('click', (e) => {
+                   const number = document.getElementById('user-count').value;
+                   if (number >= 5 && number <= 50) {
+                       formTopUsers.submit();
+                   } else {
+                       feedbackInputMessage.classList.remove('text-muted');
+                       feedbackInputMessage.classList.add('text-danger');
+                       e.preventDefault();
+                   }
+               });
 
-           window.onload = () => {
+               inputUserCount.addEventListener('blur', function () {
+                   feedbackInputMessage.classList.remove('text-danger');
+                   feedbackInputMessage.classList.add('text-muted');
+               });
 
-                if (window.location.search == "") {
-                    document.getElementById('user-count').value = 10;
-                    document.getElementById('btnSubmit').click();
-                }
+               {{--      Load Top Fake Users      --}}
+               const getRandomColors = function (quantity) {
+                   const colors = [];
+                   for (let i = 0; i < quantity; i++) {
+                       const red = Math.floor(Math.random() * 200);
+                       const green = Math.floor(Math.random() * 200);
+                       const blue = Math.floor(Math.random() * 200);
+                       colors.push(`rgb(${red}, ${green}, ${blue})`);
+                   }
+                   return colors;
+               }
 
-                var obj1 = {!! $topFakeUsersJson !!};
-                var rates = obj1.rate_fake_news.map(function (num, idx) { return (Number(num) * 100).toFixed(2) });
+                const toPercent = function (num) { return (Number(num) * 100).toFixed(2) }
 
-                colors = [];
-                for (i = 0; i < obj1.screen_name.length; i++)
-                {
-                    r = Math.floor(Math.random() * 200);
-                    g = Math.floor(Math.random() * 200);
-                    b = Math.floor(Math.random() * 200);
-                    colors.push('rgb(' + r + ', ' + g + ', ' + b + ')');
-                }
-                var ctx = document.getElementById('rateFakeChart').getContext('2d');
-                var chart = new Chart(ctx, {
+                const topFakeUsers = {!! $topFakeUsersJson !!};
+
+                const topFakeUsersRates = topFakeUsers.rate_fake_news.map(toPercent);
+
+                const canvasDrawingContextTopFakeUsers = document.getElementById('rateFakeChart').getContext('2d');
+
+                new Chart(canvasDrawingContextTopFakeUsers, {
                     type: 'bar',
                     data: {
                          datasets: [{
-                            data: rates,
-                            backgroundColor: colors,
+                            data: topFakeUsersRates,
+                            backgroundColor: getRandomColors(topFakeUsers.id_account_social_media.length),
                          }],
-                         labels: obj1.screen_name,
+                         labels: topFakeUsers.id_account_social_media,
                     },
                     options: {
+                        responsive: true,
                         legend: { display: false },
                         title: {
                             display: true,
@@ -121,40 +134,33 @@
                         tooltips: {
                             enabled: true,
                             callbacks: {
-                                label: function(tooltipItem, data) {
-                                    var rate = rates[tooltipItem.index] + '%';
-                                    return 'Taxa de ' + rate;
+                                label: function(tooltipItem) {
+                                    return 'Taxa de ' + topFakeUsersRates[tooltipItem.index] + '%';
                                 },
-                                afterLabel: function(tooltipItem, data) {
-                                    return 'Fake news: ' + obj1.total_fake_news[tooltipItem.index] + '\nNotícias disseminadas: ' + obj1.total_news[tooltipItem.index];
+                                afterLabel: function(tooltipItem) {
+                                    return 'Fake news: ' + topFakeUsers.total_fake_news[tooltipItem.index] + '\nNotícias disseminadas: ' + topFakeUsers.total_news[tooltipItem.index];
                                 }
                             }
                         },
                     },
                 });
 
-                var obj2 = {!! $topNotFakeUsersJson !!};
-                var rates_2 = obj2.rate_not_fake_news.map(function (num, idx) { return (Number(num).toFixed(2) * 100).toFixed(2) });
+               {{--      Load Top NOT Fake Users      --}}
+                const topNotFakeUsersJson = {!! $topNotFakeUsersJson !!};
+                const topNotFakeUsersRates = topNotFakeUsersJson.rate_not_fake_news.map(toPercent);
 
-                colors = [];
-                for (i = 0; i < obj2.screen_name.length; i++)
-                {
-                    r = Math.floor(Math.random() * 200);
-                    g = Math.floor(Math.random() * 200);
-                    b = Math.floor(Math.random() * 200);
-                    colors.push('rgb(' + r + ', ' + g + ', ' + b + ')');
-                }
-                var ctx2 = document.getElementById('rateNotFakeChart').getContext('2d');
-                var chart2 = new Chart(ctx2, {
+                const canvasDrawingContextTopNotFakeUsers = document.getElementById('rateNotFakeChart').getContext('2d');
+                new Chart(canvasDrawingContextTopNotFakeUsers, {
                     type: 'bar',
                     data: {
                          datasets: [{
-                            data: rates_2,
-                            backgroundColor: colors,
+                            data: topNotFakeUsersRates,
+                            backgroundColor: getRandomColors(topNotFakeUsersJson.id_account_social_media.length),
                          }],
-                         labels: obj2.screen_name,
+                         labels: topNotFakeUsersJson.id_account_social_media,
                     },
                     options: {
+                        responsive: true,
                         legend: { display: false },
                         scales: {
                             yAxes: [{
@@ -168,12 +174,11 @@
                             enabled: true,
                             callbacks: {
                                 label: function(tooltipItem, data) {
-                                    var rate = rates_2[tooltipItem.index] + '%';
-                                    return 'Taxa de ' + rate;
+                                    return 'Taxa de ' + topNotFakeUsersRates[tooltipItem.index] + '%';
                                 },
-                                afterLabel: function(tooltipItem, data) {
-                                    var total = obj2.total_news[tooltipItem.index];
-                                    var total_real = obj2.total_not_fake_news[tooltipItem.index];
+                                afterLabel: function(tooltipItem) {
+                                    const total = topNotFakeUsersJson.total_news[tooltipItem.index];
+                                    const total_real = topNotFakeUsersJson.total_not_fake_news[tooltipItem.index];
                                     return 'Notícias reais: ' + total_real + '\nNotícias disseminadas: ' + total;
                                 }
                             }
@@ -186,32 +191,34 @@
                     },
                 });
 
-                var news_corrected_classified = '{!! $newsCorrectlyPredictedCount !!}';
-                var news_checked = '{!! $totalNewsChecked !!}';
-                var dados = [Number(news_corrected_classified), (Number(news_checked) - Number(news_corrected_classified))];
+               {{--     Automata Performance    --}}
+                const newsCorrectlyPredictedCount = '{!! $newsCorrectlyPredictedCount !!}';
+                const totalNewsChecked = '{!! $totalNewsChecked !!}';
+                const data = [+newsCorrectlyPredictedCount, (+totalNewsChecked - +newsCorrectlyPredictedCount)];
 
-                var ctx3 = document.getElementById('performanceAutomata').getContext('2d');
-                var chart3 = new Chart(ctx3, {
+                const canvasDrawingContextAutomataPerf = document.getElementById('performanceAutomata').getContext('2d');
+                new Chart(canvasDrawingContextAutomataPerf, {
                     type: 'doughnut',
                     data: {
                         labels: ['Acertos', 'Erros'],
                         datasets: [{
-                            data: dados,
+                            data,
                             backgroundColor: ['rgba(50, 205, 50, 0.75)', 'rgba(220, 20, 60, 0.75)'],
                             borderWidth: 1,
                             hoverOffset: 4
                         }]
                     },
                     options: {
+                        responsive: true,
                         tooltips: {
                             enabled: true,
                             callbacks: {
-                                afterLabel: function(tooltipItem, data) {
-                                     var qtd =  dados[tooltipItem.index];
-                                     return ((qtd / (dados[0] + dados[1])) * 100).toFixed(2) + '%';
+                                afterLabel: function(tooltipItem) {
+                                     var count =  data[tooltipItem.index];
+                                     return ((count / (data[0] + data[1])) * 100).toFixed(2) + '%';
                                 },
-                                label: function(tooltipItem, data) {
-                                    return dados[tooltipItem.index];
+                                label: function(tooltipItem) {
+                                    return data[tooltipItem.index];
                                 }
                             }
                         },
@@ -222,7 +229,7 @@
                         }
                     },
                 });
-            }
+           });
         </script>
     @endpush
 </x-layouts.app>
