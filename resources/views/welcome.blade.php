@@ -52,10 +52,10 @@
 
             <div class="d-flex flex-wrap justify-content-around">
                 <div class="mb-1 data-by-user">
-                    <canvas id="rateFakeChart" style="display: block; box-sizing: border-box; height: 400px; width: 400px;"></canvas>
+                    <canvas id="rateFakeChart" style="display: block; box-sizing: border-box; height: 500px; width: 500px;"></canvas>
                 </div>
                 <div class="mb-1 data-by-user">
-                    <canvas id="rateNotFakeChart" style="display: block; box-sizing: border-box; height: 400px; width: 400px;"></canvas>
+                    <canvas id="rateNotFakeChart" style="display: block; box-sizing: border-box; height: 500px; width: 500px;"></canvas>
                 </div>
             </div>
 
