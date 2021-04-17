@@ -44,18 +44,14 @@
 
     @push('scripts')
         <script defer>
-
             document.addEventListener('DOMContentLoaded', () => {
+                const { labels, detected_fake, actual_fake } = {!! $reportJson !!};
 
-                var { labels, detected_fake, actual_fake } = {!! $reportJson !!};
-                // console.log(dataJson.labels);
-
-                var ctx = document.getElementById('myChart');
-                var myChart = new Chart(ctx, {
+                const ctx = document.getElementById('myChart');
+                new Chart(ctx, {
                     type: 'bar',
                     data: {
-                        // labels: labels,
-                        labels,  // forma simplificada
+                        labels,
                         datasets: [
                             {
                                 label: 'Detectado como provável Fake News',
