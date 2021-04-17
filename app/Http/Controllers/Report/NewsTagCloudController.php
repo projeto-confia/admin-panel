@@ -17,8 +17,7 @@ class NewsTagCloudController extends Controller
      */
     public function index(Request $request): View
     {
-        // TODO: mover stopWords para arquivo
-        $stopWords = ['o', 'd', 'das', 'e', 'a', 'os', 'as', 'em', 'no', 'com', 'de', 'eu', 'que', 'é', 'esse', 'https', 'co', 't', 'do', 'da'];
+        $stopWords = file(storage_path('files/stopwords.txt'), FILE_IGNORE_NEW_LINES);
 
         $reportJson = News::query()
             ->select('text_news')
