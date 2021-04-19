@@ -21,7 +21,7 @@ class NewsTagCloudController extends Controller
 
         $reportJson = News::query()
             ->select('text_news')
-            ->whereNull('ground_truth_label')
+            ->whereNotNull('ground_truth_label')
             ->when(
                 $request->start_date,
                 fn($query) => $query->whereDate('datetime_publication', '>=', $request->start_date),
@@ -29,6 +29,11 @@ class NewsTagCloudController extends Controller
             ->when(
                 $request->end_date,
                 fn($query) => $query->whereDate('datetime_publication', '<=', $request->end_date),
+            )
+            ->when(
+                in_array($request->ground_truth_label, [0, 1]) && $request->ground_truth_label !== '*',
+                fn($query) => $query->where('ground_truth_label', !$request->ground_truth_label),
+                fn($query) => $query->whereNotNull('ground_truth_label'),
             )
             ->get()
             ->flatMap(function (News $news) use($stopWords) {

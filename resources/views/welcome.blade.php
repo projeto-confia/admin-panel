@@ -25,7 +25,7 @@
             </div>
 
             <h2 class="my-4">Desempenho do AUTOMATA</h2>
-            <div class="d-block donut-graphic-container" >
+            <div class="d-block donut-graphic-container">
                 <canvas
                     id="performanceAutomata"
                     style="display: block; box-sizing: border-box; height: 400px; width: 400px;"

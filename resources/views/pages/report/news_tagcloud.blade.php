@@ -32,6 +32,42 @@
                     </div>
                 </div>
                 <div class="col-12">
+                    <label for="end_date">Classificação:</label>
+                    <div class="form-check form-check-inline">
+                        <input
+                            class="form-check-input"
+                            type="radio"
+                            name="ground_truth_label"
+                            id="classification_all"
+                            value="*"
+                            {{ $request->get('ground_truth_label', '*') === '*' ? 'checked' : '' }}
+                        >
+                        <label class="form-check-label" for="classification_all">Todas</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input
+                            class="form-check-input"
+                            type="radio"
+                            name="ground_truth_label"
+                            id="classification_true"
+                            value="1"
+                            {{ $request->get('ground_truth_label', '') === '1' ? 'checked' : '' }}
+                        >
+                        <label class="form-check-label" for="classification_true">Não Fake</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input
+                            class="form-check-input"
+                            type="radio"
+                            name="ground_truth_label"
+                            id="classification_false"
+                            value="0"
+                            {{ $request->get('ground_truth_label', '') === '0' ? 'checked' : '' }}
+                        >
+                        <label class="form-check-label" for="classification_false">Fake</label>
+                    </div>
+                </div>
+                <div class="col-12">
                     <button type="submit" class="btn btn-primary float-end">Gerar</button>
                 </div>
             </form>
@@ -39,7 +75,6 @@
 
         <div class="card">
             <div id="container" style="width: 100%; height:580px; margin: 0; padding: 0;"></div>
-            <!-- <canvas id="myChart" width="770" height="385" style="display:block"></canvas> -->
         </div>
     </main>
     @push('scripts')
@@ -47,7 +82,7 @@
         <script src="https://cdn.anychart.com/releases/v8/js/anychart-tag-cloud.min.js"></script>
         <script>
             anychart.onDocumentReady(function() {
-                const data = {!! $reportJson !!};
+                var data = {!! $reportJson !!};
 
                 const chart = anychart.tagCloud(data);
 
