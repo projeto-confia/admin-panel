@@ -19,8 +19,8 @@ class NewsChartController extends Controller
     public function index(Request $request): View
     {
         $reportData = News::query()
-            ->select(News::raw('datetime_publication::DATE'), 'classification_outcome', News::raw('count(*) as total'))
-            ->whereNotNull('classification_outcome')
+            ->select(News::raw('datetime_publication::DATE'), 'ground_truth_label', News::raw('count(*) as total'))
+            ->whereNotNull('ground_truth_label')
             ->when(
                 $request->start_date,
                 fn($query) => $query->whereDate('datetime_publication', '>=', $request->start_date),
@@ -29,9 +29,9 @@ class NewsChartController extends Controller
                 $request->end_date,
                 fn($query) => $query->whereDate('datetime_publication', '<=', $request->end_date),
             )
-            ->groupBy(News::raw('datetime_publication::DATE'), 'classification_outcome')
+            ->groupBy(News::raw('datetime_publication::DATE'), 'ground_truth_label')
             ->orderby('datetime_publication')
-            ->orderby('classification_outcome')
+            ->orderby('ground_truth_label')
             ->get()
             ->reduce(function ($acc, $item) {
                 $label = $item->datetime_publication->format('d/m/Y');
@@ -41,7 +41,7 @@ class NewsChartController extends Controller
                     array_push($acc['labels'], $label);
                 }
 
-                $key = $item->classification_outcome ? 'data_true' : 'data_false';
+                $key = $item->ground_truth_label ? 'data_true' : 'data_false';
                 array_push($acc[$key], $item->total);
 
                 return $acc;
