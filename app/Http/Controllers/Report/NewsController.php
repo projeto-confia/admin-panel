@@ -23,9 +23,9 @@ class NewsController extends Controller
                 fn($query) => $query->where('text_news', 'ilike', "%{$request->text_news}%")
             )
             ->when(
-                in_array($request->classification, [0, 1]) && $request->classification !== '*',
-                fn($query) => $query->where('classification_outcome', !$request->classification),
-                fn($query) => $query->whereNotNull('classification_outcome'),
+                in_array($request->ground_truth_label, [0, 1]) && $request->ground_truth_label !== '*',
+                fn($query) => $query->where('ground_truth_label', !$request->ground_truth_label),
+                fn($query) => $query->whereNotNull('ground_truth_label'),
             )
             ->when(
                 $request->start_date,

@@ -56,10 +56,10 @@
                         <input
                             class="form-check-input"
                             type="radio"
-                            name="classification"
+                            name="ground_truth_label"
                             id="classification_all"
                             value="*"
-                            {{ $request->get('classification', '*') === '*' ? 'checked' : '' }}
+                            {{ $request->get('ground_truth_label', '*') === '*' ? 'checked' : '' }}
                         >
                         <label class="form-check-label" for="classification_all">Todas</label>
                     </div>
@@ -67,23 +67,23 @@
                         <input
                             class="form-check-input"
                             type="radio"
-                            name="classification"
+                            name="ground_truth_label"
                             id="classification_true"
                             value="1"
-                            {{ $request->get('classification', '') === '1' ? 'checked' : '' }}
+                            {{ $request->get('ground_truth_label', '') === '1' ? 'checked' : '' }}
                         >
-                        <label class="form-check-label" for="classification_true">Verdadeira</label>
+                        <label class="form-check-label" for="classification_true">Não Fake</label>
                     </div>
                     <div class="form-check form-check-inline">
                         <input
                             class="form-check-input"
                             type="radio"
-                            name="classification"
+                            name="ground_truth_label"
                             id="classification_false"
                             value="0"
-                            {{ $request->get('classification', '') === '0' ? 'checked' : '' }}
+                            {{ $request->get('ground_truth_label', '') === '0' ? 'checked' : '' }}
                         >
-                        <label class="form-check-label" for="classification_false">Falsa</label>
+                        <label class="form-check-label" for="classification_false">Fake</label>
                     </div>
                 </div>
 
@@ -111,7 +111,7 @@
                             <th scope="row">{{ $news_item->id_news }}</th>
                             <td>{{ $news_item->text_news }}</td>
                             <td>{{ $news_item->datetime_publication->format('d/m/Y') }}</td>
-                            <td>{{ $news_item->classification_outcome ? 'Falsa' : 'Verdadeira' }}</td>
+                            <td>{{ $news_item->classification_outcome ? 'Fake' : 'Não Fake' }}</td>
                         </tr>
                     @endforeach
                     </tbody>
