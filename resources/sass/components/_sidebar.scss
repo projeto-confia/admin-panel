@@ -1,20 +1,39 @@
 .sidebar {
     z-index: $zindex-sidebar;
     position: fixed;
+    display: block;
     right: 0;
     top: 76px;
     min-height: calc(100vh - 76px);
     width: 300px;
     padding: 1.5rem;
+    overflow-y: auto;
     border-top: 1px solid #e2e2e2;
     box-shadow: 6px 1rem 1rem rgb(0 0 0 / 15%);
-    transform: translateX(100%);
+    transform: translateX(100vw);
     @extend .bg-light;
-    transition: transform 150ms ease-in-out;
+    transition: transform 150ms ease-in-out, visibility 150ms ease-in-out;
+
+    @media (min-width: 1200px) {
+        position: static;
+        right: unset;
+        transform: unset;
+
+        &-btn.btn {
+            display: none;
+        }
+    }
+
+    .nav-link {
+        color: #1c1f23;
+    }
 }
 
-.menu-sidebar:checked + .sidebar {
-    transform: translateX(0);
-}
+.sidebar.opened {
+    transform: translateX(0vw);
 
+    @media (min-width: 1200px) {
+        transform: unset;
+    }
+}
 

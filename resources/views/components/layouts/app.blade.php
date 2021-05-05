@@ -17,53 +17,44 @@
 
 </head>
 <body>
-    <nav class="navbar navbar-light bg-light shadow">
-        <div class="container-fluid overflow-hidden">
+    <nav class="navbar navbar-light nav-bar bg-light shadow">
+        <div class="container-fluid">
             <a href="/" class="d-flex align-items-center pe-5 text-decoration-none text-dark">
                 <x-common.logo class="py-0 mx-1" />
                 <span class="h4">CONFIA</span>
             </a>
 
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0 flex-row ">
-                <x-navigation.nav-item :active="true" href="/">
-                    Home
-                </x-navigation.nav-item>
-
-                <x-navigation.dropdown label="Relatórios" id="actions">
-
-                    <x-navigation.dropdown-item href="{{ url('report/news') }}">
-                        Notícias
-                    </x-navigation.dropdown-item>
-
-                    <x-navigation.dropdown-item href="{{ url('report/news_chart') }}">
-                        Notícias (Consolidado)
-                    </x-navigation.dropdown-item>
-
-                    <x-navigation.dropdown-item href="{{ url('report/news_tagcloud') }}">
-                        Notícias (Tag Cloud)
-                    </x-navigation.dropdown-item>
-
-                    <x-navigation.dropdown-item href="{{ url('report/news_actual_detected') }}">
-                        Notícias (Precisão)
-                    </x-navigation.dropdown-item>
-
-                </x-navigation.dropdown>
-            </ul>
-
-            <label for="navigation" class="btn btn-light" tabindex="0" role="button" aria-label="Abre e fecha menu de usuário.">
+            <a id="sidebar-btn" class="btn btn-light sidebar-btn" tabindex="0" role="button" aria-label="Abre e fecha menu de usuário.">
                 <x-icons.menu width="30"/>
-            </label>
+            </a>
 
-            <input class="visually-hidden menu-sidebar" id="navigation" type="checkbox">
 
-            <x-navigation.sidebar />
         </div>
     </nav>
+    <div class="d-flex flex-row">
+        <x-navigation.sidebar id="sidebar" />
 
-    <div class='container'>
-        {{ $slot }}
+        <div class='container content'>
+            {{ $slot }}
+        </div>
     </div>
 
+
 @stack('scripts')
+
+{{-- @todo(CarlosHMoreira): setup js boilerplate --}}
+<script async defer>
+    var sidebarBtn = document.querySelector('#sidebar-btn');
+    var sidebar = document.querySelector('#sidebar');
+    var body = document.querySelector('body');
+
+    if (sidebarBtn && sidebar && body) {
+        sidebarBtn.addEventListener('click', function () {
+            body.classList.toggle('body-overflow-on-sidebar-opened');
+            sidebar.classList.toggle('opened');
+        });
+    }
+
+</script>
 </body>
 </html>
