@@ -13,7 +13,7 @@ use App\Http\Controllers\WelcomeController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', [WelcomeController::class, 'show'])->name('welcome.show')->middleware('auth');
+Route::get('/', WelcomeController::class)->name('welcome.show')->middleware('auth');
 
 require __DIR__ . '/auth.php';
 require __DIR__.'/web/report.php';

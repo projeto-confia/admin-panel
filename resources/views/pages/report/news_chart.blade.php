@@ -11,10 +11,10 @@
                 @csrf
                 <div class="col-md-6">
                     <div class="form-floating">
-                        <input type="date" 
-                               class="form-control" 
-                               id="start_date" 
-                               name="start_date" 
+                        <input type="date"
+                               class="form-control"
+                               id="start_date"
+                               name="start_date"
                                placeholder="dd/mm/yyyy"
                                value="{{ optional($request)->start_date }}">
                         <label for="start_date">Data Inicial</label>
@@ -22,10 +22,10 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-floating">
-                        <input type="date" 
-                               class="form-control" 
-                               id="end_date" 
-                               name="end_date" 
+                        <input type="date"
+                               class="form-control"
+                               id="end_date"
+                               name="end_date"
                                placeholder="dd/mm/yyyy"
                                value="{{ optional($request)->end_date }}">
                         <label for="end_date">Data Final</label>
@@ -36,12 +36,12 @@
                 </div>
             </form>
         </div>
-    
+
         <div class="card">
             <canvas id="myChart" width="770" height="385" style="display:block"></canvas>
         </div>
     </main>
-    
+
     @push('scripts')
         <script defer>
 
@@ -55,14 +55,14 @@
                     data: {
                         labels,
                         datasets: [{
-                            label: 'Verdadeira',
+                            label: 'Não Fake',
                             data: data_true,
                             backgroundColor: 'rgba(54, 162, 235, 0.2)',
                             borderColor: 'rgba(54, 162, 235, 1)',
                             borderWidth: 1
                         },
                         {
-                            label: 'Falsa',
+                            label: 'Fake',
                             data: data_false,
                             backgroundColor: 'rgba(255, 99, 132, 0.2)',
                             borderColor: 'rgba(255, 99, 132, 1)',

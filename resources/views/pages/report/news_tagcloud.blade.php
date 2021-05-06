@@ -11,10 +11,10 @@
                 @csrf
                 <div class="col-md-6">
                     <div class="form-floating">
-                        <input type="date" 
-                               class="form-control" 
-                               id="start_date" 
-                               name="start_date" 
+                        <input type="date"
+                               class="form-control"
+                               id="start_date"
+                               name="start_date"
                                placeholder="dd/mm/yyyy"
                                value="{{ optional($request)->start_date }}">
                         <label for="start_date">Data Inicial</label>
@@ -22,13 +22,49 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-floating">
-                        <input type="date" 
-                               class="form-control" 
-                               id="end_date" 
-                               name="end_date" 
+                        <input type="date"
+                               class="form-control"
+                               id="end_date"
+                               name="end_date"
                                placeholder="dd/mm/yyyy"
                                value="{{ optional($request)->end_date }}">
                         <label for="end_date">Data Final</label>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <label for="end_date">Classificação:</label>
+                    <div class="form-check form-check-inline">
+                        <input
+                            class="form-check-input"
+                            type="radio"
+                            name="ground_truth_label"
+                            id="classification_all"
+                            value="*"
+                            {{ $request->get('ground_truth_label', '*') === '*' ? 'checked' : '' }}
+                        >
+                        <label class="form-check-label" for="classification_all">Todas</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input
+                            class="form-check-input"
+                            type="radio"
+                            name="ground_truth_label"
+                            id="classification_true"
+                            value="1"
+                            {{ $request->get('ground_truth_label', '') === '1' ? 'checked' : '' }}
+                        >
+                        <label class="form-check-label" for="classification_true">Não Fake</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input
+                            class="form-check-input"
+                            type="radio"
+                            name="ground_truth_label"
+                            id="classification_false"
+                            value="0"
+                            {{ $request->get('ground_truth_label', '') === '0' ? 'checked' : '' }}
+                        >
+                        <label class="form-check-label" for="classification_false">Fake</label>
                     </div>
                 </div>
                 <div class="col-12">
@@ -36,33 +72,24 @@
                 </div>
             </form>
         </div>
-    
+
         <div class="card">
             <div id="container" style="width: 100%; height:580px; margin: 0; padding: 0;"></div>
-            <!-- <canvas id="myChart" width="770" height="385" style="display:block"></canvas> -->
         </div>
     </main>
-    
     @push('scripts')
         <script src="https://cdn.anychart.com/releases/v8/js/anychart-base.min.js"></script>
         <script src="https://cdn.anychart.com/releases/v8/js/anychart-tag-cloud.min.js"></script>
         <script>
             anychart.onDocumentReady(function() {
                 var data = {!! $reportJson !!};
-                // create a tag (word) cloud chart
-                var chart = anychart.tagCloud(data);
-                // set a chart title
-                chart.title('Notícias - Tag Cloud');
-                // set an array of angles at which the words will be laid out
-                chart.angles([0]);
-                
-                // enable a color range
-                // chart.colorRange(true);
-                // set the color range length
-                // chart.colorRange().length('80%');
 
-                // display the word cloud chart
+                const chart = anychart.tagCloud(data);
+
+                chart.title('Notícias - Tag Cloud');
+                chart.angles([0]);
                 chart.container("container");
+
                 chart.draw();
             });
         </script>

@@ -1,0 +1,21 @@
+.welcome-page {
+    .card {
+        width: 300px;
+
+        &__number-count {
+            color: darken($primary, 20);
+        }
+    }
+
+    .donut-graphic-container {
+        width: 100%;
+        max-width: 500px;
+        height: 100%;
+        margin: 0 auto;
+    }
+
+    .data-by-user {
+        min-width: 300px;
+        height: auto;
+    }
+}
