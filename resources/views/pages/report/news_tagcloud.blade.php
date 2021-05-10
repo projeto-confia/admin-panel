@@ -78,7 +78,7 @@
         </div>
     </main>
     @push('scripts')
-        <script src="https://cdn.anychart.com/releases/v8/js/anychart-base.min.js"></script>
+        <script src="https://cdn.anychart.com/releases/v8/js/anychart-core.min.js"></script>
         <script src="https://cdn.anychart.com/releases/v8/js/anychart-tag-cloud.min.js"></script>
         <script>
             anychart.onDocumentReady(function() {
