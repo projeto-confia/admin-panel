@@ -3,6 +3,8 @@
 @import "welcome";
 
 .content {
-    $sidebar-width: 300px;
-    $header-height: 76px;
+    margin-top: 76px;
+    @media (min-width: 1200px) {
+        margin-top: initial;
+    }
 }
