@@ -52,36 +52,20 @@
     @push('scripts')
         <script defer>
            window.addEventListener('load', function () {
-               {{--      Validatge user count form      --}}
-               const formTopUsers = document.getElementById('form_top_users');
-               const btnSubmit = document.getElementById("btnSubmit");
-               const inputUserCount = document.getElementById('user-count');
-               const feedbackInputMessage =  document.getElementById("feedback-message");
-
-               btnSubmit.addEventListener('click', (e) => {
-                   const number = document.getElementById('user-count').value;
-                   if (number >= 5 && number <= 50) {
-                       formTopUsers.submit();
-                   } else {
-                       feedbackInputMessage.classList.remove('text-muted');
-                       feedbackInputMessage.classList.add('text-danger');
-                       e.preventDefault();
-                   }
-               });
-
-               inputUserCount.addEventListener('blur', function () {
-                   feedbackInputMessage.classList.remove('text-danger');
-                   feedbackInputMessage.classList.add('text-muted');
-               });
-
                {{--      Load Top Fake Users      --}}
-               const getRandomColors = function (quantity) {
+               const LABEL_MAX_SIZE = 10;
+
+               const truncateLabels = labels => labels
+                   .map(label => label.toString())
+                   .map(label => label.length <= LABEL_MAX_SIZE ? label : label.slice(0, LABEL_MAX_SIZE) + '...')
+
+               const getColors = (quantity) => {
+                   const primaryColor = '#61cac3';
+                   const secondaryColor = '#8ed3df';
                    const colors = [];
                    for (let i = 0; i < quantity; i++) {
-                       const red = Math.floor(Math.random() * 200);
-                       const green = Math.floor(Math.random() * 200);
-                       const blue = Math.floor(Math.random() * 200);
-                       colors.push(`rgb(${red}, ${green}, ${blue})`);
+                       const color = i % 2 === 0 ? primaryColor : secondaryColor;
+                       colors.push(color);
                    }
                    return colors;
                }
@@ -99,9 +83,9 @@
                     data: {
                          datasets: [{
                             data: topFakeUsersRates,
-                            backgroundColor: getRandomColors(topFakeUsers.id_account_social_media.length),
+                            backgroundColor: getColors(topFakeUsers.id_account_social_media.length),
                          }],
-                         labels: topFakeUsers.id_account_social_media,
+                         labels: truncateLabels(topFakeUsers.id_account_social_media),
                     },
                     options: {
                         responsive: true,
@@ -143,9 +127,9 @@
                     data: {
                          datasets: [{
                             data: topNotFakeUsersRates,
-                            backgroundColor: getRandomColors(topNotFakeUsersJson.id_account_social_media.length),
+                            backgroundColor: getColors(topNotFakeUsersJson.id_account_social_media.length),
                          }],
-                         labels: topNotFakeUsersJson.id_account_social_media,
+                         labels: truncateLabels(topNotFakeUsersJson.id_account_social_media),
                     },
                     options: {
                         responsive: true,
@@ -161,7 +145,7 @@
                         tooltips: {
                             enabled: true,
                             callbacks: {
-                                label: function(tooltipItem, data) {
+                                label: function(tooltipItem) {
                                     return 'Taxa de ' + topNotFakeUsersRates[tooltipItem.index] + '%';
                                 },
                                 afterLabel: function(tooltipItem) {
@@ -191,7 +175,7 @@
                         labels: ['Acertos', 'Erros'],
                         datasets: [{
                             data,
-                            backgroundColor: ['rgba(50, 205, 50, 0.75)', 'rgba(220, 20, 60, 0.75)'],
+                            backgroundColor: ['#20c997', '#dc3545'],
                             borderWidth: 1,
                             hoverOffset: 4
                         }]
