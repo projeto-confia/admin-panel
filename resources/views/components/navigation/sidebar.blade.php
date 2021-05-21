@@ -15,7 +15,7 @@
 
     <ul class="navbar-nav me-auto mb-2 mb-lg-0 flex ">
         <x-navigation.nav-item :active="true" href="/">
-            Home
+            Dashboard
         </x-navigation.nav-item>
 
         <x-navigation.dropdown label="Relatórios" id="actions">
