@@ -2,64 +2,52 @@
     <x-slot name="title">Início | CONFIA</x-slot>
     <main class="welcome-page pb-3">
 
-        <section>
-            <h1 class="display-1 mb-4">Estatísticas</h1>
-
-            <div id="cards" class="d-flex flex-wrap gap-3 justify-content-center my-4">
-                <div class="card">
-                    <p class="card-title fs-4">Total de notícias capturadas</p>
-                    <p class="fs-1 text card__number-count">{{ $totalNews }}</p>
-                </div>
-                <div class="card">
-                    <p class="card-title fs-4">Notícias analisadas pelo Automata</p>
-                    <p class="fs-1 text card__number-count">{{ $totalNewsPredicted }}</p>
-                </div>
-                <div class="card">
-                    <p class="card-title fs-4">Notícias checadas pelas agências</p>
-                    <p class="fs-1 text card__number-count">{{ $totalNewsChecked }}</p>
-                </div>
-                <div class="card">
-                    <p class="card-title fs-4">Notícias aguardando checagem</p>
-                    <p class="fs-1 text card__number-count">{{ $totalNewsToBeChecked }}</p>
-                </div>
-            </div>
-
-            <h2 class="my-4">Desempenho do AUTOMATA</h2>
-            <div class="d-block donut-graphic-container">
-                <canvas
-                    id="performanceAutomata"
-                    style="display: block; box-sizing: border-box; height: 400px; width: 400px;"
-                >
-                </canvas>
-            </div>
-        </section>
-
-        <section>
-            <h2>Dados por Usuário</h2>
-
-            <div class="my-5">
-                <form id="form_top_users" action="/" method="GET">
-                    @csrf
-                    <div class="form-floating">
-                        <input type="text" class="form-control" id="user-count" name="user-count" placeholder="Digite um número entre 5 e 50" value="{{ old('user-count') }}">
-                        <label for="user-count">Quantidade de usuários que deseja visualizar</label>
+        <div class="row">
+            <section>
+                <div id="cards" class="d-flex flex-wrap gap-3 justify-content-center my-4">
+                    <div class="card">
+                        <p class="card-title fs-5">Total de notícias capturadas</p>
+                        <p class="fs-1 text card__number-count">{{ $totalNews }}</p>
                     </div>
-                    <span id="feedback-message" class="d-block text-muted">Digite um número entre 5 e 50</span>
-
-                    <button id="btnSubmit" type="submit" class="btn btn-primary mt-3">Consultar</button>
-                </form>
-            </div>
-
-            <div class="d-flex flex-wrap justify-content-around">
-                <div class="mb-1 data-by-user">
-                    <canvas id="rateFakeChart" style="display: block; box-sizing: border-box; height: 500px; width: 500px;"></canvas>
+                    <div class="card">
+                        <p class="card-title fs-5">Notícias analisadas pelo Automata</p>
+                        <p class="fs-1 text card__number-count">{{ $totalNewsPredicted }}</p>
+                    </div>
+                    <div class="card">
+                        <p class="card-title fs-5">Notícias checadas pelas agências</p>
+                        <p class="fs-1 text card__number-count">{{ $totalNewsChecked }}</p>
+                    </div>
+                    <div class="card">
+                        <p class="card-title fs-5">Notícias aguardando checagem</p>
+                        <p class="fs-1 text card__number-count">{{ $totalNewsToBeChecked }}</p>
+                    </div>
                 </div>
-                <div class="mb-1 data-by-user">
-                    <canvas id="rateNotFakeChart" style="display: block; box-sizing: border-box; height: 500px; width: 500px;"></canvas>
-                </div>
-            </div>
+            </section>
+        </div>
 
-        </section>
+        <div class="row">
+            <section class="col-12 col-lg-5">
+                <div class="d-flex align-items-center donut-graphic-container" aria-label="Desempenho do AUTOMATA">
+                    <canvas
+                        id="performanceAutomata"
+                        style="display: block; box-sizing: border-box; height: 400px; width: 400px;"
+                    >
+                    </canvas>
+                </div>
+            </section>
+
+            <section class="col-12  col-lg-7">
+                <div class="d-flex flex-wrap justify-content-around">
+                    <div class="mb-1 data-by-user">
+                        <canvas id="rateFakeChart" style="display: block; box-sizing: border-box; height: 400px; width: 400px;"></canvas>
+                    </div>
+                    <div class="mb-1 data-by-user">
+                        <canvas id="rateNotFakeChart" style="display: block; box-sizing: border-box; height: 400px; width: 400px;"></canvas>
+                    </div>
+                </div>
+
+            </section>
+        </div>
     </main>
     @push('scripts')
         <script defer>
