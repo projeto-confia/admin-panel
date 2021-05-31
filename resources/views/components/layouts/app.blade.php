@@ -14,7 +14,6 @@
 
     <!-- Scripts -->
     <script src="/js/app.js" defer></script>
-
 </head>
 <body>
     <nav class="navbar navbar-light nav-bar bg-light shadow">

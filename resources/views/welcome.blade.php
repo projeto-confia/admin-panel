@@ -1,42 +1,56 @@
 <x-layouts.app>
     <x-slot name="title">Início | CONFIA</x-slot>
-    <main class="welcome-page pb-3">
+    <main class="welcome-page py-3">
+        <div class="row card mb-2">
+            <div class="col-12">
+                <p class="card-title fs-5">Total de notícias capturadas</p>
+                <p class="fs-1 text text-primary card__number-count">{{ $totalNews }}</p>
+            </div>
 
-        <div class="row">
-            <section>
-                <div id="cards" class="d-flex flex-wrap gap-3 justify-content-center my-4">
-                    <div class="card">
-                        <p class="card-title fs-5">Total de notícias capturadas</p>
-                        <p class="fs-1 text card__number-count">{{ $totalNews }}</p>
-                    </div>
-                    <div class="card">
-                        <p class="card-title fs-5">Notícias analisadas pelo Automata</p>
-                        <p class="fs-1 text card__number-count">{{ $totalNewsPredicted }}</p>
-                    </div>
-                    <div class="card">
-                        <p class="card-title fs-5">Notícias checadas pelas agências</p>
-                        <p class="fs-1 text card__number-count">{{ $totalNewsChecked }}</p>
-                    </div>
-                    <div class="card">
-                        <p class="card-title fs-5">Notícias aguardando checagem</p>
-                        <p class="fs-1 text card__number-count">{{ $totalNewsToBeChecked }}</p>
+            <div class="cards-news-wrapper col-12">
+                <div class="cards_news">
+                    <p class="card-title fs-5">Notícias analisadas pelo Automata</p>
+                    <p class="fs-4 m-0 text text-primary">{{ $totalNewsPredicted }}</p>
+                    <div class="mt-1 h-100 w-100">
+                        <canvas id="totalPredicted" width="270px"></canvas>
                     </div>
                 </div>
+
+                <div class="cards_news">
+                    <p class="card-title fs-5">Notícias checadas pelas agências</p>
+                    <p class="fs-4 m-0 text text-primary">{{ $totalNewsChecked }}</p>
+                    <div class="mt-1 h-100 w-100">
+                        <canvas id="totalChecked" width="270px"></canvas>
+                    </div>
+                </div>
+
+                <div class="cards_news">
+                    <p class="card-title fs-5">Notícias aguardando checagem</p>
+                    <p class="fs-4 m-0 text text-primary">{{ $totalNewsToBeChecked }}</p>
+                    <div class="mt-1">
+                        <canvas id="totalToBeChecked" width="270px"></canvas>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row gap-2 mb-2 justify-content-between">
+            <section class="col-12 col-lg-4 card d-flex">
+                <h2 class="fs-5 ">Desempenho do AUTOMATA</h2>
+
+                <div class="mt-5 h-100 w-100 donut-graphic-container" aria-label="Desempenho do AUTOMATA">
+                    <canvas id="performanceAutomata"></canvas>
+                </div>
+            </section>
+
+            <section class="col-12  col-lg-7 card">
+                <canvas id="lineChart" style="display: block; height: 385px; width: 770px;"></canvas>
             </section>
         </div>
 
-        <div class="row">
-            <section class="col-12 col-lg-5">
-                <div class="d-flex align-items-center donut-graphic-container" aria-label="Desempenho do AUTOMATA">
-                    <canvas
-                        id="performanceAutomata"
-                        style="display: block; box-sizing: border-box; height: 400px; width: 400px;"
-                    >
-                    </canvas>
-                </div>
-            </section>
-
-            <section class="col-12  col-lg-7">
+        <div class="row  mb-2">
+            <section class="col-12 card">
                 <div class="d-flex flex-wrap justify-content-around">
                     <div class="mb-1 data-by-user">
                         <canvas id="rateFakeChart" style="display: block; box-sizing: border-box; height: 400px; width: 400px;"></canvas>
@@ -45,17 +59,20 @@
                         <canvas id="rateNotFakeChart" style="display: block; box-sizing: border-box; height: 400px; width: 400px;"></canvas>
                     </div>
                 </div>
-
             </section>
         </div>
     </main>
-    @push('scripts')
-        <script defer>
-           window.addEventListener('load', function () {
-               CONFIA.pages.welcome.loadAutomataPerformanceDonut({!! $newsCorrectlyPredictedCount !!}, {!! $totalNewsChecked !!});
-               CONFIA.pages.welcome.loadTopFakeUsers({!! $topFakeUsersJson !!});
-               CONFIA.pages.welcome.loadTopNotFakeUsers({!! $topNotFakeUsersJson !!});
-           });
-        </script>
-    @endpush
+@push('scripts')
+    <script defer>
+       window.addEventListener('load', function () {
+           CONFIA.pages.welcome.loadAutomataPerformanceDonut({!! $newsCorrectlyPredictedCount !!}, {!! $totalNewsChecked !!});
+           CONFIA.pages.welcome.loadTopFakeUsers({!! $topFakeUsersJson !!});
+           CONFIA.pages.welcome.loadTopNotFakeUsers({!! $topNotFakeUsersJson !!});
+           CONFIA.pages.welcome.fakeNewsByTurnLineChart();
+           CONFIA.pages.welcome.createDonutChartForNewsCount('totalPredicted', {!! $totalNews !!}, {!! $totalNewsPredicted !!}, 'Analisadas');
+           CONFIA.pages.welcome.createDonutChartForNewsCount('totalChecked', {!! $totalNews !!}, {!! $totalNewsChecked !!}, 'Checadas');
+           CONFIA.pages.welcome.createDonutChartForNewsCount('totalToBeChecked', {!! $totalNews !!}, {!! $totalNewsToBeChecked !!}, 'Aguardando');
+       });
+    </script>
+@endpush
 </x-layouts.app>
