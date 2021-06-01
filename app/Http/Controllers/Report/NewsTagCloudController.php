@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Report;
 
 use App\Http\Controllers\Controller;
 use App\Models\News;
+use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
@@ -25,10 +26,15 @@ class NewsTagCloudController extends Controller
             ->when(
                 $request->start_date,
                 fn($query) => $query->whereDate('datetime_publication', '>=', $request->start_date),
+                function ($query) {
+                    $sevenDaysAgo = Carbon::now()->subDays(7);
+                    $query->whereDate('datetime_publication', '>=', $sevenDaysAgo);
+                }
             )
             ->when(
                 $request->end_date,
                 fn($query) => $query->whereDate('datetime_publication', '<=', $request->end_date),
+                fn($query) => $query->whereDate('datetime_publication', '<=', Carbon::now()),
             )
             ->when(
                 in_array($request->ground_truth_label, [0, 1]) && $request->ground_truth_label !== '*',

@@ -51,40 +51,47 @@
                     </div>
                 </div>
 
+                <div class="col-md-12">
+                    <span class="text-muted">Por padrão os últimos 7 dias.</span>
+                </div>
+
                 <div class="col-12">
-                    <div class="form-check form-check-inline">
-                        <input
-                            class="form-check-input"
-                            type="radio"
-                            name="ground_truth_label"
-                            id="classification_all"
-                            value="*"
-                            {{ $request->get('ground_truth_label', '*') === '*' ? 'checked' : '' }}
-                        >
-                        <label class="form-check-label" for="classification_all">Todas</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input
-                            class="form-check-input"
-                            type="radio"
-                            name="ground_truth_label"
-                            id="classification_true"
-                            value="1"
-                            {{ $request->get('ground_truth_label', '') === '1' ? 'checked' : '' }}
-                        >
-                        <label class="form-check-label" for="classification_true">Não Fake</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input
-                            class="form-check-input"
-                            type="radio"
-                            name="ground_truth_label"
-                            id="classification_false"
-                            value="0"
-                            {{ $request->get('ground_truth_label', '') === '0' ? 'checked' : '' }}
-                        >
-                        <label class="form-check-label" for="classification_false">Fake</label>
-                    </div>
+                    <label>
+                        Classificação da notícia:
+                        <div class="form-check form-check-inline">
+                            <input
+                                class="form-check-input"
+                                type="radio"
+                                name="ground_truth_label"
+                                id="classification_all"
+                                value="*"
+                                {{ $request->get('ground_truth_label', '*') === '*' ? 'checked' : '' }}
+                            >
+                            <label class="form-check-label" for="classification_all">Todas</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input
+                                class="form-check-input"
+                                type="radio"
+                                name="ground_truth_label"
+                                id="classification_true"
+                                value="1"
+                                {{ $request->get('ground_truth_label', '') === '1' ? 'checked' : '' }}
+                            >
+                            <label class="form-check-label" for="classification_true">Não Fake</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input
+                                class="form-check-input"
+                                type="radio"
+                                name="ground_truth_label"
+                                id="classification_false"
+                                value="0"
+                                {{ $request->get('ground_truth_label', '') === '0' ? 'checked' : '' }}
+                            >
+                            <label class="form-check-label" for="classification_false">Fake</label>
+                        </div>
+                    </label>
                 </div>
 
                 <div class="col-12">

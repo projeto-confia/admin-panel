@@ -32,6 +32,9 @@
                     </div>
                 </div>
                 <div class="col-12">
+                    <span class="text-muted">Por padrão os últimos 7 dias.</span>
+                </div>
+                <div class="col-12">
                     <button type="submit" class="btn btn-primary float-end">Gerar</button>
                 </div>
             </form>

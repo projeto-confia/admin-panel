@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Report;
 
 use App\Http\Controllers\Controller;
 use App\Models\News;
+use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
@@ -28,10 +29,15 @@ class NewsActualDetectedController extends Controller
             ->when(
                 $request->start_date,
                 fn($query) => $query->whereDate('datetime_publication', '>=', $request->start_date),
+                function ($query) {
+                    $sevenDaysAgo = Carbon::now()->subDays(7);
+                    $query->whereDate('datetime_publication', '>=', $sevenDaysAgo);
+                }
             )
             ->when(
                 $request->end_date,
                 fn($query) => $query->whereDate('datetime_publication', '<=', $request->end_date),
+                fn($query) => $query->whereDate('datetime_publication', '<=', Carbon::now()),
             )
             ->groupBy(News::raw('datetime_publication::DATE'))
             ->orderby('datetime_publication')
@@ -49,71 +55,5 @@ class NewsActualDetectedController extends Controller
 
         $reportJson = json_encode($reportData);
         return view('pages.report.news_actual_detected', compact('reportJson', 'request'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

@@ -31,6 +31,9 @@
                         <label for="end_date">Data Final</label>
                     </div>
                 </div>
+                <div class="col-md-12">
+                    <span class="text-muted">Por padrão os últimos 7 dias.</span>
+                </div>
                 <div class="col-12">
                     <label for="end_date">Classificação:</label>
                     <div class="form-check form-check-inline">

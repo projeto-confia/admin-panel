@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Report;
 
+use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use App\Http\Controllers\Controller;
 use App\Models\News;
@@ -24,10 +25,15 @@ class NewsChartController extends Controller
             ->when(
                 $request->start_date,
                 fn($query) => $query->whereDate('datetime_publication', '>=', $request->start_date),
+                function ($query) {
+                    $sevenDaysAgo = Carbon::now()->subDays(7);
+                    $query->whereDate('datetime_publication', '>=', $sevenDaysAgo);
+                }
             )
             ->when(
                 $request->end_date,
                 fn($query) => $query->whereDate('datetime_publication', '<=', $request->end_date),
+                fn($query) => $query->whereDate('datetime_publication', '<=', Carbon::now()),
             )
             ->groupBy(News::raw('datetime_publication::DATE'), 'ground_truth_label')
             ->orderby('datetime_publication')
