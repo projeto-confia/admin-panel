@@ -1,8 +1,6 @@
-@props(['active' => false])
-
 <li class="nav-item  {{ $attributes->get('class') }}">
     <a
-        class="pe-5 nav-link  {{ $active ? 'active' : '' }}"
+        class="pe-5 nav-link"
         href="{{ $attributes->get('href') }}"
     >
             {{ $slot }}
