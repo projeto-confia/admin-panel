@@ -61,6 +61,7 @@ class NewsActualDetectedController extends Controller
 
     private function handleIntervalNavigation(Request $request)
     {
+
         if (!$request->next_interval && !$request->previous_interval) {
             return;
         }
@@ -71,7 +72,8 @@ class NewsActualDetectedController extends Controller
                 'end_date' => 'required|date',
             ],
             [
-                'start_date.required' => 'As datas são requeridas para navegar por intervalos',
+                'start_date.required' => 'A data inicial é requerida para navegar por intervalos',
+                'end_date.required' => 'A data final é requerida para navegar por intervalos',
             ]
         );
 

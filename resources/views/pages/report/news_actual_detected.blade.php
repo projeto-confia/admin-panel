@@ -16,8 +16,11 @@
                                id="start_date"
                                name="start_date"
                                placeholder="dd/mm/yyyy"
-                               value="{{ optional($request)->start_date }}">
+                               value="{{ optional($request)->start_date ?: old('start_date') }}">
                         <label for="start_date">Data Inicial</label>
+                        @error('start_date')
+                        <span class="text-danger small">{{ $message }}</span>
+                        @enderror()
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -27,14 +30,19 @@
                                id="end_date"
                                name="end_date"
                                placeholder="dd/mm/yyyy"
-                               value="{{ optional($request)->end_date }}">
+                               value="{{ optional($request)->end_date ?: old('end_date')  }}">
                         <label for="end_date">Data Final</label>
+                        @error('end_date')
+                        <span class="text-danger small">{{ $message }}</span>
+                        @enderror()
                     </div>
                 </div>
+
                 <div class="col-12 d-flex flex-column">
                     <span class="text-muted">Por padrão os últimos 7 dias.</span>
-                    <div class="">
+                    <div class="d-flex flex-column mt-1">
                         <span>Intervalos</span>
+                        <span class="text-muted small">permite navegar pelo intervalo da data inicial e final.</span>
                         <div class="d-flex flex-row align-items-center">
                             <button class="btn text-secondary" type="submit" name="previous_interval" value="true">
                                 <x-icons.chevron-left class="text-secondary" style="width: 1rem"/>
@@ -46,9 +54,6 @@
                                 <x-icons.chevron-right class="text-secondary" style="width: 1rem" />
                             </button>
                         </div>
-                        @error('start_date')
-                        <span class="text-danger">{{ $message }}</span>
-                        @enderror()
                     </div>
                 </div>
 
