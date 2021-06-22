@@ -18,6 +18,8 @@ class NewsActualDetectedController extends Controller
      */
     public function index(Request $request): View
     {
+        $this->handleIntervalNavigation($request);
+
         $reportData = News::query()
             ->select(
                 News::raw('datetime_publication::DATE'),
@@ -56,4 +58,44 @@ class NewsActualDetectedController extends Controller
         $reportJson = json_encode($reportData);
         return view('pages.report.news_actual_detected', compact('reportJson', 'request'));
     }
+
+    private function handleIntervalNavigation(Request $request)
+    {
+        if (!$request->next_interval && !$request->previous_interval) {
+            return;
+        }
+
+        $request->validate(
+            [
+                'start_date' => 'required|date',
+                'end_date' => 'required|date',
+            ],
+            [
+                'start_date.required' => 'As datas são requeridas para navegar por intervalos',
+            ]
+        );
+
+        /** @var Carbon */
+        $startDate = Carbon::parse($request->start_date);
+        /** @var Carbon */
+        $endDate = Carbon::parse($request->end_date);
+
+        $differenceInDays = $startDate->diffInDays($endDate) + 1;
+
+        if ($request->next_interval) {
+            $startDate->addDays($differenceInDays);
+            $endDate->addDays($differenceInDays);
+        }
+
+        if ($request->previous_interval) {
+            $startDate->subDays($differenceInDays);
+            $endDate->subDays($differenceInDays);
+        }
+
+        $request->merge([
+            'start_date' => $startDate->format('Y-m-d'),
+            'end_date' => $endDate->format('Y-m-d'),
+        ]);
+    }
+
 }
