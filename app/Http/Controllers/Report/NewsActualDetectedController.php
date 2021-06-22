@@ -61,7 +61,6 @@ class NewsActualDetectedController extends Controller
 
     private function handleIntervalNavigation(Request $request)
     {
-
         if (!$request->next_interval && !$request->previous_interval) {
             return;
         }
