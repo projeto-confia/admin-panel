@@ -4,12 +4,15 @@ namespace App\Http\Controllers\Report;
 
 use App\Http\Controllers\Controller;
 use App\Models\News;
+use App\Trait\IntervalNavigable;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
 class NewsController extends Controller
 {
+    use IntervalNavigable;
+
     /**
      * Display a listing of the resource.
      *
@@ -18,6 +21,7 @@ class NewsController extends Controller
      */
     public function index(Request $request): View
     {
+        $this->handleIntervalNavigation($request);
         $news = News::query()
             ->when(
                 $request->text_news,

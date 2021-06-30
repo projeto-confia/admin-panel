@@ -35,6 +35,9 @@
                         >
                         <label for="start_date">Data Inicial</label>
                     </div>
+                    @error('start_date')
+                    <span class="text-danger small">{{ $message }}</span>
+                    @enderror()
                 </div>
 
                 <div class="col-md-6">
@@ -49,6 +52,9 @@
                         >
                         <label for="end_date">Data Final</label>
                     </div>
+                    @error('end_date')
+                    <span class="text-danger small">{{ $message }}</span>
+                    @enderror()
                 </div>
 
                 <div class="col-md-12">
@@ -92,6 +98,10 @@
                             <label class="form-check-label" for="classification_false">Fake</label>
                         </div>
                     </label>
+                </div>
+
+                <div class="col-12">
+                    <x-partials.interval-navigation />
                 </div>
 
                 <div class="col-12">
