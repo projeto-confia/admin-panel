@@ -40,9 +40,11 @@
 
                 <div class="col-12 d-flex flex-column">
                     <span class="text-muted">Por padrão os últimos 7 dias.</span>
-                    <x-partials.interval-navigation />
                 </div>
 
+                <div class="col-12">
+                    <x-partials.interval-navigation />
+                </div>
                 <div class="col-12">
                     <button type="submit" class="btn btn-primary float-end">Gerar</button>
                 </div>

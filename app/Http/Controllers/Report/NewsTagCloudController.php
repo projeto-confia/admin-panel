@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Report;
 
 use App\Http\Controllers\Controller;
 use App\Models\News;
+use App\Trait\IntervalNavigable;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
 class NewsTagCloudController extends Controller
 {
+    use IntervalNavigable;
     /**
      * Display a listing of the resource.
      *
@@ -18,6 +20,8 @@ class NewsTagCloudController extends Controller
      */
     public function index(Request $request): View
     {
+        $this->handleIntervalNavigation($request);
+
         $stopWords = file(storage_path('files/stopwords.txt'), FILE_IGNORE_NEW_LINES);
 
         $reportJson = News::query()
