@@ -16,7 +16,7 @@
                     <tr>
                         <th scope="col">Nome</th>
                         <th scope="col">E-mail</th>
-                        <th scope="col">É Administrador ?</th>
+                        <th scope="col">É administrador ?</th>
                     </tr>
                     </thead>
                     <tbody>
