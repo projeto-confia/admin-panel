@@ -29,6 +29,10 @@ Route::get('/create-password/{id}/{hash}', [PasswordCreationController::class, '
     ->middleware(['signed', 'throttle:6,1'])
     ->name('user.create-password');
 
+Route::post('/create-password/{id}/{hash}', [PasswordCreationController::class, 'store'])
+    ->middleware(['signed'])
+    ->name('user.store-password');
+
 //Route::get('/forgot-password', [PasswordResetLinkController::class, 'create'])
 //                ->middleware('guest')
 //                ->name('password.request');
