@@ -117,7 +117,7 @@ return [
 
 
     'create-password' => [
-        'expire' => 345600
+        'expire' => 604800
     ]
 
 ];

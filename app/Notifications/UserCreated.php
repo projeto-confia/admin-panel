@@ -45,7 +45,7 @@ class UserCreated extends Notification
     {
         return URL::temporarySignedRoute(
             'user.create-password',
-            Carbon::now()->addSeconds(Config::get('auth.create-password.expire', 345600)),
+            Carbon::now()->addSeconds(Config::get('auth.create-password.expire', 604800)),
             [
                 'id' => $notifiable->getKey(),
                 'hash' => sha1($notifiable->getEmailForVerification()),
