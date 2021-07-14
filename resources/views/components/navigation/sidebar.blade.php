@@ -44,5 +44,14 @@
             </x-navigation.dropdown-item>
 
         </x-navigation.dropdown>
+
+        @can('viewAny', \App\Models\User::class)
+        <x-navigation.nav-item
+            class="{{ request()->routeIs('usuarios.index') ? 'active' : '' }}"
+            href="{{ route('usuarios.index') }}"
+        >
+            Gerenciar usuários
+        </x-navigation.nav-item>
+        @endcan
     </ul>
 </nav>
