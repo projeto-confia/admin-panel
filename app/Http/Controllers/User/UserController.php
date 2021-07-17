@@ -10,7 +10,6 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -52,13 +51,11 @@ class UserController extends Controller
      * Store a newly created resource in storage.
      *
      * @param UserStoreRequest $request
-     * @param Generator $generator
      * @return RedirectResponse
      */
-    public function store(UserStoreRequest $request, Generator $generator): RedirectResponse
+    public function store(UserStoreRequest $request): RedirectResponse
     {
-        $password = Hash::make($generator->password());
-        $userData = $request->merge(compact('password'))->all();
+        $userData = $request->all();
         $user = User::create($userData);
 
         event(new Registered($user));
