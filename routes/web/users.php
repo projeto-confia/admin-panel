@@ -9,3 +9,10 @@ Route::resource('/usuarios', UserController::class)
     ])
     ->middleware('auth');
 
+Route::put('/usuarios/{user}/bloquear', [UserController::class, 'block'])
+    ->middleware('auth')
+    ->name('usuarios.block');
+
+Route::put('/usuarios/{user}/desbloquear', [UserController::class, 'unblock'])
+    ->middleware('auth')
+    ->name('usuarios.unblock');

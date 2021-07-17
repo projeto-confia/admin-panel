@@ -111,11 +111,17 @@ class UserController extends Controller
 
     public function block(User $user): RedirectResponse
     {
+        $user->is_blocked = true;
+        $user->save();
+
         return redirect()->back();
     }
 
     public function unblock(User $user): RedirectResponse
     {
+        $user->is_blocked = false;
+        $user->save();
+
         return redirect()->back();
     }
 }
