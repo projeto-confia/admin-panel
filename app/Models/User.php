@@ -42,11 +42,17 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'is_admin' => 'boolean',
+        'is_blocked' => 'boolean',
     ];
 
     public function isAdmin(): bool
     {
         return $this->is_admin;
+    }
+
+    public function isBlocked(): bool
+    {
+        return $this->is_blocked;
     }
 
     /**
