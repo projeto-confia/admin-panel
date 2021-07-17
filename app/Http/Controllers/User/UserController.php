@@ -5,7 +5,6 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserStoreRequest;
 use App\Models\User;
-use Faker\Generator;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -20,7 +19,7 @@ class UserController extends Controller
      */
     public function __construct()
     {
-        $this->authorizeResource(User::class, 'usuarios');
+        $this->authorizeResource(User::class, 'user');
     }
 
     /**
@@ -100,11 +99,23 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param User $user
+     * @return RedirectResponse
+     * @throws \Exception
      */
-    public function destroy($id)
+    public function destroy(User $user): RedirectResponse
     {
-        //
+        $user->delete();
+        return redirect()->back();
+    }
+
+    public function block(User $user): RedirectResponse
+    {
+        return redirect()->back();
+    }
+
+    public function unblock(User $user): RedirectResponse
+    {
+        return redirect()->back();
     }
 }
