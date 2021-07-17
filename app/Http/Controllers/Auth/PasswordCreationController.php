@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class PasswordCreationController extends Controller
@@ -20,7 +21,7 @@ class PasswordCreationController extends Controller
      */
     public function create(Request $request, int $userId): View
     {
-        $user = User::find($userId);
+        $user = User::findOrFail($userId);
         if (!empty($user->password)) {
             abort(403);
         }
@@ -52,6 +53,7 @@ class PasswordCreationController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+        Auth::logout();
         return redirect(route('login'));
     }
 }
