@@ -18,7 +18,6 @@
                         <th scope="col">E-mail</th>
                         <th scope="col">Perfil</th>
                         <th scope="col">Senha criada</th>
-                        <th scope="col">Bloqueado</th>
                         <th scope="col">Ações</th>
                     </tr>
                     </thead>
@@ -29,7 +28,6 @@
                             <td>{{ $user->email }}</td>
                             <td>{{ $user->is_admin ? 'Administrador' : 'Comum' }}</td>
                             <td>{{ is_null($user->password) ? 'Não' : 'Sim' }}</td>
-                            <td>{{ $user->is_blocked ? 'Sim' : 'Não' }}</td>
                             <td>
                                 <ul class="list-group list-group-horizontal">
                                     @if (auth()->user()->id !== $user->id)
