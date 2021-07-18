@@ -1,1 +1,1 @@
-<img src="/images/brand/logo64.png" alt="Logo do projeto CONFIA" width="60" height="60" {{ $attributes->merge(['class' => 'navbar-brand']) }}>
+<img src="https://res.cloudinary.com/projeto-confia/image/upload/v1626569709/logo192_dlei9t.png" alt="Logo do projeto CONFIA" width="60" height="60" {{ $attributes->merge(['class' => 'navbar-brand']) }}>
