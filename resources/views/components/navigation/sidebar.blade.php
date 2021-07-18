@@ -47,7 +47,7 @@
 
         @can('viewAny', \App\Models\User::class)
         <x-navigation.nav-item
-            class="{{ request()->routeIs('usuarios.index') ? 'active' : '' }}"
+            class="{{ request()->routeIs('usuarios.*') ? 'active' : '' }}"
             href="{{ route('usuarios.index') }}"
         >
             Gerenciar usuários

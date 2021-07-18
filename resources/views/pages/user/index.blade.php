@@ -11,7 +11,7 @@
                 <a class="btn btn-primary" href="{{ route('usuarios.create') }}">Adicionar Usuário</a>
             </div>
             <div class="table-responsive">
-                <table class="table table-striped">
+                <table class="table table-striped align-middle">
                     <thead>
                     <tr>
                         <th scope="col">Nome</th>
@@ -30,6 +30,13 @@
                             <td>{{ is_null($user->password) ? 'Não' : 'Sim' }}</td>
                             <td>
                                 <ul class="list-group list-group-horizontal">
+
+                                    <li class="list-group-item border-0 bg-transparent">
+                                        <a class="btn text-info" href="{{ route('usuarios.edit', [$user->id]) }}">
+                                            Editar
+                                        </a>
+                                    </li>
+
                                     @if (auth()->user()->id !== $user->id)
                                         @if (! $user->is_blocked)
                                         <li class="list-group-item border-0 bg-transparent">
