@@ -14,7 +14,7 @@ class SendMailUserCreatedNotification
      * @param Registered $event
      * @return void
      */
-    public function handle( Registered $event)
+    public function handle(Registered $event)
     {
         if ($event->user instanceof User) {
             $event->user->sendUserCreatedNotification();
