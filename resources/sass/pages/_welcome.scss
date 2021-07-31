@@ -1,6 +1,16 @@
 .welcome-page {
-    .card {
-        width: 300px;
+    .cards-news-wrapper {
+        @media (min-width: 768px) {
+            display: flex;
+            flex-flow: row nowrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 5px;
+        }
+    }
+
+    .cards-news {
+        min-width: 200px;
 
         &__number-count {
             color: darken($primary, 20);
@@ -8,10 +18,9 @@
     }
 
     .donut-graphic-container {
-        width: 100%;
-        max-width: 500px;
-        height: 100%;
+        position: relative;
         margin: 0 auto;
+        width: 100%;
     }
 
     .data-by-user {

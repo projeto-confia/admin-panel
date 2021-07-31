@@ -14,28 +14,44 @@
     <hr/>
 
     <ul class="navbar-nav me-auto mb-2 mb-lg-0 flex ">
-        <x-navigation.nav-item :active="true" href="/">
-            Home
+        <x-navigation.nav-item class="{{ request()->routeIs('welcome.show') ? 'active' : '' }}"
+           href="/"
+        >
+            Dashboard
         </x-navigation.nav-item>
 
-        <x-navigation.dropdown label="Relatórios" id="actions">
+        <x-navigation.dropdown label="Relatórios" id="actions" class="{{
+            collect(['news.index', 'news_chart.index', 'news_tagcloud.index', 'news_actual_detected.index'])
+                ->some(fn ($route) => request()->routeIs($route))
+                 ? 'show'
+                 : ''
+            }}">
 
-            <x-navigation.dropdown-item href="{{ url('report/news') }}">
+            <x-navigation.dropdown-item class="{{ request()->routeIs('news.index') ? 'active' : '' }}" href="{{ url('report/news') }}">
                 Notícias
             </x-navigation.dropdown-item>
 
-            <x-navigation.dropdown-item href="{{ url('report/news_chart') }}">
+            <x-navigation.dropdown-item class="{{ request()->routeIs('news_chart.index') ? 'active' : '' }}" href="{{ url('report/news_chart') }}">
                 Notícias (Consolidado)
             </x-navigation.dropdown-item>
 
-            <x-navigation.dropdown-item href="{{ url('report/news_tagcloud') }}">
+            <x-navigation.dropdown-item class="{{ request()->routeIs('news_tagcloud.index') ? 'active' : '' }}" href="{{ url('report/news_tagcloud') }}">
                 Notícias (Tag Cloud)
             </x-navigation.dropdown-item>
 
-            <x-navigation.dropdown-item href="{{ url('report/news_actual_detected') }}">
+            <x-navigation.dropdown-item class="{{ request()->routeIs('news_actual_detected.index') ? 'active' : '' }}" href="{{ url('report/news_actual_detected') }}">
                 Notícias (Precisão)
             </x-navigation.dropdown-item>
 
         </x-navigation.dropdown>
+
+        @can('viewAny', \App\Models\User::class)
+        <x-navigation.nav-item
+            class="{{ request()->routeIs('usuarios.*') ? 'active' : '' }}"
+            href="{{ route('usuarios.index') }}"
+        >
+            Gerenciar usuários
+        </x-navigation.nav-item>
+        @endcan
     </ul>
 </nav>

@@ -114,4 +114,10 @@ return [
 
     'password_timeout' => 10800,
 
+
+
+    'create-password' => [
+        'expire' => 604800
+    ]
+
 ];

@@ -9,3 +9,11 @@
         position: static;
     }
 }
+
+.nav-item.active,
+li.dropdown-item.active,
+li.dropdown-item:active
+{
+    background-color: transparent;
+    border-bottom: 2px solid $primary;
+}

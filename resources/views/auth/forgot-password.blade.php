@@ -1,36 +1,38 @@
-<x-guest-layout>
-    <x-auth-card>
-        <x-slot name="logo">
-            <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-            </a>
-        </x-slot>
+<x-layouts.guest>
 
-        <div class="mb-4 text-sm text-gray-600">
-            {{ __('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
-        </div>
+    <x-slot name="title">Esqueci a senha | CONFIA</x-slot>
 
-        <!-- Session Status -->
-        <x-auth-session-status class="mb-4" :status="session('status')" />
+    <div class="login-page">
 
-        <!-- Validation Errors -->
-        <x-auth-validation-errors class="mb-4" :errors="$errors" />
+        <div class="login-page__skewed"></div>
 
-        <form method="POST" action="{{ route('password.email') }}">
-            @csrf
-
-            <!-- Email Address -->
-            <div>
-                <x-label for="email" :value="__('Email')" />
-
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
+        <main class="container-fluid card p-4 mt-4 mx-3 shadow login-page__card">
+            <div class="mb-4 text-sm text-gray-600">
+                Informe seu e-mail para que seja enviado um link para recuperação de acesso
             </div>
 
-            <div class="flex items-center justify-end mt-4">
-                <x-button>
-                    {{ __('Email Password Reset Link') }}
-                </x-button>
-            </div>
-        </form>
-    </x-auth-card>
-</x-guest-layout>
+            <!-- Session Status -->
+            <x-auth-session-status class="mb-4" :status="session('status')" />
+
+            <form method="POST" action="{{ route('password.email') }}">
+                @csrf
+
+                <div class="col-12 mb-3">
+                    <label for="email" class="form-label">{{ __('Email')  }}</label>
+                    <input type="email" class="form-control" id="email" name="email" value="{{ old('email') }}" required autofocus />
+
+                    @error('email')
+                    <x-ui.invalid-feedback>{{ $message }}</x-ui.invalid-feedback>
+                    @enderror
+                </div>
+                <div class="d-flex items-center flex-row-reverse justify-end mt-4">
+                    <button class="btn btn-primary" type="submit">
+                        Enviar
+                    </button>
+                </div>
+            </form>
+        </main>
+
+    </div>
+
+</x-layouts.guest>

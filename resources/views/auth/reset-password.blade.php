@@ -1,48 +1,54 @@
-<x-guest-layout>
-    <x-auth-card>
-        <x-slot name="logo">
-            <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-            </a>
-        </x-slot>
+<x-layouts.guest>
 
-        <!-- Validation Errors -->
-        <x-auth-validation-errors class="mb-4" :errors="$errors" />
+    <x-slot name="title">Recuperar senha | CONFIA</x-slot>
 
-        <form method="POST" action="{{ route('password.update') }}">
-            @csrf
+    <div class="login-page">
 
-            <!-- Password Reset Token -->
-            <input type="hidden" name="token" value="{{ $request->route('token') }}">
+        <div class="login-page__skewed"></div>
 
-            <!-- Email Address -->
-            <div>
-                <x-label for="email" :value="__('Email')" />
-
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email', $request->email)" required autofocus />
+        <main class="container-fluid card p-4 mt-4 mx-3 shadow login-page__card">
+            <div class="mb-4 text-sm text-gray-600">
+                Insira sua nova senha.
             </div>
 
-            <!-- Password -->
-            <div class="mt-4">
-                <x-label for="password" :value="__('Password')" />
+            <!-- Validation Errors -->
+            <x-auth-validation-errors class="mb-4" :errors="$errors" />
 
-                <x-input id="password" class="block mt-1 w-full" type="password" name="password" required />
-            </div>
+            <!-- Session Status -->
+            <x-auth-session-status class="mb-4" :status="session('status')" />
 
-            <!-- Confirm Password -->
-            <div class="mt-4">
-                <x-label for="password_confirmation" :value="__('Confirm Password')" />
+            <form method="POST" action="{{ route('password.update') }}">
+                @csrf
 
-                <x-input id="password_confirmation" class="block mt-1 w-full"
-                                    type="password"
-                                    name="password_confirmation" required />
-            </div>
+                <input type="hidden" name="token" value="{{ $request->route('token') }}">
+                <input type="hidden" name="email" value="{{ $request->email }}">
 
-            <div class="flex items-center justify-end mt-4">
-                <x-button>
-                    {{ __('Reset Password') }}
-                </x-button>
-            </div>
-        </form>
-    </x-auth-card>
-</x-guest-layout>
+                <div class="col-12 mb-3">
+                    <label for="password" class="form-label">{{ __('Password')  }}</label>
+                    <input type="password" class="form-control" id="password" name="password" required autofocus />
+
+                    @error('password')
+                    <x-ui.invalid-feedback>{{ $message }}</x-ui.invalid-feedback>
+                    @enderror
+                </div>
+
+                <div class="col-12 mb-3">
+                    <label for="password_confirmation" class="form-label">Confirmação da senha</label>
+                    <input type="password" class="form-control" id="password_confirmation" name="password_confirmation"/>
+
+                    @error('password_confirmation')
+                    <x-ui.invalid-feedback>{{ $message }}</x-ui.invalid-feedback>
+                    @enderror
+                </div>
+
+                <div class="d-flex items-center flex-row-reverse justify-end mt-4">
+                    <button class="btn btn-primary" type="submit">
+                        Enviar
+                    </button>
+                </div>
+            </form>
+        </main>
+
+    </div>
+
+</x-layouts.guest>

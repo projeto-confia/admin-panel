@@ -4,11 +4,15 @@ namespace App\Http\Controllers\Report;
 
 use App\Http\Controllers\Controller;
 use App\Models\News;
+use App\Trait\IntervalNavigable;
+use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
 class NewsController extends Controller
 {
+    use IntervalNavigable;
+
     /**
      * Display a listing of the resource.
      *
@@ -17,6 +21,7 @@ class NewsController extends Controller
      */
     public function index(Request $request): View
     {
+        $this->handleIntervalNavigation($request);
         $news = News::query()
             ->when(
                 $request->text_news,
@@ -30,81 +35,20 @@ class NewsController extends Controller
             ->when(
                 $request->start_date,
                 fn($query) => $query->whereDate('datetime_publication', '>=', $request->start_date),
+                function ($query) {
+                    $sevenDaysAgo = Carbon::now()->subDays(7);
+                    $query->whereDate('datetime_publication', '>=', $sevenDaysAgo);
+                }
             )
             ->when(
                 $request->end_date,
                 fn($query) => $query->whereDate('datetime_publication', '<=', $request->end_date),
+                fn($query) => $query->whereDate('datetime_publication', '<=', Carbon::now()),
             )
             ->paginate()
             ->withQueryString();
 
 
         return view('pages.report.news', compact('news', 'request'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

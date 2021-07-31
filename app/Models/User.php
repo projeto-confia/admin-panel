@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Notifications\UserCreated;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -20,6 +20,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'is_admin',
+        'is_blocked'
     ];
 
     /**
@@ -39,5 +41,27 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'is_admin' => 'boolean',
+        'is_blocked' => 'boolean',
     ];
+
+    public function isAdmin(): bool
+    {
+        return $this->is_admin;
+    }
+
+    public function isBlocked(): bool
+    {
+        return $this->is_blocked;
+    }
+
+    /**
+     * Send the email verification notification.
+     *
+     * @return void
+     */
+    public function sendUserCreatedNotification()
+    {
+        $this->notify(new UserCreated);
+    }
 }

@@ -16,8 +16,11 @@
                                id="start_date"
                                name="start_date"
                                placeholder="dd/mm/yyyy"
-                               value="{{ optional($request)->start_date }}">
+                               value="{{ optional($request)->start_date ?: old('start_date') }}">
                         <label for="start_date">Data Inicial</label>
+                        @error('start_date')
+                        <span class="text-danger small">{{ $message }}</span>
+                        @enderror()
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -27,9 +30,20 @@
                                id="end_date"
                                name="end_date"
                                placeholder="dd/mm/yyyy"
-                               value="{{ optional($request)->end_date }}">
+                               value="{{ optional($request)->end_date ?: old('end_date')  }}">
                         <label for="end_date">Data Final</label>
+                        @error('end_date')
+                        <span class="text-danger small">{{ $message }}</span>
+                        @enderror()
                     </div>
+                </div>
+
+                <div class="col-12 d-flex flex-column">
+                    <span class="text-muted">Por padrão os últimos 7 dias.</span>
+                </div>
+
+                <div class="col-12">
+                    <x-partials.interval-navigation />
                 </div>
                 <div class="col-12">
                     <button type="submit" class="btn btn-primary float-end">Gerar</button>
@@ -45,38 +59,7 @@
     @push('scripts')
         <script defer>
             document.addEventListener('DOMContentLoaded', () => {
-                const { labels, detected_fake, actual_fake } = {!! $reportJson !!};
-
-                const ctx = document.getElementById('myChart');
-                new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels,
-                        datasets: [
-                            {
-                                label: 'Detectado como provável Fake News',
-                                data: detected_fake,
-                                backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                                borderColor: 'rgba(54, 162, 235, 1)',
-                                borderWidth: 1,
-                            },
-                            {
-                                label: 'Confirmado como Fake News',
-                                data: actual_fake,
-                                backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                                borderColor: 'rgba(255, 99, 132, 1)',
-                                borderWidth: 1,
-                            }
-                        ]
-                    },
-                    options: {
-                        responsive: true,
-                        title: {
-                            display: true,
-                            text: 'Gráfico de precisão do modelo de detecção (valores absolutos)'
-                        },
-                    },
-                });
+                CONFIA.pages.precisionNews({!! $reportJson !!})
             });
         </script>
     @endpush

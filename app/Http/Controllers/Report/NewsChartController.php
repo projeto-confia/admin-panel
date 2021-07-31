@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Report;
 
+use App\Trait\IntervalNavigable;
+use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use App\Http\Controllers\Controller;
 use App\Models\News;
@@ -10,6 +12,7 @@ use Illuminate\Http\Request;
 
 class NewsChartController extends Controller
 {
+    use IntervalNavigable;
     /**
      * Display a listing of the resource.
      *
@@ -18,16 +21,23 @@ class NewsChartController extends Controller
      */
     public function index(Request $request): View
     {
+        $this->handleIntervalNavigation($request);
+
         $reportData = News::query()
             ->select(News::raw('datetime_publication::DATE'), 'ground_truth_label', News::raw('count(*) as total'))
             ->whereNotNull('ground_truth_label')
             ->when(
                 $request->start_date,
                 fn($query) => $query->whereDate('datetime_publication', '>=', $request->start_date),
+                function ($query) {
+                    $sevenDaysAgo = Carbon::now()->subDays(7);
+                    $query->whereDate('datetime_publication', '>=', $sevenDaysAgo);
+                }
             )
             ->when(
                 $request->end_date,
                 fn($query) => $query->whereDate('datetime_publication', '<=', $request->end_date),
+                fn($query) => $query->whereDate('datetime_publication', '<=', Carbon::now()),
             )
             ->groupBy(News::raw('datetime_publication::DATE'), 'ground_truth_label')
             ->orderby('datetime_publication')
