@@ -26,7 +26,7 @@ class NewsFactory extends Factory
             'datetime_publication' => $this->faker->dateTime(),
             'classification_outcome' => $this->faker->boolean(),
             'ground_truth_label' => $this->faker->boolean(),
-            'prob_classification' => $this->faker->numberBetween(0, 1),
+            'prob_classification' => $this->faker->randomFloat(2, 0, 1),
             'text_news_cleaned' => $this->faker->text
         ];
     }
