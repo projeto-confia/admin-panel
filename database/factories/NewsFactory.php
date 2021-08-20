@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\News;
+use App\Models\Automata\News;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class NewsFactory extends Factory
