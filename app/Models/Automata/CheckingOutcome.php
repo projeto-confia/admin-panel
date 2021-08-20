@@ -3,7 +3,6 @@
 namespace App\Models\Automata;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class CheckingOutcome extends Model
@@ -17,6 +16,6 @@ class CheckingOutcome extends Model
 
     public function trustedAgency(): BelongsTo
     {
-        $this->belongsTo(TrustedAgency::class, 'id_trusted_agency');
+        return $this->belongsTo(TrustedAgency::class, 'id_trusted_agency');
     }
 }
