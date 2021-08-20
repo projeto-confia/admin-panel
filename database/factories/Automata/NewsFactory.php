@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\Automata;
 
 use App\Models\Automata\News;
 use Illuminate\Database\Eloquent\Factories\Factory;
