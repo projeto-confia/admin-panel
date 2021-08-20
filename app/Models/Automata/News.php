@@ -3,17 +3,24 @@
 namespace App\Models\Automata;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class News extends Model
 {
     use HasFactory;
 
-    protected $connection = 'detectenv';
-    protected $table = 'news';
-    protected $primaryKey = 'id_news';
-    public $timestamps = false;
-
     protected $casts = [
         'datetime_publication' => 'datetime',
     ];
+
+    public function similarNewsPublishedByAgency(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            AgencyNewsChecked::class,
+            'similarity_checking_outcome',
+            'id_news',
+            'id_similarity_checking_outcome',
+            'id_news',
+        );
+    }
 }
