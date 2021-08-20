@@ -2,9 +2,14 @@
 
 namespace App\Models\Automata;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
+/**
+ * @property string text_news
+ * @property Carbon datetime_publication
+ */
 class News extends Model
 {
     use HasFactory;

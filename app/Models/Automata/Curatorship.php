@@ -5,14 +5,15 @@ namespace App\Models\Automata;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property int id_curatorship
+ * @property ?int id_news_checked
+ * @property News news
+ * @property ?AgencyNewsChecked agencyCheckedNews
+ */
 class Curatorship extends Model
 {
     use HasFactory;
-
-    protected $connection = 'detectenv';
-    protected $table = 'curatorship';
-    protected $primaryKey = 'id_curatorship';
-    public $timestamps = false;
 
     protected $casts = [
         'is_news' => 'boolean',
@@ -22,8 +23,18 @@ class Curatorship extends Model
         'is_processed' => 'boolean',
     ];
 
+
     public function news(): BelongsTo
     {
         return $this->belongsTo(News::class, 'id_news', 'id_news');
+    }
+
+    /**
+     * Similar to related news, agency checked news.
+     * @return BelongsTo
+     */
+    public function agencyCheckedNews(): BelongsTo
+    {
+        return $this->belongsTo(AgencyNewsChecked::class, 'id_news_checked', 'id_news_checked');
     }
 }

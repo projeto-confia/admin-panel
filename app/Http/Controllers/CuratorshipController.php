@@ -2,12 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Repositories\Automata\CuratorshipRepository;
+use Illuminate\View\View;
 
 class CuratorshipController extends Controller
 {
-    public function index()
+    public function __construct(private CuratorshipRepository $curatorshipRepository)
     {
-        dd('bazinga');
+    }
+
+    public function index(): View
+    {
+        $curatorships = $this->curatorshipRepository->newsForCuratorshipPaginated();
+        return view('pages.curatorship.index', compact('curatorships'));
     }
 }

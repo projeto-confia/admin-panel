@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 /**
  * Class AgencyNewsChecked
  * Represents news published by a trusted agency
+ * @property string publication_url
  * @package App\Models\Automata
  */
 class AgencyNewsChecked extends Model
