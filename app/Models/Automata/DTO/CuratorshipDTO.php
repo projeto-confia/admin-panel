@@ -16,9 +16,14 @@ class CuratorshipDTO
         return $this->curatorship->id_curatorship;
     }
 
-    public function hasSimilarCheckedNews(): string
+    public function hasSimilarCheckedNews(): bool
     {
-        return is_null($this->curatorship->id_news_checked) ? 'Não' : 'Sim';
+        return ! is_null($this->curatorship->id_news_checked);
+    }
+
+    public function hasSimilarCheckedNewsDescription(): string
+    {
+        return $this->hasSimilarCheckedNews() ? 'Sim' : 'Não';
     }
 
     public function newsText(): string
@@ -34,5 +39,10 @@ class CuratorshipDTO
     public function agencyCheckedNewsUrl(): string
     {
         return $this->curatorship?->agencyCheckedNews?->publication_url ?? '';
+    }
+
+    public function agencyCheckedNewsText(): string
+    {
+        return $this->curatorship?->agencyCheckedNews?->publication_title ?? '';
     }
 }
