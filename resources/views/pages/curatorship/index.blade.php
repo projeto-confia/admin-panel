@@ -23,7 +23,7 @@
                         <tr>
                             <td>{{ $curatorshipDTO->newsText() }}</td>
                             <td>{{ $curatorshipDTO->newsPublicationDate() }}</td>
-                            <td>{{ $curatorshipDTO->hasSimilarCheckedNews() }}</td>
+                            <td>{{ $curatorshipDTO->hasSimilarCheckedNewsDescription() }}</td>
                             <td>
                                 <a class="link-info" href="{{ $curatorshipDTO->agencyCheckedNewsUrl() }}" rel="noreferrer">
                                     {{ $curatorshipDTO->agencyCheckedNewsUrl() }}
