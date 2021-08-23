@@ -10,6 +10,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property ?int id_news_checked
  * @property News news
  * @property ?AgencyNewsChecked agencyCheckedNews
+ * @property bool|mixed|null is_similar
+ * @property bool is_news
+ * @property bool is_fake
+ * @property bool is_curated
+ * @property bool is_processed
+ * @property string|null text_note
  */
 class Curatorship extends Model
 {
@@ -23,6 +29,10 @@ class Curatorship extends Model
         'is_processed' => 'boolean',
     ];
 
+    public function hasAgencyCheckedNews(): bool
+    {
+        return ! is_null($this->id_news_checked);
+    }
 
     public function news(): BelongsTo
     {
