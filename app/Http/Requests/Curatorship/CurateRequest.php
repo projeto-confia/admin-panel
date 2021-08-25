@@ -24,9 +24,9 @@ class CurateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'is_similar' => ['required', 'boolean'],
+            'is_similar' => ['sometimes', 'boolean'],
             'is_news' => ['required', 'boolean'],
-            'is_fake_news' => ['required', 'boolean'],
+            'is_fake_news' => ['required_if:is_news,1', 'boolean'],
             'text_note' => ['sometimes', 'max:1000']
         ];
     }
@@ -34,9 +34,9 @@ class CurateRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'is_similar.required' => 'Campo obrigatório',
+            'is_similar.sometimes' => 'Campo obrigatório',
             'is_news.required' => 'Campo obrigatório',
-            'is_fake_news.required' => 'Campo obrigatório',
+            'is_fake_news.required' => 'Campo obrigatório quando é notícia',
             'text_note.max' => 'Máximo de 1000 caracteres',
         ];
     }
