@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * Represents news published by a trusted agency
  * @property string publication_url
  * @property string publication_title
+ * @property TrustedAgency trustedAgency
  * @package App\Models\Automata
  */
 class AgencyNewsChecked extends Model
