@@ -2,6 +2,7 @@
 
 namespace App\Models\Automata;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -12,10 +13,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property ?AgencyNewsChecked agencyCheckedNews
  * @property bool|mixed|null is_similar
  * @property bool is_news
- * @property bool is_fake
+ * @property bool is_fake_news
  * @property bool is_curated
  * @property bool is_processed
  * @property string|null text_note
+ * @method static Builder available()
  */
 class Curatorship extends Model
 {
@@ -32,6 +34,19 @@ class Curatorship extends Model
     public function hasAgencyCheckedNews(): bool
     {
         return ! is_null($this->id_news_checked);
+    }
+
+    /**
+     * @param  Builder $query
+     * @return Builder
+     */
+    public function scopeAvailable(Builder $query): Builder
+    {
+        return $query
+            ->join('news', 'news.id_news', '=', 'curatorship.id_news')
+            ->where('is_curated', false)
+            ->where('is_processed', false)
+            ->orderBy('news.datetime_publication');
     }
 
     public function news(): BelongsTo
