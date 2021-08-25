@@ -33,9 +33,24 @@ class CurateDTO
     /**
      * @return bool
      */
+    public function isNotNews(): bool
+    {
+        return ! $this->isNews();
+    }
+    /**
+     * @return bool
+     */
     public function isFake(): bool
     {
         return $this->isFake;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isNotFake(): bool
+    {
+        return ! $this->isFake();
     }
 
     /**
