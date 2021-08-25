@@ -5,6 +5,27 @@
         <h1 class="text-dark">Curadoria de notícias</h1>
     </header>
     <main>
+        @if ($curatorshipDTO->isCurated())
+        <div class="card mb-3 p-4">
+            <div>
+                <h2 class="h4">Notícia</h2>
+                <p class="h5 text-success my-3">Curadoria realizada</p>
+                <blockquote class="blockquote">
+                    <p id="text_news">{{ $curatorshipDTO->newsText() }}</p>
+                </blockquote>
+                <p id="publication_date">
+                    Data da publicação:
+                    <span class="text-muted">{{ $curatorshipDTO->newsPublicationDate() }}</span>
+                </p>
+
+                <div class="d-flex flex-row-reverse">
+                    <a href="{{ route('curadoria.index') }}" class="btn btn-primary">
+                        Voltar
+                    </a>
+                </div>
+            </div>
+        </div>
+        @else
         <div class="card mb-3 p-4">
             <div>
                 <h2 class="h4">Notícia</h2>
@@ -126,6 +147,7 @@
 
             </form>
         </div>
+        @endif
     </main>
 
     @push('scripts')

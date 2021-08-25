@@ -50,4 +50,9 @@ class CuratorshipDTO
     {
         return $this->curatorship?->agencyCheckedNews->trustedAgency->name_agency ?? '';
     }
+
+    public function isCurated(): bool
+    {
+        return $this->curatorship->is_curated;
+    }
 }
