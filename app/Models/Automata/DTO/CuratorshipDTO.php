@@ -45,4 +45,9 @@ class CuratorshipDTO
     {
         return $this->curatorship?->agencyCheckedNews?->publication_title ?? '';
     }
+
+    public function agencyNewsName(): string
+    {
+        return $this->curatorship?->agencyCheckedNews->trustedAgency->name_agency ?? '';
+    }
 }

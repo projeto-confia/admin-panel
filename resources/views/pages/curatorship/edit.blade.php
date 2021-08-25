@@ -11,13 +11,17 @@
                 <blockquote class="blockquote">
                     <p id="text_news">{{ $curatorshipDTO->newsText() }}</p>
                 </blockquote>
-
+                <p id="publication_date">
+                    Data da publicação:
+                    <span class="text-muted">{{ $curatorshipDTO->newsPublicationDate() }}</span>
+                </p>
             </div>
+
             @if ($curatorshipDTO->hasSimilarCheckedNews())
-            <div>
+            <div class="mt-3">
                 <h2 class="h5">Notícia similar publicada pela agência de checagem</h2>
                 <div class="my-2">
-                    <p class="m-0">Agência: <span class="text-muted">Nome da Agência Placeholder</span></p>
+                    <p class="m-0">Agência: <span class="text-muted">{{ $curatorshipDTO->agencyNewsName() }}</span></p>
                     <a class="link-info" href="{{ $curatorshipDTO->agencyCheckedNewsUrl() }}">Link da publicação</a>
                 </div>
 
@@ -39,13 +43,23 @@
                         <div>
                             <p>A notícia é similar a notícia publicada pela agência de checagem ?</p>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="is_similar" id="is_similar_yes" value="1">
+                                <input
+                                    class="form-check-input"
+                                    type="radio"
+                                    name="is_similar"
+                                    id="is_similar_yes"
+                                    value="1"
+                                    {{ old('is_similar', 0) == 1 ? 'checked' : '' }}
+                                >
                                 <label class="form-check-label" for="is_similar_yes">
                                     Sim
                                 </label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="is_similar" id="is_similar_no" value="0">
+                                <input
+                                    class="form-check-input"
+                                    type="radio"
+                                    name="is_similar" id="is_similar_no" value="0">
                                 <label class="form-check-label" for="is_similar_no">
                                     Não
                                 </label>
@@ -78,7 +92,7 @@
                     @enderror()
                 </div>
 
-                <div class="col-12">
+                <div id="is_fake_news_field_wrapper" class="col-12 d-none">
                     <div>
                         <p>É Fake News ?</p>
                         <div class="form-check form-check-inline">
@@ -113,4 +127,12 @@
             </form>
         </div>
     </main>
+
+    @push('scripts')
+    <script defer>
+        window.addEventListener('load', function () {
+            CONFIA.pages.curatorship.curate();
+        });
+    </script>
+    @endpush
 </x-layouts.app>
