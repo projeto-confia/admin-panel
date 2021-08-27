@@ -18,3 +18,4 @@ Route::get('/', WelcomeController::class)->name('welcome.show')->middleware('aut
 require __DIR__ . '/auth.php';
 require __DIR__.'/web/report.php';
 require __DIR__.'/web/users.php';
+require __DIR__.'/web/curatorship.php';
