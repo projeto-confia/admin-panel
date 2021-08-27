@@ -45,7 +45,13 @@
 
         </x-navigation.dropdown>
 
-        @can('viewAny', \App\Models\User::class)
+        <x-navigation.nav-item class="{{ request()->routeIs('curadoria.*') ? 'active' : '' }}"
+                               href="/curadoria"
+        >
+            Curadoria
+        </x-navigation.nav-item>
+
+    @can('viewAny', \App\Models\User::class)
         <x-navigation.nav-item
             class="{{ request()->routeIs('usuarios.*') ? 'active' : '' }}"
             href="{{ route('usuarios.index') }}"

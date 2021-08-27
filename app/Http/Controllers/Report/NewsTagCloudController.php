@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Report;
 
 use App\Http\Controllers\Controller;
-use App\Models\News;
+use App\Models\Automata\News;
 use App\Trait\IntervalNavigable;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
