@@ -44,7 +44,7 @@
                 </div>
             </section>
 
-            <section class="col-12  col-lg-7 card">
+            <section class="col-12  col-lg-7 card example-banner">
                 <canvas id="lineChart" style="display: block; height: 385px; width: 770px;"></canvas>
             </section>
         </div>
