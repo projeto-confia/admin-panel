@@ -70,7 +70,7 @@
                                     name="is_similar"
                                     id="is_similar_yes"
                                     value="1"
-                                    {{ old('is_similar', 0) == 1 ? 'checked' : '' }}
+                                    {{ old('is_similar') == 1 ? 'checked' : '' }}
                                 >
                                 <label class="form-check-label" for="is_similar_yes">
                                     Sim
@@ -80,7 +80,11 @@
                                 <input
                                     class="form-check-input"
                                     type="radio"
-                                    name="is_similar" id="is_similar_no" value="0">
+                                    name="is_similar"
+                                    id="is_similar_no"
+                                    value="0"
+                                    {{ old('is_similar') == 0 ? 'checked' : '' }}
+                                >
                                 <label class="form-check-label" for="is_similar_no">
                                     Não
                                 </label>
@@ -96,13 +100,27 @@
                     <div>
                         <p>É uma notícia ?</p>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="is_news" id="is_news_yes" value="1">
+                            <input
+                                class="form-check-input"
+                                type="radio"
+                                name="is_news"
+                                id="is_news_yes"
+                                value="1"
+                                {{ old('is_news') === '1' ? 'checked' : '' }}
+                            >
                             <label class="form-check-label" for="is_news_yes">
                                 Sim
                             </label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="is_news" id="is_news_no" value="0">
+                            <input
+                                class="form-check-input"
+                                type="radio"
+                                name="is_news"
+                                id="is_news_no"
+                                value="0"
+                                {{ old('is_news') === '0' ? 'checked' : '' }}
+                            >
                             <label class="form-check-label" for="is_news_no">
                                 Não
                             </label>
@@ -113,17 +131,31 @@
                     @enderror()
                 </div>
 
-                <div id="is_fake_news_field_wrapper" class="col-12 d-none">
+                <div id="is_fake_news_field_wrapper" class="col-12 {{ old('is_news') === '1' ? '' : 'd-none' }}">
                     <div>
                         <p>É Fake News ?</p>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="is_fake_news" id="is_fake_news_yes" value="1">
+                            <input
+                                class="form-check-input"
+                                type="radio"
+                                name="is_fake_news"
+                                id="is_fake_news_yes"
+                                value="1"
+                                {{ old('is_fake_news') === '1' ? 'checked' : '' }}
+                            >
                             <label class="form-check-label" for="is_fake_news_yes">
                                 Sim
                             </label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="is_fake_news" id="is_fake_news_no" value="0">
+                            <input
+                                class="form-check-input"
+                                type="radio"
+                                name="is_fake_news"
+                                id="is_fake_news_no"
+                                value="0"
+                                {{ old('is_fake_news') === '0' ? 'checked' : '' }}
+                            >
                             <label class="form-check-label" for="is_fake_news_no">
                                 Não
                             </label>
