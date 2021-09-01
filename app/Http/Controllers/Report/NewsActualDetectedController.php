@@ -34,15 +34,20 @@ class NewsActualDetectedController extends Controller
             ->when(
                 $request->start_date,
                 fn($query) => $query->whereDate('datetime_publication', '>=', $request->start_date),
-                function ($query) {
-                    $sevenDaysAgo = Carbon::now()->subDays(7);
-                    $query->whereDate('datetime_publication', '>=', $sevenDaysAgo);
+                function ($query) use ($request) {
+                    $sixDaysAgo = Carbon::now()->subDays(6);
+                    $request->merge(['start_date' =>  $sixDaysAgo->toDateString()]);
+                    $query->whereDate('datetime_publication', '>=', $sixDaysAgo);
                 }
             )
             ->when(
                 $request->end_date,
                 fn($query) => $query->whereDate('datetime_publication', '<=', $request->end_date),
-                fn($query) => $query->whereDate('datetime_publication', '<=', Carbon::now()),
+                function ($query) use ($request) {
+                    $today = Carbon::now();
+                    $request->merge(['end_date' =>  $today->toDateString()]);
+                    $query->whereDate('datetime_publication', '<=', $today);
+                }
             )
             ->groupBy(News::raw('datetime_publication::DATE'))
             ->orderby('datetime_publication')

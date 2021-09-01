@@ -44,11 +44,12 @@
                 </div>
             </section>
 
-            <section class="col-12  col-lg-7 card">
+            <section class="col-12  col-lg-7 card example-banner">
                 <canvas id="lineChart" style="display: block; height: 385px; width: 770px;"></canvas>
             </section>
         </div>
 
+        @if (auth()->user()->isAdmin())
         <div class="row  mb-2">
             <section class="col-12 card">
                 <div class="d-flex flex-wrap justify-content-around">
@@ -61,13 +62,16 @@
                 </div>
             </section>
         </div>
+        @endif
     </main>
 @push('scripts')
     <script defer>
        window.addEventListener('load', function () {
            CONFIA.pages.welcome.loadAutomataPerformanceDonut({!! $newsCorrectlyPredictedCount !!}, {!! $totalNewsChecked !!});
+           @if (auth()->user()->isAdmin())
            CONFIA.pages.welcome.loadTopFakeUsers({!! $topFakeUsersJson !!});
            CONFIA.pages.welcome.loadTopNotFakeUsers({!! $topNotFakeUsersJson !!});
+           @endif
            CONFIA.pages.welcome.fakeNewsByTurnLineChart();
            CONFIA.pages.welcome.createDonutChartForNewsCount('totalPredicted', {!! $totalNews !!}, {!! $totalNewsPredicted !!}, 'Analisadas');
            CONFIA.pages.welcome.createDonutChartForNewsCount('totalChecked', {!! $totalNews !!}, {!! $totalNewsChecked !!}, 'Checadas');

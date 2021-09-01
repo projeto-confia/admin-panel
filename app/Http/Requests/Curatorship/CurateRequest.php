@@ -36,7 +36,7 @@ class CurateRequest extends FormRequest
         return [
             'is_similar.sometimes' => 'Campo obrigatório',
             'is_news.required' => 'Campo obrigatório',
-            'is_fake_news.required' => 'Campo obrigatório quando é notícia',
+            'is_fake_news.required_if' => 'Campo obrigatório quando é notícia',
             'text_note.max' => 'Máximo de 1000 caracteres',
         ];
     }

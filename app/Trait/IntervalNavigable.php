@@ -16,11 +16,12 @@ trait IntervalNavigable
         $request->validate(
             [
                 'start_date' => 'required|date',
-                'end_date' => 'required|date',
+                'end_date' => 'required|date|after:start_date',
             ],
             [
                 'start_date.required' => 'A data inicial é requerida para navegar por intervalos',
                 'end_date.required' => 'A data final é requerida para navegar por intervalos',
+                'end_date.after' => 'A data final deve ser maior que a data inicial',
             ]
         );
 
