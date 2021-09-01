@@ -16,10 +16,10 @@
                            class="form-control"
                            id="text_news"
                            name="text_news"
-                           placeholder="Digite um texto para pesquisar"
+                           placeholder="Digite um texto para pesquisar notícias relacionadas"
                            value="{{ optional($request)->text_news }}"
                         >
-                        <label for="text_news">Texto da notícia</label>
+                        <label for="text_news">Digite um texto para pesquisar notícias relacionadas</label>
                     </div>
                 </div>
 
