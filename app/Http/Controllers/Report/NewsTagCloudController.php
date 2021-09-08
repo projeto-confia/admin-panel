@@ -46,7 +46,7 @@ class NewsTagCloudController extends Controller
                 }
             )
             ->when(
-                in_array($request->ground_truth_label, [0, 1]) && $request->ground_truth_label !== '*',
+                in_array($request->ground_truth_label, ['0', '1'], true) && $request->ground_truth_label !== '*',
                 fn($query) => $query->where('ground_truth_label', !$request->ground_truth_label),
                 fn($query) => $query->whereNotNull('ground_truth_label'),
             )
