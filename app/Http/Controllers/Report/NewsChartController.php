@@ -56,7 +56,8 @@ class NewsChartController extends Controller
                     array_push($acc['labels'], $label);
                 }
 
-                $key = $item->ground_truth_label ? 'data_true' : 'data_false';
+                // trocar aqui.
+                $key = $item->ground_truth_label ? 'data_false' : 'data_true';
                 array_push($acc[$key], $item->total);
 
                 return $acc;
