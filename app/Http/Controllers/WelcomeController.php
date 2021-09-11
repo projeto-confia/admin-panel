@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Automata\Curatorship;
 use App\Models\Automata\News;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -13,7 +14,9 @@ class WelcomeController extends Controller
     public function __invoke(Request $request)
     {
         $userCount = $request->get('user-count', 10);
-
+        //**
+        //  Feito consulta baseada em curadoria temporariamente
+        //
         return view(
             'welcome',
             [
@@ -23,10 +26,15 @@ class WelcomeController extends Controller
                 'totalNewsPredicted' => News::whereNotNull('classification_outcome')->count(),
                 'totalNewsChecked' => News::whereNotNull('ground_truth_label')->count(),
                 'totalNewsToBeChecked' => News::whereNull('ground_truth_label')->count(),
-                'newsCorrectlyPredictedCount' => News::whereNotNull('ground_truth_label')
-                    ->whereNotNull('classification_outcome')
-                    ->whereColumn('ground_truth_label', 'classification_outcome')
+
+                'totalNewsFakeByAutomata' => Curatorship::where('is_curated', true)
+                    ->where('is_news', true)
                     ->count(),
+
+                'newsCorrectlyPredictedCount' => Curatorship::where('is_curated', true)
+                    ->where('is_news', true)
+                    ->where('is_fake_news', true)
+                    ->count()
             ]
         );
     }
