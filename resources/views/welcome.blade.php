@@ -2,32 +2,33 @@
     <x-slot name="title">Início | CONFIA</x-slot>
     <main class="welcome-page py-3">
         <div class="row card mb-2">
+
             <div class="col-12">
-                <p class="card-title fs-5">Total de notícias capturadas</p>
-                <p class="fs-1 text text-primary card__number-count">{{ $totalNews }}</p>
+                <p class="card-title fs-5">Total de notícias coletadas das redes sociais</p>
+                <p class="fs-1 text text-primary card__number-count">{{ $totalNewsCollectedFromSocialNetworks }}</p>
             </div>
 
             <div class="cards-news-wrapper col-12">
                 <div class="cards_news">
-                    <p class="card-title fs-5">Notícias analisadas pelo Automata</p>
+                    <p class="card-title fs-5">Notícias analisadas pelo AUTOMATA</p>
                     <p class="fs-4 m-0 text text-primary">{{ $totalNewsPredicted }}</p>
-                    <div class="mt-1 h-100 w-100">
+                    <div class="mt-1 h-100">
                         <canvas id="totalPredicted" width="270px"></canvas>
                     </div>
                 </div>
 
                 <div class="cards_news">
-                    <p class="card-title fs-5">Notícias checadas pelas agências</p>
+                    <p class="card-title fs-5">Notícias checadas por curadoria</p>
                     <p class="fs-4 m-0 text text-primary">{{ $totalNewsChecked }}</p>
-                    <div class="mt-1 h-100 w-100">
+                    <div class="mt-1 h-100">
                         <canvas id="totalChecked" width="270px"></canvas>
                     </div>
                 </div>
 
                 <div class="cards_news">
-                    <p class="card-title fs-5">Notícias aguardando checagem</p>
+                    <p class="card-title fs-5">Notícias aguardando curadoria</p>
                     <p class="fs-4 m-0 text text-primary">{{ $totalNewsToBeChecked }}</p>
-                    <div class="mt-1">
+                    <div class="mt-1 h-100">
                         <canvas id="totalToBeChecked" width="270px"></canvas>
                     </div>
                 </div>
@@ -38,6 +39,7 @@
         <div class="row gap-2 mb-2 justify-content-between">
             <section class="col-12 col-lg-4 card d-flex">
                 <h2 class="fs-5 ">Desempenho do AUTOMATA</h2>
+                <span class="text-muted">Detecção de Fake News<span/>
 
                 <div class="mt-5 h-100 w-100 donut-graphic-container" aria-label="Desempenho do AUTOMATA">
                     <canvas id="performanceAutomata"></canvas>
@@ -67,15 +69,15 @@
 @push('scripts')
     <script defer>
        window.addEventListener('load', function () {
-           CONFIA.pages.welcome.loadAutomataPerformanceDonut({!! $newsCorrectlyPredictedCount !!}, {!! $totalNewsChecked !!});
+           CONFIA.pages.welcome.loadAutomataPerformanceDonut({!! $newsCorrectlyPredictedCount !!}, {!! $totalNewsFakeByAutomata !!});
            @if (auth()->user()->isAdmin())
            CONFIA.pages.welcome.loadTopFakeUsers({!! $topFakeUsersJson !!});
            CONFIA.pages.welcome.loadTopNotFakeUsers({!! $topNotFakeUsersJson !!});
            @endif
            CONFIA.pages.welcome.fakeNewsByTurnLineChart();
-           CONFIA.pages.welcome.createDonutChartForNewsCount('totalPredicted', {!! $totalNews !!}, {!! $totalNewsPredicted !!}, 'Analisadas');
-           CONFIA.pages.welcome.createDonutChartForNewsCount('totalChecked', {!! $totalNews !!}, {!! $totalNewsChecked !!}, 'Checadas');
-           CONFIA.pages.welcome.createDonutChartForNewsCount('totalToBeChecked', {!! $totalNews !!}, {!! $totalNewsToBeChecked !!}, 'Aguardando');
+           CONFIA.pages.welcome.createDonutChartForNewsCount('totalPredicted', {!! $totalNewsCollectedFromSocialNetworks !!}, {!! $totalNewsPredicted !!}, 'Analisadas');
+           CONFIA.pages.welcome.createDonutChartForNewsCount('totalChecked', {!! $curatorshipCount !!}, {!! $totalNewsChecked !!}, 'Checadas');
+           CONFIA.pages.welcome.createDonutChartForNewsCount('totalToBeChecked', {!! $curatorshipCount !!}, {!! $totalNewsToBeChecked !!}, 'Aguardando');
        });
     </script>
 @endpush

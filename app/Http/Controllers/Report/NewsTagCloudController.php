@@ -25,7 +25,7 @@ class NewsTagCloudController extends Controller
         $stopWords = file(storage_path('files/stopwords.txt'), FILE_IGNORE_NEW_LINES);
 
         $reportJson = News::query()
-            ->select('text_news')
+            ->select('text_news_cleaned')
             ->whereNotNull('ground_truth_label')
             ->when(
                 $request->start_date,
@@ -52,7 +52,7 @@ class NewsTagCloudController extends Controller
             )
             ->get()
             ->flatMap(function (News $news) use($stopWords) {
-                $words = preg_split('/[^-\w\']+/', $news->text_news, -1, PREG_SPLIT_NO_EMPTY);
+                $words = preg_split('/[^-\w\']+/', $news->text_news_cleaned, -1, PREG_SPLIT_NO_EMPTY);
                 $words = array_map('strtolower', $words);
                 return array_diff($words, $stopWords);
             })

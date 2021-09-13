@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Automata\Curatorship;
 use App\Models\Automata\News;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -14,19 +15,36 @@ class WelcomeController extends Controller
     {
         $userCount = $request->get('user-count', 10);
 
+        //  Feito consulta baseada em curadoria temporariamente
+        $curatorshipCount = Curatorship::count();
+        $newsCurated = Curatorship::where('is_curated', true)
+            ->where('is_news', true)
+            ->count();
+
+        $newsToBeCurated = Curatorship::where('is_curated', false)->count();
+
         return view(
             'welcome',
             [
                 'topFakeUsersJson' => $this->getTopFakeNewsSharingUsers($userCount),
                 'topNotFakeUsersJson' => $this->getTopNotFakeNewsSharingUsers($userCount),
-                'totalNews' => News::count(),
-                'totalNewsPredicted' => News::whereNotNull('classification_outcome')->count(),
-                'totalNewsChecked' => News::whereNotNull('ground_truth_label')->count(),
-                'totalNewsToBeChecked' => News::whereNull('ground_truth_label')->count(),
-                'newsCorrectlyPredictedCount' => News::whereNotNull('ground_truth_label')
-                    ->whereNotNull('classification_outcome')
-                    ->whereColumn('ground_truth_label', 'classification_outcome')
+
+                'totalNewsPredicted' => News::whereNotNull('classification_outcome')
+                    ->whereNotNull('prob_classification')
                     ->count(),
+                'totalNewsChecked' => $newsCurated,
+                'totalNewsToBeChecked' => $newsToBeCurated,
+
+                'totalNewsCollectedFromSocialNetworks' => News::count() - News::whereNotNull('ground_truth_label')
+                    ->whereNull('prob_classification')
+                    ->count(),
+                'totalNewsFakeByAutomata' => $newsCurated,
+
+                'newsCorrectlyPredictedCount' => Curatorship::where('is_curated', true)
+                    ->where('is_news', true)
+                    ->where('is_fake_news', true)
+                    ->count(),
+                'curatorshipCount' => $curatorshipCount
             ]
         );
     }

@@ -50,6 +50,7 @@ class NewsController extends Controller
                     $query->whereDate('datetime_publication', '<=', $today);
                 }
             )
+            ->orderBy('datetime_publication')
             ->paginate()
             ->withQueryString();
 
