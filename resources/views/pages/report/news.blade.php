@@ -63,7 +63,7 @@
 
                 <div class="col-12">
                     <label>
-                        Classificação da notícia:
+                        Rótulo da notícia:
                         <div class="form-check form-check-inline">
                             <input
                                 class="form-check-input"
@@ -119,7 +119,7 @@
                         <th scope="col">#Id</th>
                         <th scope="col">Texto</th>
                         <th scope="col">Publicação</th>
-                        <th scope="col">Avaliação</th>
+                        <th scope="col">Rótulo</th>
                     </tr>
                     </thead>
                     <tbody>
