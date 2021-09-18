@@ -32,16 +32,18 @@
             </x-navigation.dropdown-item>
 
             <x-navigation.dropdown-item class="{{ request()->routeIs('news_chart.index') ? 'active' : '' }}" href="{{ url('report/news_chart') }}">
-                Notícias (Consolidado)
-            </x-navigation.dropdown-item>
-
-            <x-navigation.dropdown-item class="{{ request()->routeIs('news_tagcloud.index') ? 'active' : '' }}" href="{{ url('report/news_tagcloud') }}">
-                Notícias (Tag Cloud)
+                Quantitativo
             </x-navigation.dropdown-item>
 
             <x-navigation.dropdown-item class="{{ request()->routeIs('news_actual_detected.index') ? 'active' : '' }}" href="{{ url('report/news_actual_detected') }}">
-                Notícias (Precisão)
+                Precisão
             </x-navigation.dropdown-item>
+
+            <x-navigation.dropdown-item class="{{ request()->routeIs('news_tagcloud.index') ? 'active' : '' }}" href="{{ url('report/news_tagcloud') }}">
+                Tag Cloud
+            </x-navigation.dropdown-item>
+
+
 
         </x-navigation.dropdown>
 
