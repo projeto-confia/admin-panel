@@ -10,7 +10,7 @@
 
             <div class="cards-news-wrapper col-12">
                 <div class="cards_news">
-                    <p class="card-title fs-5">Notícias analisadas pelo AUTOMATA</p>
+                    <p class="card-title fs-5">Notícias classificadas pelo AUTOMATA</p>
                     <p class="fs-4 m-0 text text-primary">{{ $totalNewsPredicted }}</p>
                     <div class="mt-1 h-100">
                         <canvas id="totalPredicted" width="270px"></canvas>
