@@ -26,8 +26,7 @@ export const precisionNews = (reportJson) => {
         options: {
             responsive: true,
             title: {
-                display: true,
-                text: 'Gráfico de precisão (valores absolutos)'
+                display: true
             },
         },
     });
