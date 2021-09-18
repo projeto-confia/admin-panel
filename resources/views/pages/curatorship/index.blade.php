@@ -13,8 +13,7 @@
                     <tr>
                         <th scope="col">Notícia</th>
                         <th scope="col">Data de publicação</th>
-                        <th scope="col">É similar a publicação por agência ?</th>
-                        <th scope="col">Publicação da agência de checagem</th>
+                        <th scope="col">Similar</th>
                         <th scope="col">Ações</th>
                     </tr>
                     </thead>
@@ -24,11 +23,6 @@
                             <td>{{ $curatorshipDTO->newsText() }}</td>
                             <td>{{ $curatorshipDTO->newsPublicationDate() }}</td>
                             <td>{{ $curatorshipDTO->hasSimilarCheckedNewsDescription() }}</td>
-                            <td>
-                                <a class="link-info" href="{{ $curatorshipDTO->agencyCheckedNewsUrl() }}" rel="noreferrer">
-                                    {{ $curatorshipDTO->agencyCheckedNewsUrl() }}
-                                </a>
-                            </td>
                             <td>
                                 <ul class="list-group list-group-horizontal">
 
