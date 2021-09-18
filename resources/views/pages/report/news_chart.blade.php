@@ -50,6 +50,7 @@
         </div>
 
         <div class="card">
+            <p class="text-muted text-center">Gráfico quantitativo (valores absolutos)</p>
             <canvas id="myChart" width="770" height="385" style="display:block"></canvas>
         </div>
     </main>

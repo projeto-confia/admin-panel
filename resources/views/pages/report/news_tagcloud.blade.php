@@ -98,7 +98,6 @@
 
                 const chart = anychart.tagCloud(data);
 
-                chart.title('Notícias - Tag Cloud');
                 chart.angles([0]);
                 chart.container("container");
 
