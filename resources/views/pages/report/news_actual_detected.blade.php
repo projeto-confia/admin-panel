@@ -2,7 +2,7 @@
     <x-slot name="title">Relatório de notícias | CONFIA</x-slot>
 
     <header class="my-3">
-        <h1 class="text-dark">Notícias</h1>
+        <h1 class="text-dark">Gráfico de precisão do AUTOMATA</h1>
     </header>
 
     <main>
