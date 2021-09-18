@@ -24,6 +24,7 @@ class NewsController extends Controller
     {
         $this->handleIntervalNavigation($request);
         $news = News::query()
+            ->with('curatorship')
             ->whereHas('curatorship', function (Builder $curatorshipQuery) use ($request) {
                 $curatorshipQuery
                     ->where('is_news', true)
