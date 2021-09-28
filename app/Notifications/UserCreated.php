@@ -38,7 +38,7 @@ class UserCreated extends Notification
             ->subject('Usuário criado')
             ->line('Por favor clique no botão abaixo para concluir o cadastro.')
             ->action('Concluir cadastro', $verificationUrl)
-            ->line('Se você não solicitou ou foi informado da criação deste conta, por favor ignore este e-mail.');
+            ->line('Se você não solicitou ou não foi informado da criação desta conta, por favor ignore este e-mail.');
     }
 
     private function verificationUrl(mixed $notifiable): string
