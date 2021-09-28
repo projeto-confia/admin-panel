@@ -2,7 +2,7 @@
     <x-slot name="title">Relatório de notícias | CONFIA</x-slot>
 
     <header class="my-3">
-        <h1 class="text-dark">Notícias</h1>
+        <h1 class="text-dark">Número de rótulos atribuídos pelo AUTOMATA</h1>
     </header>
 
     <main>
@@ -50,6 +50,7 @@
         </div>
 
         <div class="card">
+            <p class="text-muted text-center">Gráfico quantitativo (valores absolutos)</p>
             <canvas id="myChart" width="770" height="385" style="display:block"></canvas>
         </div>
     </main>

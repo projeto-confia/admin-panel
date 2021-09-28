@@ -7,6 +7,7 @@ use App\Models\Automata\News;
 use App\Trait\IntervalNavigable;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 class NewsTagCloudController extends Controller
@@ -26,7 +27,17 @@ class NewsTagCloudController extends Controller
 
         $reportJson = News::query()
             ->select('text_news_cleaned')
-            ->whereNotNull('ground_truth_label')
+            ->whereHas('curatorship', function (Builder $curatorshipQuery) use ($request) {
+                $curatorshipQuery
+                    ->where('is_news', true)
+                    ->where('is_curated', true)
+                    ->when(
+                        in_array($request->ground_truth_label, ['0', '1'], true)
+                        && $request->ground_truth_label !== '*',
+                        fn($query) => $query->where('is_fake_news', $request->ground_truth_label),
+                        fn($query) => $query->whereNotNull('is_fake_news'),
+                    );
+            })
             ->when(
                 $request->start_date,
                 fn($query) => $query->whereDate('datetime_publication', '>=', $request->start_date),
@@ -45,11 +56,7 @@ class NewsTagCloudController extends Controller
                     $query->whereDate('datetime_publication', '<=', $today);
                 }
             )
-            ->when(
-                in_array($request->ground_truth_label, ['0', '1'], true) && $request->ground_truth_label !== '*',
-                fn($query) => $query->where('ground_truth_label', !$request->ground_truth_label),
-                fn($query) => $query->whereNotNull('ground_truth_label'),
-            )
+            ->limit(100)
             ->get()
             ->flatMap(function (News $news) use($stopWords) {
                 $words = preg_split('/[^-\w\']+/', $news->text_news_cleaned, -1, PREG_SPLIT_NO_EMPTY);
@@ -59,7 +66,6 @@ class NewsTagCloudController extends Controller
             ->countBy()
             ->sort()
             ->reverse()
-            ->take(100)  // TODO: receber esse parâmetro da interface
             ->map(fn (int $wordCount, string $key) => ['x' => $key, 'value' => $wordCount])
             ->values()
             ->toJson();

@@ -2,7 +2,7 @@
     <x-slot name="title">Relatório de notícias | CONFIA</x-slot>
 
     <header class="my-3">
-        <h1 class="text-dark">Notícias</h1>
+        <h1 class="text-dark">Notícias rotuladas pelo AUTOMATA</h1>
     </header>
     <main>
         {{--    filtros    --}}
@@ -63,7 +63,7 @@
 
                 <div class="col-12">
                     <label>
-                        Classificação da notícia:
+                        Rótulo da notícia:
                         <div class="form-check form-check-inline">
                             <input
                                 class="form-check-input"
@@ -81,8 +81,8 @@
                                 type="radio"
                                 name="ground_truth_label"
                                 id="classification_true"
-                                value="1"
-                                {{ $request->get('ground_truth_label', '') === '1' ? 'checked' : '' }}
+                                value="0"
+                                {{ $request->get('ground_truth_label', '') === '0' ? 'checked' : '' }}
                             >
                             <label class="form-check-label" for="classification_true">Não Fake</label>
                         </div>
@@ -92,8 +92,8 @@
                                 type="radio"
                                 name="ground_truth_label"
                                 id="classification_false"
-                                value="0"
-                                {{ $request->get('ground_truth_label', '') === '0' ? 'checked' : '' }}
+                                value="1"
+                                {{ $request->get('ground_truth_label', '') === '1' ? 'checked' : '' }}
                             >
                             <label class="form-check-label" for="classification_false">Fake</label>
                         </div>
@@ -119,7 +119,7 @@
                         <th scope="col">#Id</th>
                         <th scope="col">Texto</th>
                         <th scope="col">Publicação</th>
-                        <th scope="col">Avaliação</th>
+                        <th scope="col">Rótulo</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -128,7 +128,7 @@
                             <th scope="row">{{ $news_item->id_news }}</th>
                             <td>{{ $news_item->text_news }}</td>
                             <td>{{ $news_item->datetime_publication->format('d/m/Y') }}</td>
-                            <td>{{ $news_item->ground_truth_label ? 'Fake' : 'Não Fake' }}</td>
+                            <td>{{ $news_item->curatorship->is_fake_news ? 'Fake' : 'Não Fake' }}</td>
                         </tr>
                     @endforeach
                     </tbody>

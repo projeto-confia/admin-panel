@@ -9,7 +9,9 @@ use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 
+// Consolidado
 class NewsChartController extends Controller
 {
     use IntervalNavigable;
@@ -23,9 +25,16 @@ class NewsChartController extends Controller
     {
         $this->handleIntervalNavigation($request);
 
-        $reportData = News::query()
-            ->select(News::raw('datetime_publication::DATE'), 'ground_truth_label', News::raw('count(*) as total'))
-            ->whereNotNull('ground_truth_label')
+        $result = News::query()
+            ->join('curatorship', 'curatorship.id_news', '=', 'news.id_news')
+            ->select(
+                News::raw('news.datetime_publication::DATE'),
+                News::raw('curatorship.is_fake_news as ground_truth_label'),
+                News::raw('count(*) as total')
+            )
+            ->where('curatorship.is_news', true)
+            ->whereNotNull('curatorship.is_fake_news')
+            ->where('curatorship.is_curated', true)
             ->when(
                 $request->start_date,
                 fn($query) => $query->whereDate('datetime_publication', '>=', $request->start_date),
@@ -44,34 +53,43 @@ class NewsChartController extends Controller
                     $query->whereDate('datetime_publication', '<=', $today);
                 }
             )
-            ->groupBy(News::raw('datetime_publication::DATE'), 'ground_truth_label')
+            ->groupBy(News::raw('datetime_publication::DATE'), 'curatorship.is_fake_news')
             ->orderby('datetime_publication')
-            ->orderby('ground_truth_label')
-            ->get()
-            ->reduce(function ($acc, $item) {
-                $label = $item->datetime_publication->format('d/m/Y');
-                $hasLabel = (bool) Arr::first($acc['labels'], fn($it) => $it == $label);
+            ->orderby('curatorship.is_fake_news')
+            ->get();
 
-                if (!$hasLabel) {
-                    array_push($acc['labels'], $label);
-                }
+        $reportData = collect($result->toArray())
+            ->groupBy('datetime_publication')
+            ->reduce(
+                /**
+                 * @param array{labels: array, data_true: array, data_false: array} $acc
+                 * @param Collection<array{datetime_publication: string, ground_truth_label: bool, total: int}> $item
+                 * @return array
+                 */
+                function (array $acc, Collection $item, $key): array {
 
-                // trocar aqui.
-                $key = $item->ground_truth_label ? 'data_false' : 'data_true';
-                array_push($acc[$key], $item->total);
+                    $date = Carbon::createFromDate($key);
+                    $label = $date->format('d/m/Y');
+                    $hasLabel = (bool) Arr::first($acc['labels'], fn($it) => $it == $label);
 
-                return $acc;
-            }, [
-                'labels' => [],
-                'data_true' => [],
-                'data_false' => []
-            ]);
+                    if (! $hasLabel) {
+                        $acc['labels'][] = $label;
+                    }
 
-        // $data = [
-        //     "labels" => ['12/02/2021', '14/02/2021', '20/02/2021', '21/02/2021', '22/02/2021', '23/02/2021'],
-        //     "data_true" => [12, 19, 3, 12, 19, 3],
-        //     "data_false" => [20, 15, 8, 12, 19, 3]
-        // ];
+                    $whereGroundTruthLabelIs = fn($value) => fn($data) => $data['ground_truth_label'] == $value;
+                    $dataFalse = $item->first($whereGroundTruthLabelIs(true), []);
+                    $dataTrue = $item->first($whereGroundTruthLabelIs(false), []);
+
+                    $acc['data_false'][] = data_get($dataFalse, 'total', 0);
+                    $acc['data_true'][] = data_get($dataTrue, 'total', 0);
+
+                    return $acc;
+                }, [
+                    'labels' => [],
+                    'data_true' => [],
+                    'data_false' => []
+                ]
+            );
 
         $reportJson = json_encode($reportData);
         return view('pages.report.news_chart', compact('reportJson', 'request'));

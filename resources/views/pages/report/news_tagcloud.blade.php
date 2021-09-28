@@ -2,7 +2,7 @@
     <x-slot name="title">Relatório de notícias | CONFIA</x-slot>
 
     <header class="my-3">
-        <h1 class="text-dark">Notícias</h1>
+        <h1 class="text-dark">Tag Cloud das notícias rotuladas</h1>
     </header>
 
     <main>
@@ -98,7 +98,6 @@
 
                 const chart = anychart.tagCloud(data);
 
-                chart.title('Notícias - Tag Cloud');
                 chart.angles([0]);
                 chart.container("container");
 
