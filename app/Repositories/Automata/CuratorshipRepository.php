@@ -12,7 +12,6 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class CuratorshipRepository
 {
-    /** @noinspection PhpUndefinedMethodInspection */
     public function newsForCuratorshipPaginated(): LengthAwarePaginator
     {
         return Curatorship::available()
@@ -26,7 +25,7 @@ class CuratorshipRepository
         $curatorship->is_news = $curateDTO->isNews();
         $curatorship->text_note = $curateDTO->getTextNote();
         $curatorship->is_curated = true;
-        $curatorship->is_processed = $curateDTO->isNotNews() || ($curateDTO->isNews() && $curateDTO->isNotFake());
+        $curatorship->is_processed = $curateDTO->isNotNews();
 
         if ($curatorship->hasAgencyCheckedNews()) {
             $curatorship->is_similar = $curateDTO->isSimilar();
