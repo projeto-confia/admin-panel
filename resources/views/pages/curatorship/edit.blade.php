@@ -1,3 +1,9 @@
+@php
+$shouldHideIsNewsFieldWrapper = $curatorshipDTO->hasSimilarCheckedNews()
+    && (old('is_similar') === '1' || is_null(old('is_similar')));
+
+@endphp
+
 <x-layouts.app>
     <x-slot name="title">Curadoria de notícias | CONFIA</x-slot>
 
@@ -70,7 +76,7 @@
                                     name="is_similar"
                                     id="is_similar_yes"
                                     value="1"
-                                    {{ old('is_similar') == 1 ? 'checked' : '' }}
+                                    {{ old('is_similar') === '1' ? 'checked' : '' }}
                                 >
                                 <label class="form-check-label" for="is_similar_yes">
                                     Sim
@@ -83,7 +89,7 @@
                                     name="is_similar"
                                     id="is_similar_no"
                                     value="0"
-                                    {{ old('is_similar') == 0 ? 'checked' : '' }}
+                                    {{ old('is_similar') === '0' ? 'checked' : '' }}
                                 >
                                 <label class="form-check-label" for="is_similar_no">
                                     Não
@@ -96,7 +102,7 @@
                     </div>
                 @endif
 
-                <div class="col-12">
+                <div id="is_news_field_wrapper" class="col-12 {{ $shouldHideIsNewsFieldWrapper ? 'd-none' : '' }}">
                     <div>
                         <p>É uma notícia ?</p>
                         <div class="form-check form-check-inline">

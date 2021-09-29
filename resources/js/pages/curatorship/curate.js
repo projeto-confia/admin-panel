@@ -1,8 +1,10 @@
 const curate = () => {
-    const isNewsRadio = document.querySelectorAll('[name="is_news"]');
+    const isNewsRadios = document.querySelectorAll('[name="is_news"]');
+    const isSimilarRadios = document.querySelectorAll('[name="is_similar"]');
     const isFakeNewsFieldWrapper = document.querySelector('#is_fake_news_field_wrapper');
+    const isNewsFieldWrapper = document.querySelector('#is_news_field_wrapper');
 
-    Array.from(isNewsRadio).forEach(isNewsRadioOption =>
+    Array.from(isNewsRadios).forEach(isNewsRadioOption =>
         isNewsRadioOption
             .addEventListener('change', ({ target: { value: isNews } }) => {
                 if (+isNews) {
@@ -12,6 +14,16 @@ const curate = () => {
 
                 isFakeNewsFieldWrapper.classList.add('d-none');
             })
+    );
+
+    Array.from(isSimilarRadios).forEach(isSimilarRadioOption =>
+        isSimilarRadioOption.addEventListener('change', ({ target: { value: isSimilar } }) => {
+            if (+isSimilar) {
+                isNewsFieldWrapper.classList.add('d-none');
+                return;
+            }
+            isNewsFieldWrapper.classList.remove('d-none');
+        })
     );
 };
 
