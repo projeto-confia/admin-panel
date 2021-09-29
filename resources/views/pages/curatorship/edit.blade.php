@@ -166,6 +166,19 @@ $shouldHideIsNewsFieldWrapper = $curatorshipDTO->hasSimilarCheckedNews()
                                 Não
                             </label>
                         </div>
+                        <div class="form-check form-check-inline">
+                            <input
+                                class="form-check-input"
+                                type="radio"
+                                name="is_fake_news"
+                                id="is_fake_news_send_fca"
+                                value="3"
+                                {{ old('is_fake_news') === '3' ? 'checked' : '' }}
+                            >
+                            <label class="form-check-label" for="is_fake_news_send_fca">
+                                Não sei, enviar para agência de checagem de fatos.
+                            </label>
+                        </div>
                     </div>
                     @error('is_fake_news')
                     <span class="text-danger small">{{ $message }}</span>
