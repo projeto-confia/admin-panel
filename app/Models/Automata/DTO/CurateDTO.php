@@ -7,8 +7,8 @@ namespace App\Models\Automata\DTO;
 class CurateDTO
 {
     public function __construct(
-        private bool $isNews,
-        private bool $isFake,
+        private ?bool $isNews,
+        private ?bool $isFake,
         private ?bool $isSimilar = null,
         private ?string $textNote = null
     )
@@ -25,7 +25,7 @@ class CurateDTO
     /**
      * @return bool
      */
-    public function isNews(): bool
+    public function isNews(): ?bool
     {
         return $this->isNews;
     }
@@ -40,7 +40,7 @@ class CurateDTO
     /**
      * @return bool
      */
-    public function isFake(): bool
+    public function isFake(): ?bool
     {
         return $this->isFake;
     }
