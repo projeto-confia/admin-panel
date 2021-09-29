@@ -22,19 +22,24 @@ class CuratorshipRepository
 
     public function curate(Curatorship $curatorship, CurateDTO $curateDTO)
     {
-        $curatorship->is_news = $curateDTO->isNews();
-        $curatorship->text_note = $curateDTO->getTextNote();
         $curatorship->is_curated = true;
-        $curatorship->is_processed = $curateDTO->isNotNews();
+        $curatorship->text_note = $curateDTO->getTextNote();
+        $curatorship->is_similar = $curateDTO->isSimilar();
 
-        if ($curatorship->hasAgencyCheckedNews()) {
-            $curatorship->is_similar = $curateDTO->isSimilar();
+        if ($curatorship->hasAgencyCheckedNews() && $curateDTO->isSimilar()) {
+            $curatorship->is_fake_news = true;
+            $curatorship->save();
+            return;
         }
 
-        if ($curateDTO->isNews()) {
-            $curatorship->is_fake_news = $curateDTO->isFake();
+        $curatorship->is_news = $curateDTO->isNews();
+        if ($curateDTO->isNotNews()) {
+            $curatorship->is_processed = true;
+            $curatorship->save();
+            return;
         }
 
+        $curatorship->is_fake_news = $curateDTO->isFake();
         $curatorship->save();
     }
 
