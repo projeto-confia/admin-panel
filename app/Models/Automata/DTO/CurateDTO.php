@@ -4,11 +4,13 @@
 namespace App\Models\Automata\DTO;
 
 
+use App\Enums\CuratorshipsIsFakeOptions;
+
 class CurateDTO
 {
     public function __construct(
         private ?bool $isNews,
-        private ?bool $isFake,
+        private ?int $isFake,
         private ?bool $isSimilar = null,
         private ?string $textNote = null
     )
@@ -42,7 +44,12 @@ class CurateDTO
      */
     public function isFake(): ?bool
     {
-        return $this->isFake;
+        $isFake = (int) $this->isFake;
+        return match ($isFake) {
+            CuratorshipsIsFakeOptions::IS_FAKE => true,
+            CuratorshipsIsFakeOptions::IS_NOT_FAKE => false,
+            default => null,
+        };
     }
 
     /**
