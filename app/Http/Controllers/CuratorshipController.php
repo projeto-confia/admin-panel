@@ -32,9 +32,9 @@ class CuratorshipController extends Controller
     {
         try {
             $curateDTO = new CurateDTO(
-                isNews: (bool) $request->is_news,
-                isFake: (bool) $request->is_fake_news,
-                isSimilar: $request->get('is_similar'),
+                isNews: $request->is_news,
+                isFake: $request->is_fake_news,
+                isSimilar: $request->is_similar,
                 textNote: $request->text_note
             );
 
