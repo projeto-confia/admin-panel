@@ -17,9 +17,6 @@ class WelcomeController extends Controller
 
         //  Feito consulta baseada em curadoria temporariamente
         $curatorshipCount = Curatorship::count();
-        $newsCurated = Curatorship::where('is_curated', true)
-            ->where('is_news', true)
-            ->count();
 
         $newsToBeCurated = Curatorship::where('is_curated', false)->count();
 
@@ -32,13 +29,13 @@ class WelcomeController extends Controller
                 'totalNewsPredicted' => News::whereNotNull('classification_outcome')
                     ->whereNotNull('prob_classification')
                     ->count(),
-                'totalNewsChecked' => $newsCurated,
+                'totalNewsChecked' => News::checked()->count(),
                 'totalNewsToBeChecked' => $newsToBeCurated,
 
                 'totalNewsCollectedFromSocialNetworks' => News::count() - News::whereNotNull('ground_truth_label')
                     ->whereNull('prob_classification')
                     ->count(),
-                'totalNewsFakeByAutomata' => $newsCurated,
+                'totalNewsFakeByAutomata' => News::checked()->count(),
 
                 'newsCorrectlyPredictedCount' => Curatorship::where('is_curated', true)
                     ->where('is_news', true)
