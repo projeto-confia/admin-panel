@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 
-// Consolidado
+// Quantitativo
 class NewsChartController extends Controller
 {
     use IntervalNavigable;
@@ -28,6 +28,7 @@ class NewsChartController extends Controller
         $result = News::query()
             ->select(News::raw('datetime_publication::DATE'), 'ground_truth_label', News::raw('count(*) as total'))
             ->whereNotNull('ground_truth_label')
+            ->whereNotNull('prob_classification')
             ->when(
                 $request->start_date,
                 fn($query) => $query->whereDate('datetime_publication', '>=', $request->start_date),
