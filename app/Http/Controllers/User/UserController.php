@@ -30,6 +30,8 @@ class UserController extends Controller
     public function index(): View
     {
         $users = User::query()
+            ->orderBy('is_admin', 'desc')
+            ->orderBy('name')
             ->paginate()
             ->withQueryString();
 
@@ -60,17 +62,6 @@ class UserController extends Controller
         event(new Registered($user));
 
         return redirect(route('usuarios.index'));
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
     }
 
     /**
