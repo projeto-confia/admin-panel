@@ -26,7 +26,7 @@ class CurateRequest extends FormRequest
         return [
             'is_similar' => ['sometimes', 'boolean'],
             'is_news' => ['required_unless:is_similar,1', 'boolean'],
-            'is_fake_news' => ['required_if:is_news,1', 'in:1,2,3'],
+            'is_fake_news' => ['required_if:is_news,1', 'in:0,1,2'],
             'text_note' => ['sometimes', 'max:1000']
         ];
     }

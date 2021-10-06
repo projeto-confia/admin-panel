@@ -173,7 +173,7 @@ $shouldHideIsNewsFieldWrapper = $curatorshipDTO->hasSimilarCheckedNews()
                                 name="is_fake_news"
                                 id="is_fake_news_send_fca"
                                 value="3"
-                                {{ old('is_fake_news') === '3' ? 'checked' : '' }}
+                                {{ old('is_fake_news') === '2' ? 'checked' : '' }}
                             >
                             <label class="form-check-label" for="is_fake_news_send_fca">
                                 Não sei, enviar para agência de checagem de fatos.
