@@ -27,6 +27,7 @@ class NewsTagCloudController extends Controller
         $reportJson = News::query()
             ->select('text_news_cleaned')
             ->whereNotNull('ground_truth_label')
+            ->whereNotNull('prob_classification')
             ->when(
                 $request->start_date,
                 fn($query) => $query->whereDate('datetime_publication', '>=', $request->start_date),
@@ -47,7 +48,7 @@ class NewsTagCloudController extends Controller
             )
             ->when(
                 in_array($request->ground_truth_label, ['0', '1'], true) && $request->ground_truth_label !== '*',
-                fn($query) => $query->where('ground_truth_label', !$request->ground_truth_label),
+                fn($query) => $query->where('ground_truth_label', $request->ground_truth_label),
                 fn($query) => $query->whereNotNull('ground_truth_label'),
             )
             ->get()
