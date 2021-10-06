@@ -26,15 +26,8 @@ class NewsChartController extends Controller
         $this->handleIntervalNavigation($request);
 
         $result = News::query()
-            ->join('curatorship', 'curatorship.id_news', '=', 'news.id_news')
-            ->select(
-                News::raw('news.datetime_publication::DATE'),
-                News::raw('curatorship.is_fake_news as ground_truth_label'),
-                News::raw('count(*) as total')
-            )
-            ->where('curatorship.is_news', true)
-            ->whereNotNull('curatorship.is_fake_news')
-            ->where('curatorship.is_curated', true)
+            ->select(News::raw('datetime_publication::DATE'), 'ground_truth_label', News::raw('count(*) as total'))
+            ->whereNotNull('ground_truth_label')
             ->when(
                 $request->start_date,
                 fn($query) => $query->whereDate('datetime_publication', '>=', $request->start_date),
@@ -53,9 +46,9 @@ class NewsChartController extends Controller
                     $query->whereDate('datetime_publication', '<=', $today);
                 }
             )
-            ->groupBy(News::raw('datetime_publication::DATE'), 'curatorship.is_fake_news')
+            ->groupBy(News::raw('datetime_publication::DATE'), 'ground_truth_label')
             ->orderby('datetime_publication')
-            ->orderby('curatorship.is_fake_news')
+            ->orderby('ground_truth_label')
             ->get();
 
         $reportData = collect($result->toArray())
