@@ -24,16 +24,13 @@ class NewsActualDetectedController extends Controller
         $this->handleIntervalNavigation($request);
 
         $reportData = News::query()
-            ->join('curatorship', 'curatorship.id_news', '=', 'news.id_news')
             ->select(
                 News::raw('datetime_publication::DATE'),
                 News::raw('count(classification_outcome) as num_detected'),
-                News::raw('count(case when curatorship.is_fake_news then 1 end) as num_actual')
+                News::raw('count(case when ground_truth_label then 1 end) as num_actual')
             )
-            ->where('classification_outcome', true)
-            ->where('curatorship.is_news', true)
-            ->whereNotNull('curatorship.is_fake_news')
-            ->where('curatorship.is_curated', true)
+            ->where('classification_outcome', '=', true)
+            ->whereNotNull('ground_truth_label')
             ->when(
                 $request->start_date,
                 fn($query) => $query->whereDate('datetime_publication', '>=', $request->start_date),
