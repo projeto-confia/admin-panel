@@ -30,6 +30,7 @@ class NewsActualDetectedController extends Controller
                 News::raw('count(case when ground_truth_label then 1 end) as num_actual')
             )
             ->where('classification_outcome', '=', true)
+            ->whereNotNull('prob_classification')
             ->whereNotNull('ground_truth_label')
             ->when(
                 $request->start_date,
