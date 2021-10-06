@@ -128,7 +128,7 @@
                             <th scope="row">{{ $news_item->id_news }}</th>
                             <td>{{ $news_item->text_news }}</td>
                             <td>{{ $news_item->datetime_publication->format('d/m/Y') }}</td>
-                            <td>{{ $news_item->curatorship->is_fake_news ? 'Fake' : 'Não Fake' }}</td>
+                            <td>{{ $news_item->ground_truth_label === '1' ? 'Fake' : 'Não Fake' }}</td>
                         </tr>
                     @endforeach
                     </tbody>
