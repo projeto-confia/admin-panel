@@ -119,7 +119,7 @@
                             </div>
                             <div class="modal-body">
                                 <p>
-                                    Você deseja bloquear o usuário
+                                    Você deseja desbloquear o usuário
                                     <span class="text-black-50">{{ $user->name }}</span>
                                     que possui o e-mail
                                     <span class="text-black-50">{{ $user->email }}</span> ?
@@ -149,7 +149,7 @@
                         </div>
                         <div class="modal-body">
                             <p>
-                                Você deseja apagar o usuáriow
+                                Você deseja apagar o usuário
                                 <span class="text-black-50">{{ $user->name }}</span>
                                 que possui o e-mail
                                 <span class="text-black-50">{{ $user->email }}</span> ?
