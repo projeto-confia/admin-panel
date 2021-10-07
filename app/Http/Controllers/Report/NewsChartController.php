@@ -26,6 +26,7 @@ class NewsChartController extends Controller
         $this->handleIntervalNavigation($request);
 
         $result = News::query()
+            ->whereNotNull('prob_classification')
             ->select(News::raw('datetime_publication::DATE'), 'ground_truth_label', News::raw('count(*) as total'))
             ->whereNotNull('ground_truth_label')
             ->whereNotNull('prob_classification')

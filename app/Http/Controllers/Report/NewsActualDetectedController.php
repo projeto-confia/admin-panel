@@ -24,6 +24,7 @@ class NewsActualDetectedController extends Controller
         $this->handleIntervalNavigation($request);
 
         $reportData = News::query()
+            ->whereNotNull('prob_classification')
             ->select(
                 News::raw('datetime_publication::DATE'),
                 News::raw('count(classification_outcome) as num_detected'),

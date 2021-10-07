@@ -23,6 +23,7 @@ class NewsController extends Controller
     {
         $this->handleIntervalNavigation($request);
         $news = News::query()
+            ->whereNotNull('prob_classification')
             ->when(
                 $request->text_news,
                 fn($query) => $query->where('text_news', 'ilike', "%{$request->text_news}%")
