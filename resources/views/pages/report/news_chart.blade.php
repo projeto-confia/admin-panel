@@ -2,7 +2,7 @@
     <x-slot name="title">Relatório de notícias | CONFIA</x-slot>
 
     <header class="my-3">
-        <h1 class="text-dark">Número de rótulos atribuídos</h1>
+        <h1 class="text-dark">Número de notícias rotuladas</h1>
     </header>
 
     <main>
@@ -52,9 +52,9 @@
         <div class="card">
             <p class="text-muted text-center">Gráfico quantitativo (valores absolutos)</p>
             <canvas id="myChart" width="770" height="385" style="display:block"></canvas>
+            <p class="text-muted">Data de publicação na rede social</p>
         </div>
     </main>
-
     @push('scripts')
         <script defer>
             document.addEventListener('DOMContentLoaded', () => {
