@@ -52,7 +52,7 @@
         <div class="card">
             <p class="text-muted text-center">Gráfico quantitativo (valores absolutos)</p>
             <canvas id="myChart" width="770" height="385" style="display:block"></canvas>
-            <p class="text-muted">Data de publicação na rede social</p>
+            <p class="text-muted text-center">Data de publicação na rede social</p>
         </div>
     </main>
     @push('scripts')
