@@ -50,30 +50,11 @@
                 <canvas id="lineChart" style="display: block; height: 385px; width: 770px;"></canvas>
             </section>
         </div>
-
-        @if (auth()->user()->isAdmin())
-        <div class="row  mb-2">
-            <section class="col-12 card">
-                <div class="d-flex flex-wrap justify-content-around">
-                    <div class="mb-1 data-by-user">
-                        <canvas id="rateFakeChart" style="display: block; box-sizing: border-box; height: 400px; width: 400px;"></canvas>
-                    </div>
-                    <div class="mb-1 data-by-user">
-                        <canvas id="rateNotFakeChart" style="display: block; box-sizing: border-box; height: 400px; width: 400px;"></canvas>
-                    </div>
-                </div>
-            </section>
-        </div>
-        @endif
     </main>
 @push('scripts')
     <script defer>
        window.addEventListener('load', function () {
            CONFIA.pages.welcome.loadAutomataPerformanceDonut({!! $newsCorrectlyPredictedCount !!}, {!! $totalNewsFakeByAutomata !!});
-           @if (auth()->user()->isAdmin())
-           CONFIA.pages.welcome.loadTopFakeUsers({!! $topFakeUsersJson !!});
-           CONFIA.pages.welcome.loadTopNotFakeUsers({!! $topNotFakeUsersJson !!});
-           @endif
            CONFIA.pages.welcome.fakeNewsByTurnLineChart();
            CONFIA.pages.welcome.createDonutChartForNewsCount('totalPredicted', {!! $totalNewsCollectedFromSocialNetworks !!}, {!! $totalNewsPredicted !!}, 'Analisadas');
            CONFIA.pages.welcome.createDonutChartForNewsCount('totalChecked', {!! $curatorshipCount !!}, {!! $totalNewsChecked !!}, 'Checadas');
