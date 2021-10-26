@@ -1,8 +1,8 @@
 <x-layouts.app>
-    <x-slot name="title">Criar usuário | CONFIA</x-slot>
+    <x-slot name="title">Editar usuário | CONFIA</x-slot>
 
     <header class="my-3">
-        <h1 class="text-dark">Criar usuário</h1>
+        <h1 class="text-dark">Editar usuário</h1>
     </header>
     <main>
         {{--    tabela    --}}
