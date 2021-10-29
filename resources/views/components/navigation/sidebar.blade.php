@@ -21,7 +21,7 @@
         </x-navigation.nav-item>
 
         <x-navigation.dropdown label="Relatórios" id="actions" class="{{
-            collect(['news.index', 'news_chart.index', 'news_tagcloud.index', 'news_actual_detected.index'])
+            collect(['news.index', 'news_chart.index', 'news_tagcloud.index', 'news_actual_detected.index', 'news-classified'])
                 ->some(fn ($route) => request()->routeIs($route))
                  ? 'show'
                  : ''
@@ -29,6 +29,10 @@
 
             <x-navigation.dropdown-item class="{{ request()->routeIs('news.index') ? 'active' : '' }}" href="{{ url('report/news') }}">
                 Notícias
+            </x-navigation.dropdown-item>
+
+            <x-navigation.dropdown-item class="{{ request()->routeIs('news-classified') ? 'active' : '' }}" href="{{ url('report/news/classified') }}">
+                Notícias classificadas
             </x-navigation.dropdown-item>
 
             <x-navigation.dropdown-item class="{{ request()->routeIs('news_chart.index') ? 'active' : '' }}" href="{{ url('report/news_chart') }}">
