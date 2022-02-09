@@ -3,7 +3,7 @@
 O painel administrativo é uma apliação web cuja finalidade é expor visões estratégicas com os dados coletados pelo AUTOMATA.
 
 ## Dependências com Componentes do Ambiente
-Esta aplicação depende da componente [database](https://github.com/projeto-confia/database).
+Esta aplicação depende do componente [database](https://github.com/projeto-confia/database).
 ## Requisitos
  
  - [Docker](https://docs.docker.com/get-docker/)
@@ -54,7 +54,7 @@ Caso esteja trabalhando com arquivos do frontend, recomenda-se  a execução do 
 npm run watch
 ```
 
-Para acessar a aplicação, acesse o endereço no seu browser: ``http://localhost:8000``.
+Para acessar a aplicação, acesse o endereço no seu browser: [http://localhost:8000](http://localhost:8000).
 
 ## Licença
 [MIT](https://choosealicense.com/licenses/mit/)
