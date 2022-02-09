@@ -24,5 +24,4 @@ services:
       - ./docker/nginx:/etc/nginx/conf.d
 networks:
   default:
-    external:
-      name: confia
+    name: confia
