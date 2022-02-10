@@ -53,11 +53,10 @@ Caso esteja trabalhando com arquivos do frontend, recomenda-se  a execução do 
 ```bash
 npm run watch
 ```
+Para acessar a aplicação, acesse o endereço no seu browser: [http://localhost:8000](http://localhost:8000).
 
 ## Documentação
  - [Manual de operação](/docs/manual.pdf).
-
-Para acessar a aplicação, acesse o endereço no seu browser: [http://localhost:8000](http://localhost:8000).
 
 ## Licença
 [MIT](https://choosealicense.com/licenses/mit/)
