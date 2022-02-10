@@ -54,6 +54,9 @@ Caso esteja trabalhando com arquivos do frontend, recomenda-se  a execução do 
 npm run watch
 ```
 
+## Documentação
+ - [Manual de operação](/docs/manual.pdf).
+
 Para acessar a aplicação, acesse o endereço no seu browser: [http://localhost:8000](http://localhost:8000).
 
 ## Licença
