@@ -20,6 +20,7 @@ class CreateTableEnvVariable extends Migration
             $table->string('type');
             $table->string('default_value');
             $table->string('value');
+            $table->boolean('updated')->default(false);
             $table->timestamps();
         });
     }
