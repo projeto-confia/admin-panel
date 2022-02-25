@@ -8,7 +8,7 @@ class EnvVariableController extends Controller
 {
     public function index(Request $request)
     {
-        dd($request);
+        return view('pages.envVariable.index');
     }
 
     public function update(Request $request)
