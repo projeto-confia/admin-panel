@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $type
  * @property string $name
  * @property string $description
+ * @property bool $updated
  */
 class EnvVariable extends Model
 {
