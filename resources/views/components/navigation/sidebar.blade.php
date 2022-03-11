@@ -65,5 +65,15 @@
             Gerenciar usuários
         </x-navigation.nav-item>
         @endcan
+
+    @can('viewAny', \App\Models\User::class)
+        <x-navigation.nav-item
+            class="{{ request()->routeIs('configuration.index') ? 'active' : '' }}"
+            href="{{ route('configuration.index') }}"
+        >
+            Configuração do AUTOMATA
+        </x-navigation.nav-item>
+    @endcan
     </ul>
+
 </nav>
