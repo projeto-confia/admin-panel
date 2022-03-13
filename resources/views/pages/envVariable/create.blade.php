@@ -75,7 +75,8 @@
     </div>
     @push('scripts')
         <script defer>
-            window.addEventListener('load', function() { CONFIA.pages.user.create();});
+
+            window.addEventListener('load', function() { CONFIA.pages.configuration.create();});
         </script>
     @endpush
 </x-layouts.app>
