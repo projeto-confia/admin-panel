@@ -21,6 +21,7 @@ export const create = () => {
         const valueElement = defaultValueComponent.querySelector('#value');
         const label = defaultValueComponent.querySelector('[for="value"]');
 
+        defaultValueComponent.classList.add('mt-2');
         valueElement.id = "defaultValue";
         valueElement.name = "defaultValue";
         valueElement.setAttribute('placeholder', 'Valor padrão');
