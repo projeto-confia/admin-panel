@@ -1,0 +1,38 @@
+<?php
+
+namespace App\View\Components\EnvVariableType;
+
+use Illuminate\Contracts\View\View;
+use Illuminate\View\Component;
+
+abstract class EnvVariableTypeComponent extends Component
+{
+    public function __construct(private string $name, private string $label, private ?string $value)
+    {}
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLabel(): string
+    {
+        return $this->label;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getValue(): ?string
+    {
+        return $this->value;
+    }
+
+    abstract public function render(): View|string;
+}
