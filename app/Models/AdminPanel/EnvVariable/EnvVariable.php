@@ -18,4 +18,14 @@ class EnvVariable extends Model
     use HasFactory;
 
     protected $table = 'env_variable';
+
+    const TYPES = [
+        'string' => 'Texto',
+//        'float' => 'Número flutuante',
+//        'int' => 'Número',
+//        'array[string]' => 'Lista de nomes',
+//        'array[int]' => 'Lista de números',
+//        'array[float]' => 'Lista de números flutuantes',
+//        'bool' => 'Verdadeiro ou falso'
+    ];
 }
