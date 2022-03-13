@@ -13,7 +13,7 @@
         @endif
 
         <div class="d-flex flex-row-reverse mb-2">
-            <a class="btn btn-primary" href="{{ route('usuarios.create') }}">Adicionar Usuário</a>
+            <a class="btn btn-primary" href="{{ route('configuration.create') }}">Adicionar configuração</a>
         </div>
 
         <ul class="list-group">
