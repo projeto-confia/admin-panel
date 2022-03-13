@@ -6,6 +6,14 @@ use Illuminate\Contracts\View\View;
 
 class TextEnvVariableType extends EnvVariableTypeComponent
 {
+    /**
+     * Get the type name
+     * @return string
+     */
+    public function getType(): string
+    {
+        return 'string';
+    }
 
     /**
      * Get the view / contents that represent the component.

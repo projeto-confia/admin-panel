@@ -46,7 +46,7 @@
                     <div class="form-group">
                         <label for="type">Tipo</label>
                         <select class="form-control" id="type" name="type">
-                            <option>Selecione</option>
+                            <option value>Selecione</option>
                             @foreach($typesAvailable as $typeAvailable => $label)
                                 <option value="{{$typeAvailable}}">{{ $label }}</option>
                             @endforeach
