@@ -11,4 +11,9 @@ class EnvVariableRepository implements IEnvVariableRepository
     {
         return EnvVariable::all()->all();
     }
+
+    public function store(array $data): EnvVariable
+    {
+        return EnvVariable::create($data);
+    }
 }

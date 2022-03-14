@@ -2,16 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\EnvVariable\StoreRequest;
 use App\Models\AdminPanel\EnvVariable\EnvVariable;
+use App\Repositories\AdminPanel\Interfaces\IEnvVariableRepository;
 use App\Services\Interfaces\IEnvVariableService;
 use App\View\Components\EnvVariableType\EnvVariableComponentFactory;
 use App\View\Components\EnvVariableType\EnvVariableType;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class EnvVariableController extends Controller
 {
-    public function __construct(private IEnvVariableService $envVariableService)
+    public function __construct(
+        private IEnvVariableService $envVariableService,
+        private IEnvVariableRepository $envVariableRepository,
+    )
     {
     }
 
@@ -28,9 +34,17 @@ class EnvVariableController extends Controller
         ]);
     }
 
-    public function store(): View
+    public function store(StoreRequest $request): RedirectResponse
     {
-        return view('pages.envVariable.store');
+        $this->envVariableRepository->store($request->all([
+            'name',
+            'description',
+            'type',
+            'value',
+            'default_value',
+        ]));
+
+        return redirect()->to(route('configuration.index'));
     }
 
     public function index(): View
