@@ -48,13 +48,29 @@
                         <select class="form-control" id="type" name="type">
                             <option value>Selecione</option>
                             @foreach($typesAvailable as $typeAvailable => $label)
-                                <option value="{{$typeAvailable}}">{{ $label }}</option>
+                            <option
+                                value="{{$typeAvailable}}"
+                                {{old('type', '') == $typeAvailable ? 'selected' : ''}}
+                            >
+                                {{ $label }}
+                            </option>
                             @endforeach
                         </select>
                     </div>
                 </div>
 
                 <div id="types-outlet">
+                    @if(!!old('type', ''))
+                        {{  \App\View\Components\EnvVariableType\EnvVariableComponentFactory::create(
+                                new \App\View\Components\EnvVariableType\EnvVariableType(old('type'), 'value', 'Valor', old('value', '')),
+                            )->render()
+                        }}
+                        {{  \App\View\Components\EnvVariableType\EnvVariableComponentFactory::create(
+                                new \App\View\Components\EnvVariableType\EnvVariableType(old('type'), 'default_value', 'Valor Padrão', old('default_value', '')),
+                                'mt-2'
+                            )->render()
+                        }}
+                    @endif
 
                 </div>
 
@@ -67,11 +83,13 @@
             </form>
         </div>
     </main>
-    <div id="types-templates" >
+
+    <div id="types-templates" class="d-none" aria-disabled="true">
         @foreach($typesTemplate as $template)
-            {{  $template->render() }}
+        {{ $template->render() }}
         @endforeach
     </div>
+
     @push('scripts')
         <script defer>
 
