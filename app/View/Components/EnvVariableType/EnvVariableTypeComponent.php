@@ -48,7 +48,8 @@ abstract class EnvVariableTypeComponent extends Component
     }
 
     abstract public static function rules(): array;
-
+    abstract public static function messages(): array;
     abstract public function render(): View|string;
 
 }
+

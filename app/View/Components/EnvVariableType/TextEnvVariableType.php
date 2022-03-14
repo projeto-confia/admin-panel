@@ -32,4 +32,12 @@ class TextEnvVariableType extends EnvVariableTypeComponent
             'string',
         ];
     }
+
+    public static function messages(string $fieldName = '', $name = ''): array
+    {
+        return [
+            "$fieldName.required" => "O campo $name é obrigatório",
+            "$fieldName.string" => "O campo $name deve ser do tipo texto",
+        ];
+    }
 }
