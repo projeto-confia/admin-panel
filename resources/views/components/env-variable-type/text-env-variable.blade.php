@@ -1,4 +1,4 @@
-<div class="col-12" data-typename="{{ $component->getType() }}">
+<div class="col-12 {{ $component->getCustomStyleClass() }}" data-typename="{{ $component->getType() }}">
     <div class="form-floating">
         <input
             type="text"
