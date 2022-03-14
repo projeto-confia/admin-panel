@@ -12,12 +12,21 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $name
  * @property string $description
  * @property bool $updated
+ * @method static create(array $data): self
  */
 class EnvVariable extends Model
 {
     use HasFactory;
 
     protected $table = 'env_variable';
+
+    protected $fillable = [
+        'name',
+        'description',
+        'type',
+        'value',
+        'default_value',
+    ];
 
     const TYPES = [
         'string' => 'Texto',
