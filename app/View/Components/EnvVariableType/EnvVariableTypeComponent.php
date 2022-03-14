@@ -7,7 +7,12 @@ use Illuminate\View\Component;
 
 abstract class EnvVariableTypeComponent extends Component
 {
-    public function __construct(private string $name, private string $label, private ?string $value)
+    public function __construct(
+        private string $name,
+        private string $label,
+        private ?string $value,
+        private string $customStyleClass = ''
+    )
     {}
 
     /**
@@ -34,5 +39,16 @@ abstract class EnvVariableTypeComponent extends Component
         return $this->value;
     }
 
+    /**
+     * @return string
+     */
+    public function getCustomStyleClass(): string
+    {
+        return $this->customStyleClass;
+    }
+
+    abstract public static function rules(): array;
+
     abstract public function render(): View|string;
+
 }

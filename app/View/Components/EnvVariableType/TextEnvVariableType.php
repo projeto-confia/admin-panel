@@ -24,4 +24,12 @@ class TextEnvVariableType extends EnvVariableTypeComponent
     {
         return view('components.env-variable-type.text-env-variable', ['component' => $this]);
     }
+
+    public static function rules(): array
+    {
+        return [
+            'required',
+            'string',
+        ];
+    }
 }
