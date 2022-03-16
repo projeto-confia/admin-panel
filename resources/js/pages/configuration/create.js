@@ -16,7 +16,37 @@ export const create = () => {
         typeValueOutlet.appendChild(component);
     }
 
-    function createDefaultValueComponent(component) {
+    function boolDefaultValueComponentFactory(component) {
+        const defaultValueComponent = component.cloneNode(true);
+        const inputTrue = defaultValueComponent.querySelector('#value_true');
+        const inputFalse = defaultValueComponent.querySelector('#value_false');
+        const labelTrue = defaultValueComponent.querySelector('[for="value_true"]');
+        const labelFalse = defaultValueComponent.querySelector('[for="value_false"]');
+        const wrapperLabel = defaultValueComponent.querySelector(`#${inputTrue.name}_label`);
+
+        const addsDefaultSuffixForInput = (input) => {
+            input.id = `${input.id}_default`;
+            input.name = "default_value";
+        };
+
+        const updatesLabelFor = (label, input) => {
+            label.setAttribute('for', input.id);
+        };
+
+        defaultValueComponent.classList.add('mt-3');
+
+        addsDefaultSuffixForInput(inputTrue);
+        addsDefaultSuffixForInput(inputFalse);
+
+        updatesLabelFor(labelTrue, inputTrue);
+        updatesLabelFor(labelFalse, inputFalse);
+
+        wrapperLabel.innerHTML = 'Valor padrão';
+
+        return defaultValueComponent;
+    }
+
+    function defaultValueComponentFactory(component) {
         const defaultValueComponent = component.cloneNode(true);
         const valueElement = defaultValueComponent.querySelector('#value');
         const label = defaultValueComponent.querySelector('[for="value"]');
@@ -31,6 +61,14 @@ export const create = () => {
         return defaultValueComponent;
     }
 
+    function getDefaultValueComponentFactory(type) {
+        const map = {
+            'bool': boolDefaultValueComponentFactory,
+        };
+
+        return map[type] ?? defaultValueComponentFactory;
+    }
+
     typeSelect.addEventListener('change', (event) => {
         const typeName = event.target.value;
 
@@ -39,7 +77,7 @@ export const create = () => {
         }
 
         const component = createComponent(typeName);
-        const defaultValueComponent = createDefaultValueComponent(component);
+        const defaultValueComponent = getDefaultValueComponentFactory(component.dataset.typename)(component);
         clearOutlet();
         appendComponent(component);
         appendComponent(defaultValueComponent);
