@@ -51,12 +51,16 @@ class StoreRequest extends FormRequest
 
     private function getTypeRules(): array
     {
+        if (!$this->type) return [];
+
         $className = EnvVariableType::getComponentClassNameByType($this->type);
         return $className::rules();
     }
 
     private function getTypeMessages(): array
     {
+        if (!$this->type) return [];
+
         $className = EnvVariableType::getComponentClassNameByType($this->type);
         return array_merge(
             $className::messages('value', 'Valor'),
