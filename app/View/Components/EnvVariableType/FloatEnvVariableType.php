@@ -2,7 +2,7 @@
 
 namespace App\View\Components\EnvVariableType;
 
-use Illuminate\View\View;
+use Illuminate\Contracts\View\View;
 
 class FloatEnvVariableType extends EnvVariableTypeComponent
 {
