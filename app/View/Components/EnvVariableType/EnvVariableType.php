@@ -20,7 +20,7 @@ class EnvVariableType implements Arrayable
      */
     private static array $types = [
         'string' => TextEnvVariableType::class,
-//        'float' => 'Número flutuante',
+        'float' => FloatEnvVariableType::class,
 //        'int' => 'Número',
 //        'array[string]' => 'Lista de nomes',
 //        'array[int]' => 'Lista de números',

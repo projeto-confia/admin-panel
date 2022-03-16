@@ -47,8 +47,10 @@ abstract class EnvVariableTypeComponent extends Component
         return $this->customStyleClass;
     }
 
+    abstract public function getType(): string;
     abstract public static function rules(): array;
     abstract public static function messages(): array;
+
     abstract public function render(): View|string;
 
 }
