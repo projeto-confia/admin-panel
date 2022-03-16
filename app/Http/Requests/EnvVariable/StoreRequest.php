@@ -25,7 +25,7 @@ class StoreRequest extends FormRequest
      */
     public function rules(): array
     {
-        $availableTypes = join(',', array_keys(EnvVariable::TYPES));
+        $availableTypes = join(',', array_keys(EnvVariableType::TYPES));
         return [
             'name' => ['required', 'string'],
             'description' => ['required', 'string'],

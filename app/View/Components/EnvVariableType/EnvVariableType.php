@@ -7,6 +7,16 @@ use JetBrains\PhpStorm\ArrayShape;
 
 class EnvVariableType implements Arrayable
 {
+    const TYPES = [
+        'string' => 'Texto',
+        'float' => 'Número flutuante',
+        'int' => 'Número inteiro',
+        'bool' => 'Verdadeiro ou falso'
+//        'array[string]' => 'Lista de nomes',
+//        'array[int]' => 'Lista de números',
+//        'array[float]' => 'Lista de números flutuantes',
+    ];
+
     public function __construct(
         private string $type,
         private string $name,
@@ -22,10 +32,10 @@ class EnvVariableType implements Arrayable
         'string' => TextEnvVariableType::class,
         'float' => FloatEnvVariableType::class,
         'int' => IntEnvVariableType::class,
+        'bool' => BooleanVariableType::class,
 //        'array[string]' => 'Lista de nomes',
 //        'array[int]' => 'Lista de números',
 //        'array[float]' => 'Lista de números flutuantes',
-//        'bool' => 'Verdadeiro ou falso'
     ];
 
     /**

@@ -27,14 +27,4 @@ class EnvVariable extends Model
         'value',
         'default_value',
     ];
-
-    const TYPES = [
-        'string' => 'Texto',
-        'float' => 'Número flutuante',
-        'int' => 'Número',
-//        'array[string]' => 'Lista de nomes',
-//        'array[int]' => 'Lista de números',
-//        'array[float]' => 'Lista de números flutuantes',
-//        'bool' => 'Verdadeiro ou falso'
-    ];
 }

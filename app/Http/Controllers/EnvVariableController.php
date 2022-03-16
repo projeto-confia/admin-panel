@@ -25,11 +25,11 @@ class EnvVariableController extends Controller
     {
         $typesTemplate = array_map(
             fn (string $type) => EnvVariableComponentFactory::create(new EnvVariableType($type, 'value', 'Valor')),
-            array_keys(EnvVariable::TYPES)
+            array_keys(EnvVariableType::TYPES)
         );
 
         return view('pages.envVariable.create', [
-            'typesAvailable' => EnvVariable::TYPES,
+            'typesAvailable' => EnvVariableType::TYPES,
             'typesTemplate' => $typesTemplate
         ]);
     }
