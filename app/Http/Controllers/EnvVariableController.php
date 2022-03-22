@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\EnvVariable\StoreRequest;
-use App\Models\AdminPanel\EnvVariable\EnvVariable;
 use App\Repositories\AdminPanel\Interfaces\IEnvVariableRepository;
 use App\Services\Interfaces\IEnvVariableService;
 use App\View\Components\EnvVariableType\EnvVariableComponentFactory;

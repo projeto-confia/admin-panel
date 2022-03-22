@@ -11,8 +11,8 @@ class EnvVariableType implements Arrayable
         'string' => 'Texto',
         'float' => 'Número flutuante',
         'int' => 'Número inteiro',
-        'bool' => 'Verdadeiro ou falso'
-//        'array[string]' => 'Lista de nomes',
+        'bool' => 'Verdadeiro ou falso',
+        'array[string]' => 'Lista de nomes',
 //        'array[int]' => 'Lista de números',
 //        'array[float]' => 'Lista de números flutuantes',
     ];
@@ -33,7 +33,7 @@ class EnvVariableType implements Arrayable
         'float' => FloatEnvVariableType::class,
         'int' => IntEnvVariableType::class,
         'bool' => BooleanVariableType::class,
-//        'array[string]' => 'Lista de nomes',
+        'array[string]' => ListStringEnvVariableType::class,
 //        'array[int]' => 'Lista de números',
 //        'array[float]' => 'Lista de números flutuantes',
     ];
