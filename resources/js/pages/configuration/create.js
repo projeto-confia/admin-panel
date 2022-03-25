@@ -8,6 +8,41 @@ export const create = () => {
         return typeTemplate.cloneNode(true);
     }
 
+    function addEventHandlersByType(component) {
+        if (component.dataset.typename === 'array[string]') {
+            const addItemButton = component.querySelector('.add-item-btn');
+            const tableBody = component.querySelector('.table-body');
+
+            const getRemoveItemButton = (item) => item.querySelector('.remove-item-btn');
+
+            const addRemoveButtonEventHandler = (item) => {
+                const removeBtn = getRemoveItemButton(item);
+                removeBtn.addEventListener('click', function() {
+                    const item = removeBtn.parentElement.parentElement;
+                    const hasOneItem = +item.parentElement.childElementCount === 1;
+                    if (hasOneItem) {
+                        return;
+                    }
+
+                    item.remove();
+                }, true);
+            };
+
+            addRemoveButtonEventHandler(component);
+
+            addItemButton.addEventListener('click', (e) => {
+                const item = component.querySelector('.item');
+                const newItem = item.cloneNode(true);
+                addRemoveButtonEventHandler(newItem);
+                newItem.value = "";
+
+                tableBody.appendChild(newItem);
+            }, true);
+        }
+    }
+
+
+
     function clearOutlet() {
         typeValueOutlet.innerHTML = '';
     }
@@ -77,9 +112,10 @@ export const create = () => {
         }
 
         const component = createComponent(typeName);
-        const defaultValueComponent = getDefaultValueComponentFactory(component.dataset.typename)(component);
+       // const defaultValueComponent = getDefaultValueComponentFactory(component.dataset.typename)(component);
         clearOutlet();
+        addEventHandlersByType(component);
         appendComponent(component);
-        appendComponent(defaultValueComponent);
+        //appendComponent(defaultValueComponent);
     });
 }
