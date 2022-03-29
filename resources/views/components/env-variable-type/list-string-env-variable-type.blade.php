@@ -2,6 +2,7 @@
     <table class="table table-responsive">
         <tbody class="table-body">
 
+        @if (is_null($component->getValue()))
         <tr class="item">
             <td class="w-100">
                 <div>
@@ -12,11 +13,11 @@
                             id="{{ $component->getName() }}-0"
                             name="{{ $component->getName() }}[]"
                             placeholder="Digite o valor desejado"
-                            value="{{ old($component->getName(), $component->getValue()) }}"
+                            value="{{ old("{$component->getName()}.0", '') }}"
                         >
                         <label for="{{ $component->getName() }}[]">{{ $component->getLabel() }}</label>
                     </div>
-                    @error("{$component->getName()}-0")
+                    @error("{$component->getName()}.0")
                     <span class="text-danger small">{{ $message }}</span>
                     @enderror()
                 </div>
@@ -28,6 +29,36 @@
                 </button>
             </td>
         </tr>
+        @else
+            @foreach($component->getValuesAsArray() as $key => $value)
+            <tr class="item">
+                <td class="w-100">
+                    <div>
+                        <div class="form-floating">
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="{{ $component->getName() }}-{{ $key }}"
+                                name="{{ $component->getName() }}[]"
+                                placeholder="Digite o valor desejado"
+                                value="{{ old("{$component->getName()}.{$key}", $value) }}"
+                            >
+                            <label for="{{ $component->getName() }}-{{ $key }}">{{ $component->getLabel() }}</label>
+                        </div>
+                        @error("{$component->getName()}.0")
+                        <span class="text-danger small">{{ $message }}</span>
+                        @enderror()
+                    </div>
+                </td>
+
+                <td class="align-middle">
+                    <button type="button" class="remove-item-btn btn btn-danger text-white" aria-label="Remover item">
+                        <x-icons.trash style="width: 1rem"></x-icons.trash>
+                    </button>
+                </td>
+            </tr>
+            @endforeach
+        @endif
 
         </tbody>
     </table>

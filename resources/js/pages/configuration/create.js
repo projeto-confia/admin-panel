@@ -12,11 +12,10 @@ export const create = () => {
         if (component.dataset.typename === 'array[string]') {
             const addItemButton = component.querySelector('.add-item-btn');
             const tableBody = component.querySelector('.table-body');
-
-            const getRemoveItemButton = (item) => item.querySelector('.remove-item-btn');
+            const itens = Array.from(component.querySelectorAll('.item'));
 
             const addRemoveButtonEventHandler = (item) => {
-                const removeBtn = getRemoveItemButton(item);
+                const removeBtn = item.querySelector('.remove-item-btn');
                 removeBtn.addEventListener('click', function() {
                     const item = removeBtn.parentElement.parentElement;
                     const hasOneItem = +item.parentElement.childElementCount === 1;
@@ -28,20 +27,19 @@ export const create = () => {
                 }, true);
             };
 
+            itens.forEach(addRemoveButtonEventHandler);
             addRemoveButtonEventHandler(component);
 
-            addItemButton.addEventListener('click', (e) => {
+            addItemButton.addEventListener('click', () => {
                 const item = component.querySelector('.item');
                 const newItem = item.cloneNode(true);
                 addRemoveButtonEventHandler(newItem);
-                newItem.value = "";
-
+                const input = newItem.querySelector('[name="value[]"]');
+                input.value = '';
                 tableBody.appendChild(newItem);
             }, true);
         }
     }
-
-
 
     function clearOutlet() {
         typeValueOutlet.innerHTML = '';

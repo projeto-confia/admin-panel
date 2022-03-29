@@ -7,7 +7,7 @@
             id="{{ $component->getName() }}"
             name="{{ $component->getName() }}"
             placeholder="Digite o valor desejado"
-            value="{{ old($component->getName(), $component->getValue()) }}"
+            value="{{ is_array(old($component->getName(), $component->getValue())) ? '' : old($component->getName(), $component->getValue()) }}"
         >
         <label for="{{ $component->getName() }}">{{ $component->getLabel() }}</label>
     </div>

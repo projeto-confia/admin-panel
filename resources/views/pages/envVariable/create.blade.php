@@ -1,6 +1,5 @@
 <x-layouts.app>
     <x-slot name="title">Criar configuração | CONFIA</x-slot>
-
     <header class="my-3">
         <h1 class="text-dark">Criar configuração de ambiente</h1>
     </header>
@@ -62,12 +61,12 @@
                 <div id="types-outlet">
                     @if(!!old('type', ''))
                         {{  \App\View\Components\EnvVariableType\EnvVariableComponentFactory::create(
-                                new \App\View\Components\EnvVariableType\EnvVariableType(old('type'), 'value', 'Valor', old('value', '')),
-                            )->render()
-                        }}
-                        {{  \App\View\Components\EnvVariableType\EnvVariableComponentFactory::create(
-                                new \App\View\Components\EnvVariableType\EnvVariableType(old('type'), 'default_value', 'Valor Padrão', old('default_value', '')),
-                                'mt-2'
+                                new \App\View\Components\EnvVariableType\EnvVariableType(
+                                    old('type'),
+                                    'value',
+                                    'Valor',
+                                    is_array(old('value', '')) ? join(',', old('value')) : old('value', '')
+                                )
                             )->render()
                         }}
                     @endif
@@ -92,8 +91,7 @@
 
     @push('scripts')
         <script defer>
-
-            window.addEventListener('load', function() { CONFIA.pages.configuration.create();});
+            window.addEventListener('load', function() { CONFIA.pages.configuration.create(); });
         </script>
     @endpush
 </x-layouts.app>
