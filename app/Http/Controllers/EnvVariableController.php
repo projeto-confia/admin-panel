@@ -35,13 +35,18 @@ class EnvVariableController extends Controller
 
     public function store(StoreRequest $request): RedirectResponse
     {
-        $this->envVariableRepository->store($request->all([
+        $data = $request->all([
             'name',
             'description',
             'type',
-            'value',
-            'default_value',
-        ]));
+        ]);
+
+        $value = !is_array($request->value) ?: join(',', $request->value);
+
+        $data['value'] = $value;
+        $data['default_value'] = $value;
+
+        $this->envVariableRepository->store($data);
 
         return redirect()->to(route('configuration.index'));
     }
