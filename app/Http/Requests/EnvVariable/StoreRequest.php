@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\EnvVariable;
 
-use App\Models\AdminPanel\EnvVariable\EnvVariable;
 use App\View\Components\EnvVariableType\EnvVariableType;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -27,11 +26,10 @@ class StoreRequest extends FormRequest
     {
         $availableTypes = join(',', array_keys(EnvVariableType::TYPES));
         return [
-            'name' => ['required', 'string'],
+            'name' => ['required', 'string', 'unique:env_variable,name'],
             'description' => ['required', 'string'],
             'type' => ['required', "in:$availableTypes"],
             'value' => $this->getTypeRules(),
-            'default_value' => $this->getTypeRules(),
         ];
     }
 
@@ -41,6 +39,7 @@ class StoreRequest extends FormRequest
             [
                 'name.required' => 'O campo nome é requerido',
                 'name.string' => 'O campo nome deve possuir somente texto',
+                'name.unique' => 'Já existe um registro com esse valor',
                 'description.required' => 'O campo descrição é requerido',
                 'description.string' => 'O campo descrição deve possuir somente texto',
                 'type.required' => 'O campo tipo é requerido',
@@ -63,8 +62,7 @@ class StoreRequest extends FormRequest
 
         $className = EnvVariableType::getComponentClassNameByType($this->type);
         return array_merge(
-            $className::messages('value', 'Valor'),
-            $className::messages('default_value', 'Valor Padrão'),
+            $className::messages('value', 'Valor')
         );
     }
 }
