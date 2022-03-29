@@ -21,10 +21,14 @@ class ListStringEnvVariableType extends EnvVariableTypeComponent
         return ['required', 'array'];
     }
 
+    public function getValuesAsArray(): array
+    {
+        return explode(',', $this->getValue() ?? '');
+    }
+
     public static function messages(): array
     {
         return [
-
         ];
     }
 }
