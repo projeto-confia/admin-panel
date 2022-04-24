@@ -8,8 +8,23 @@ export const create = () => {
         return typeTemplate.cloneNode(true);
     }
 
+    function addRadiosValidatorMinMaxHandler(component) {
+        const minMaxRadios = component.querySelectorAll('[name="uses_min_max_validators"]');
+        const wrapperMinMax = component.querySelector('#wrapper-min-max-value');
+
+        Array
+            .from(minMaxRadios)
+            .forEach(option =>
+                option.addEventListener('change', ({ target: { value } }) =>
+                    +value
+                        ? wrapperMinMax.classList.remove('d-none')
+                        : wrapperMinMax.classList.add('d-none')
+                )
+            );
+    }
+
     function addEventHandlersByType(component) {
-        if (component.dataset.typename === 'array[string]') {
+        if (component.dataset.typename.startsWith('array')) {
             const addItemButton = component.querySelector('.add-item-btn');
             const tableBody = component.querySelector('.table-body');
             const itens = Array.from(component.querySelectorAll('.item'));
@@ -39,6 +54,10 @@ export const create = () => {
                 tableBody.appendChild(newItem);
             }, true);
         }
+
+        if (component.dataset.typename === 'int') {
+            addRadiosValidatorMinMaxHandler(component);
+        }
     }
 
     function clearOutlet() {
@@ -49,59 +68,6 @@ export const create = () => {
         typeValueOutlet.appendChild(component);
     }
 
-    function boolDefaultValueComponentFactory(component) {
-        const defaultValueComponent = component.cloneNode(true);
-        const inputTrue = defaultValueComponent.querySelector('#value_true');
-        const inputFalse = defaultValueComponent.querySelector('#value_false');
-        const labelTrue = defaultValueComponent.querySelector('[for="value_true"]');
-        const labelFalse = defaultValueComponent.querySelector('[for="value_false"]');
-        const wrapperLabel = defaultValueComponent.querySelector(`#${inputTrue.name}_label`);
-
-        const addsDefaultSuffixForInput = (input) => {
-            input.id = `${input.id}_default`;
-            input.name = "default_value";
-        };
-
-        const updatesLabelFor = (label, input) => {
-            label.setAttribute('for', input.id);
-        };
-
-        defaultValueComponent.classList.add('mt-3');
-
-        addsDefaultSuffixForInput(inputTrue);
-        addsDefaultSuffixForInput(inputFalse);
-
-        updatesLabelFor(labelTrue, inputTrue);
-        updatesLabelFor(labelFalse, inputFalse);
-
-        wrapperLabel.innerHTML = 'Valor padrão';
-
-        return defaultValueComponent;
-    }
-
-    function defaultValueComponentFactory(component) {
-        const defaultValueComponent = component.cloneNode(true);
-        const valueElement = defaultValueComponent.querySelector('#value');
-        const label = defaultValueComponent.querySelector('[for="value"]');
-
-        defaultValueComponent.classList.add('mt-2');
-        valueElement.id = "default_value";
-        valueElement.name = "default_value";
-        valueElement.setAttribute('placeholder', 'Valor padrão');
-        label.setAttribute('for', valueElement.id);
-        label.innerHTML = 'Valor padrão';
-
-        return defaultValueComponent;
-    }
-
-    function getDefaultValueComponentFactory(type) {
-        const map = {
-            'bool': boolDefaultValueComponentFactory,
-        };
-
-        return map[type] ?? defaultValueComponentFactory;
-    }
-
     typeSelect.addEventListener('change', (event) => {
         const typeName = event.target.value;
 
@@ -110,10 +76,14 @@ export const create = () => {
         }
 
         const component = createComponent(typeName);
-       // const defaultValueComponent = getDefaultValueComponentFactory(component.dataset.typename)(component);
         clearOutlet();
         addEventHandlersByType(component);
         appendComponent(component);
-        //appendComponent(defaultValueComponent);
     });
+
+    // On redirect back from validation, binds events handlers for elements already rendered
+    const component = typeValueOutlet.children[0] ?? false;
+    if (component && /(int|float)/.test(component.dataset.typename)) {
+        addRadiosValidatorMinMaxHandler(component);
+    }
 }
