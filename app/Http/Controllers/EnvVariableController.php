@@ -41,9 +41,29 @@ class EnvVariableController extends Controller
             'type',
         ]);
 
-        $value = !is_array($request->value) ?: join(',', $request->value);
+        //@todo refactor this mess
+        if (is_array($request->value)) {
+            if (str_contains($request->type, 'int')) {
+                $values = array_map(fn($item) => (int) $item, $request->value);
+            }
 
-        $data['value'] = $value;
+            if (str_contains($request->type, 'float')) {
+                $values = array_map(fn($item) => (float) $item, $request->value);
+            }
+
+            $value = join(',', $values);
+        } else {
+            if (str_contains($request->type, 'int')) {
+                $value = (int) $request->value;
+            }
+
+            if (str_contains($request->type, 'float')) {
+                $value = (float) $request->value;
+            }
+        }
+
+
+        $data['value'] = $value ?? $request->value;
         $data['default_value'] = $value;
 
         $this->envVariableRepository->store($data);
