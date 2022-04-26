@@ -7,6 +7,7 @@
             id="{{ $component->getName() }}"
             name="{{ $component->getName() }}"
             placeholder="Digite o valor desejado"
+            value="{{ old($component->getName(), "") }}"
         >
         <label for="{{ $component->getName() }}">{{ $component->getLabel() }}</label>
         @error($component->getName())
@@ -59,6 +60,7 @@
                 placeholder="Digite o valor mínimo"
                 type="number"
                 inputmode="decimal"
+                value="{{ old('min') }}"
             >
             <label for="min">Valor mínimo</label>
             @error('min')
@@ -73,6 +75,7 @@
                 type="number"
                 inputmode="decimal"
                 placeholder="Digite o valor mínimo"
+                value="{{ old('max') }}"
             >
             <label for="min">Valor máximo</label>
             @error('max')

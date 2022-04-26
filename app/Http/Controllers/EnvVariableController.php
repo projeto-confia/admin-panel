@@ -41,7 +41,7 @@ class EnvVariableController extends Controller
             'type',
         ]);
 
-        //@todo refactor this mess
+        //@todo refactor this mess to every type handle the parse of value
         if (is_array($request->value)) {
             if (str_contains($request->type, 'int')) {
                 $values = array_map(fn($item) => (int) $item, $request->value);
@@ -62,6 +62,9 @@ class EnvVariableController extends Controller
             }
         }
 
+        if ($request->uses_min_max_validators) {
+            $data['type'] .= "[$request->min-$request->max]";
+        }
 
         $data['value'] = $value ?? $request->value;
         $data['default_value'] = $value;
