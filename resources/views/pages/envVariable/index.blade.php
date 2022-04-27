@@ -25,7 +25,13 @@
                 <textarea readonly class="m-0 w-100 bg-light rounded border-0" rows="1" >{{$envVariable->value}}</textarea>
 
                 <div class="btn-group float-end mt-2" role="group" aria-label="Basic example">
-                    <button type="button" class="btn btn-outline-danger">Apagar</button>
+                    <button
+                        class="btn btn-outline-danger"
+                        data-bs-toggle="modal"
+                        data-bs-target="#modal-{{ $envVariable->id  }}-delete"
+                    >
+                        Apagar
+                    </button>
                     <button type="button" class="btn btn-primary">Editar</button>
                 </div>
             </li>
@@ -33,6 +39,34 @@
         </ul>
 
     </main>
+    @foreach($envVariables as $envVariable)
+    <div class="modal fade" id="modal-{{ $envVariable->id  }}-delete" tabindex="-1" aria-labelledby="modal-delete-{{ $envVariable->id }}-label" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal-delete-{{ $envVariable->id }}-label">Apagar variável de configuração</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        Você deseja apagar a variável de configuração
+                        <span class="text-black-50">{{ $envVariable->name }}</span>
+                        ?
+                    </p>
+                    <span class="text-danger">Esta ação é irreversível.</span>
+                </div>
+                <div class="modal-footer">
+                    <form action="{{ route('configuration.delete', ['id' => $envVariable->id]) }}" method="POST">
+                        @method('DELETE')
+                        @csrf
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                        <button type="submit" class="btn btn-outline-danger">Apagar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endforeach
 
     @push('scripts')
         <script defer>

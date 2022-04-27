@@ -9,4 +9,5 @@ Route::prefix('configuracao/automata')->middleware('auth')->group(function () {
     Route::put('/', [EnvVariableController::class, 'update'])->name('configuration.update');
     Route::get('/criar', [EnvVariableController::class, 'create'])->name('configuration.create');
     Route::post('/criar', [EnvVariableController::class, 'store'])->name('configuration.store');
+    Route::delete('/{id}', [EnvVariableController::class, 'delete'])->name('configuration.delete');
 });
