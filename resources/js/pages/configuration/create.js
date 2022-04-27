@@ -55,7 +55,7 @@ export const create = () => {
             }, true);
         }
 
-        if (component.dataset.typename === 'int') {
+        if (['int', 'float'].includes(component.dataset.typename)) {
             addRadiosValidatorMinMaxHandler(component);
         }
     }

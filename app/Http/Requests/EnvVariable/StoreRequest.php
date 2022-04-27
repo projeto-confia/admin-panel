@@ -31,8 +31,8 @@ class StoreRequest extends FormRequest
             'type' => ['required', "in:$availableTypes"],
             'value' => $this->getTypeRules(),
             'uses_min_max_validators' => ['sometimes ', 'required', 'boolean'],
-            'min' => ['sometimes', 'required_if:uses_min_max_validators,1', 'integer'],
-            'max' => ['sometimes', 'required_if:uses_min_max_validators,1', 'integer', 'gt:min'],
+            'min' => ['sometimes', 'nullable', 'required_if:uses_min_max_validators,1', 'integer'],
+            'max' => ['sometimes', 'nullable', 'required_if:uses_min_max_validators,1', 'integer', 'gt:min'],
         ];
     }
 

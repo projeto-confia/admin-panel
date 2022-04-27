@@ -10,6 +10,7 @@ use App\View\Components\EnvVariableType\EnvVariableType;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class EnvVariableController extends Controller
 {
@@ -35,11 +36,12 @@ class EnvVariableController extends Controller
 
     public function store(StoreRequest $request): RedirectResponse
     {
-        $data = $request->all([
-            'name',
-            'description',
-            'type',
-        ]);
+        $data = [];
+        $data['name'] = Str::upper(Str::snake($request->name));
+        $data['description'] = $request->description;
+        $data['type'] = $request->uses_min_max_validators
+            ? "$request->type[$request->min-$request->max]"
+            : $request->type;
 
         //@todo refactor this mess to every type handle the parse of value
         if (is_array($request->value)) {
@@ -61,11 +63,6 @@ class EnvVariableController extends Controller
                 $value = (float) $request->value;
             }
         }
-
-        if ($request->uses_min_max_validators) {
-            $data['type'] .= "[$request->min-$request->max]";
-        }
-
         $data['value'] = $value ?? $request->value;
         $data['default_value'] = $value;
 

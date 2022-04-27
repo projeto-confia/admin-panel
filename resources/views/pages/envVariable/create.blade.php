@@ -22,6 +22,9 @@
                     @error('name')
                     <span class="text-danger small">{{ $message }}</span>
                     @enderror()
+                    @if (! $errors->has('name'))
+                    <span class="small">Este valor será convertido para o formato snackcase. Ex.: Máximo Ciclos será MAXIMO_CICLOS</span>
+                    @endif
                 </div>
 
                 <div class="col-12">
