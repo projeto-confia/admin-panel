@@ -26,5 +26,6 @@ class EnvVariable extends Model
         'type',
         'value',
         'default_value',
+        'updated',
     ];
 }

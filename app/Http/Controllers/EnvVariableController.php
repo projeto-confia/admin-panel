@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\EnvVariable\StoreRequest;
+use App\Http\Requests\EnvVariable\UpdateRequest;
 use App\Models\AdminPanel\EnvVariable\EnvVariable;
 use App\Repositories\AdminPanel\Interfaces\IEnvVariableRepository;
 use App\Services\Interfaces\IEnvVariableService;
@@ -38,34 +39,15 @@ class EnvVariableController extends Controller
     public function store(StoreRequest $request): RedirectResponse
     {
         $data = [];
-        $data['name'] = Str::upper(Str::snake($request->name));
+        $data['name'] = preg_replace('/\s+/', '', Str::upper($request->name));;
         $data['description'] = $request->description;
         $data['type'] = $request->uses_min_max_validators
             ? "$request->type[$request->min-$request->max]"
             : $request->type;
 
-        //@todo refactor this mess to every type handle the parse of value
-        if (is_array($request->value)) {
-            if (str_contains($request->type, 'int')) {
-                $values = array_map(fn($item) => (int) $item, $request->value);
-            }
 
-            if (str_contains($request->type, 'float')) {
-                $values = array_map(fn($item) => (float) $item, $request->value);
-            }
-
-            $value = join(',', $values);
-        } else {
-            if (str_contains($request->type, 'int')) {
-                $value = (int) $request->value;
-            }
-
-            if (str_contains($request->type, 'float')) {
-                $value = (float) $request->value;
-            }
-        }
-        $data['value'] = $value ?? $request->value;
-        $data['default_value'] = $value;
+        $data['value'] = $this->parseValue($request);
+        $data['default_value'] = $data['value'];
 
         $this->envVariableRepository->store($data);
 
@@ -74,7 +56,7 @@ class EnvVariableController extends Controller
 
     public function index(): View
     {
-        $envVariables = $this->envVariableService->all();
+        $envVariables = $this->envVariableRepository->all();
         $isUpdated = $this->envVariableService->isUpdated($envVariables);
 
         return view('pages.envVariable.index', compact('envVariables', 'isUpdated'));
@@ -89,14 +71,50 @@ class EnvVariableController extends Controller
         return view('pages.envVariable.edit', compact('envVariable', 'envVariableComponent'));
     }
 
-    public function update(Request $request)
+    public function update(EnvVariable $envVariable, UpdateRequest $request): RedirectResponse
     {
-        dd($request);
+        $envVariable->fill([
+            'updated' => false,
+            'value' => $this->parseValue($request),
+            'description' => $request->description
+        ]);
+        $envVariable->save();
+
+        return redirect()->to(route('configuration.index'));
     }
 
     public function delete(int $id): RedirectResponse
     {
         EnvVariable::destroy($id);
         return redirect()->back();
+    }
+
+    private function parseValue($request)
+    {
+        if (is_array($request->value)) {
+            if (str_contains($request->type, 'int')) {
+                $values = array_map(fn($item) => (int) $item, $request->value);
+            }
+
+            if (str_contains($request->type, 'float')) {
+                $values = array_map(fn($item) => (float) $item, $request->value);
+            }
+
+            $value = join(',', $values ?? array_map(fn($item) => $item, $request->value));
+        } else {
+            if (str_contains($request->type, 'int')) {
+                $value = (int) $request->value;
+            }
+
+            if (str_contains($request->type, 'float')) {
+                $value = (float) $request->value;
+            }
+
+            if (str_contains($request->type, 'bool')) {
+                $value = (bool) $request->value;
+            }
+        }
+
+        return $value ?? $request->value;
     }
 }

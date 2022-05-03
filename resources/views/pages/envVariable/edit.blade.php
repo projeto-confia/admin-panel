@@ -8,6 +8,7 @@
             <form class="row g-3" action="{{route('configuration.update', ['env_variable' => $envVariable])}}" method="POST" novalidate>
                 @method('PUT')
                 @csrf
+                <input type="hidden" name="type" value="{{ $envVariable->type }}" />
                 <div class="col-12">
                     <p>{{ $envVariable->name }}</p>
                 </div>
@@ -45,7 +46,7 @@
 
     @push('scripts')
         <script defer>
-            // window.addEventListener('load', function() { CONFIA.pages.configuration.create(); });
+            window.addEventListener('load', function() { CONFIA.pages.configuration.edit(); });
         </script>
     @endpush
 </x-layouts.app>
