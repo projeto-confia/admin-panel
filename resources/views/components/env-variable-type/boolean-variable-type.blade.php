@@ -8,7 +8,7 @@
                 name="{{ $component->getName() }}"
                 id="{{ $component->getName() }}_true"
                 value="1"
-                {{ old($component->getName()) === '1' ? 'checked' : '' }}
+                {{ old($component->getName(), $component->getValue()) == true ? 'checked' : '' }}
             >
             <label class="form-check-label" for="{{ $component->getName() }}_true">
                 Verdadeiro
@@ -21,7 +21,7 @@
                 name="{{ $component->getName() }}"
                 id="{{ $component->getName() }}_false"
                 value="0"
-                {{ old($component->getName()) === '0' ? 'checked' : '' }}
+                {{ old($component->getName(), $component->getValue()) == false ? 'checked' : '' }}
             >
             <label class="form-check-label" for="{{ $component->getName() }}_false">
                 Falso

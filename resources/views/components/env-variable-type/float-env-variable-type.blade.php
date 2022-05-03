@@ -7,14 +7,14 @@
             id="{{ $component->getName() }}"
             name="{{ $component->getName() }}"
             placeholder="Digite o valor desejado"
-            value="{{ old($component->getName(), '') }}"
+            value="{{ old($component->getName(), $component->getValue()) }}"
         >
         <label for="{{ $component->getName() }}">{{ $component->getLabel() }}</label>
         @error($component->getName())
         <span class="text-danger small">{{ $message }}</span>
         @enderror()
     </div>
-
+    @if(! $component->isEditing())
     <div>
         <p class="mt-2">Deve validar os valores mínimos e máximos ?</p>
 
@@ -83,4 +83,5 @@
             @enderror()
         </div>
     </div>
+    @endif
 </div>

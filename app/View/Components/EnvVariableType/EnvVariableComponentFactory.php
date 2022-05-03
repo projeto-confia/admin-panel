@@ -11,13 +11,13 @@ abstract class EnvVariableComponentFactory
      * @param EnvVariableType $envVariableType
      * @return EnvVariableTypeComponent
      */
-    public static function create(EnvVariableType $envVariableType, string $customStyleClass = ''): EnvVariableTypeComponent
+    public static function create(EnvVariableType $envVariableType, string $customStyleClass = '', bool $isEditing = false): EnvVariableTypeComponent
     {
         return resolve(
             EnvVariableType::getComponentClassNameByType($envVariableType->getType()),
             array_merge(
                $envVariableType->toArray(),
-               compact('customStyleClass')
+               compact('customStyleClass', 'isEditing')
             )
         );
     }

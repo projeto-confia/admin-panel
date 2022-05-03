@@ -11,7 +11,8 @@ abstract class EnvVariableTypeComponent extends Component
         private string $name,
         private string $label,
         private ?string $value,
-        private string $customStyleClass = ''
+        private string $customStyleClass = '',
+        private bool $isEditing = false,
     )
     {}
 
@@ -47,11 +48,18 @@ abstract class EnvVariableTypeComponent extends Component
         return $this->customStyleClass;
     }
 
+    /**
+     * @return bool
+     */
+    public function isEditing(): bool
+    {
+        return $this->isEditing;
+    }
+
     abstract public function getType(): string;
     abstract public static function rules(): array;
     abstract public static function messages(): array;
 
     abstract public function render(): View|string;
-
 }
 

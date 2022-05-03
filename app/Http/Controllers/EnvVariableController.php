@@ -84,7 +84,7 @@ class EnvVariableController extends Controller
     {
         $value = is_array($envVariable->value) ? join(',', $envVariable->value) : $envVariable->value;
         $envVariableType = new EnvVariableType($envVariable->type, 'value', 'Valor', $value);
-        $envVariableComponent = EnvVariableComponentFactory::create($envVariableType);
+        $envVariableComponent = EnvVariableComponentFactory::create($envVariableType, isEditing: true);
 
         return view('pages.envVariable.edit', compact('envVariable', 'envVariableComponent'));
     }
