@@ -32,7 +32,7 @@
                     >
                         Apagar
                     </button>
-                    <button type="button" class="btn btn-primary">Editar</button>
+                    <a href="{{ route('configuration.edit', ['env_variable' => $envVariable->id]) }}" type="button" class="btn btn-primary">Editar</a>
                 </div>
             </li>
             @endforeach

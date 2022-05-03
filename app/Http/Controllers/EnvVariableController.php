@@ -80,6 +80,15 @@ class EnvVariableController extends Controller
         return view('pages.envVariable.index', compact('envVariables', 'isUpdated'));
     }
 
+    public function edit(EnvVariable $envVariable)
+    {
+        $value = is_array($envVariable->value) ? join(',', $envVariable->value) : $envVariable->value;
+        $envVariableType = new EnvVariableType($envVariable->type, 'value', 'Valor', $value);
+        $envVariableComponent = EnvVariableComponentFactory::create($envVariableType);
+
+        return view('pages.envVariable.edit', compact('envVariable', 'envVariableComponent'));
+    }
+
     public function update(Request $request)
     {
         dd($request);
