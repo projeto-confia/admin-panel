@@ -13,11 +13,6 @@ class EnvVariableService implements IEnvVariableService
     {
     }
 
-    public function all(): array
-    {
-        return $this->envVariableRepository->all();
-    }
-
     public function isUpdated(array $envVariables = null): bool
     {
         if (is_null($envVariables)) {

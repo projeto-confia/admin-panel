@@ -5,6 +5,7 @@ import { userCreate } from "./pages/user/create"
 import { userEdit } from "./pages/user/edit"
 import curate from './pages/curatorship/curate'
 import { create as createConfiguration } from "./pages/configuration/create"
+import { edit as editConfiguration } from "./pages/configuration/edit"
 
 const CONFIA = {
     pages: {
@@ -16,7 +17,7 @@ const CONFIA = {
             edit: userEdit,
         },
         curatorship: { curate },
-        configuration: { create: createConfiguration },
+        configuration: { create: createConfiguration, edit: editConfiguration },
     }
 };
 
