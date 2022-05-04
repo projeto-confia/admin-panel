@@ -11,7 +11,6 @@ use App\View\Components\EnvVariableType\EnvVariableComponentFactory;
 use App\View\Components\EnvVariableType\EnvVariableType;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class EnvVariableController extends Controller
@@ -39,7 +38,7 @@ class EnvVariableController extends Controller
     public function store(StoreRequest $request): RedirectResponse
     {
         $data = [];
-        $data['name'] = preg_replace('/\s+/', '', Str::upper($request->name));;
+        $data['name'] = preg_replace('/\s+/', '', Str::upper($request->name));
         $data['description'] = $request->description;
         $data['type'] = $request->uses_min_max_validators
             ? "$request->type[$request->min-$request->max]"
@@ -89,7 +88,15 @@ class EnvVariableController extends Controller
         return redirect()->back();
     }
 
-    private function parseValue($request)
+    /**
+     * Move this logic to component type and get instance by type
+     * Something like
+     * $className = EnvVariableType::getComponentClassNameByType($type);
+     * $valueParsed = $className::parseValue($value);
+     * @param $request
+     * @return float|int|bool|array|string
+     */
+    private function parseValue($request): float|int|bool|array|string
     {
         if (is_array($request->value)) {
             if (str_contains($request->type, 'int')) {
