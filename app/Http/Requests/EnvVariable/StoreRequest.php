@@ -3,6 +3,7 @@
 namespace App\Http\Requests\EnvVariable;
 
 use App\View\Components\EnvVariableType\EnvVariableType;
+use App\View\Components\EnvVariableType\EnvVariableTypeComponent;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreRequest extends FormRequest
@@ -58,21 +59,34 @@ class StoreRequest extends FormRequest
         );
     }
 
+    private function getComponent(string $type): EnvVariableTypeComponent
+    {
+        $className = EnvVariableType::getComponentClassNameByType($type);
+        $data = [
+            'name' => 'nome',
+            'label' => 'nome',
+            'value' => ''
+        ];
+
+        /** @var EnvVariableTypeComponent */
+        return resolve($className, $data);
+    }
+
     private function getTypeRules(): array
     {
         if (!$this->type) return [];
 
-        $className = EnvVariableType::getComponentClassNameByType($this->type);
-        return $className::rules();
+        $component = $this->getComponent($this->type);
+        return $component->rules();
     }
 
     private function getTypeMessages(): array
     {
         if (!$this->type) return [];
 
-        $className = EnvVariableType::getComponentClassNameByType($this->type);
+        $component = $this->getComponent($this->type);
         return array_merge(
-            $className::messages('value', 'Valor')
+            $component->messages('value', 'Valor')
         );
     }
 }

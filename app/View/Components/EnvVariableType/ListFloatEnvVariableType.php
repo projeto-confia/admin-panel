@@ -21,12 +21,12 @@ class ListFloatEnvVariableType extends EnvVariableTypeComponent
         return explode(',', $this->getValue() ?? '');
     }
 
-    public static function rules(): array
+    public function rules(): array
     {
         return ['required', 'array'];
     }
 
-    public static function messages(string $fieldName = '', $name = ''): array
+    public function messages(string $fieldName = '', $name = ''): array
     {
         return [
             "$fieldName.required" => "O campo $name é obrigatório",

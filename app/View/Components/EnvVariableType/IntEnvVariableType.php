@@ -16,7 +16,7 @@ class IntEnvVariableType extends EnvVariableTypeComponent
         return view('components.env-variable-type.int-env-variable-type', ['component' => $this]);
     }
 
-    public static function rules(): array
+    public function rules(): array
     {
         return [
             'required',
@@ -25,7 +25,7 @@ class IntEnvVariableType extends EnvVariableTypeComponent
         ];
     }
 
-    public static function messages(string $fieldName = '', $name = ''): array
+    public function messages(string $fieldName = '', $name = ''): array
     {
         return [
             "$fieldName.required" => "O campo $name é obrigatório",

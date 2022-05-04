@@ -25,7 +25,7 @@ class TextEnvVariableType extends EnvVariableTypeComponent
         return view('components.env-variable-type.text-env-variable', ['component' => $this]);
     }
 
-    public static function rules(): array
+    public function rules(): array
     {
         return [
             'required',
@@ -33,7 +33,7 @@ class TextEnvVariableType extends EnvVariableTypeComponent
         ];
     }
 
-    public static function messages(string $fieldName = '', $name = ''): array
+    public function messages(string $fieldName = '', $name = ''): array
     {
         return [
             "$fieldName.required" => "O campo $name é obrigatório",

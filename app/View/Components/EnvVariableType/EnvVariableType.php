@@ -31,7 +31,9 @@ class EnvVariableType implements Arrayable
     private static array $types = [
         'string' => TextEnvVariableType::class,
         'float' => FloatEnvVariableType::class,
+        'float\\[[\d]{1,}-[\d]{1,}\\]' => FloatEnvVariableType::class,
         'int' => IntEnvVariableType::class,
+        'int\\[[\d]{1,}-[\d]{1,}\\]' => IntEnvVariableType::class,
         'bool' => BooleanVariableType::class,
         'array[string]' => ListStringEnvVariableType::class,
         'array[int]' => ListIntEnvVariableType::class,
@@ -83,6 +85,12 @@ class EnvVariableType implements Arrayable
 
     public static function getComponentClassNameByType(string $type): string
     {
-        return self::$types[$type] ?? throw new \DomainException("Component to type $type not found");
+        foreach (self::$types as $availableTypePattern => $className) {
+            if (preg_match("/$availableTypePattern/", $type) === 1) {
+                return $className;
+            }
+        }
+
+        throw new \DomainException("Component to type $type not found");
     }
 }

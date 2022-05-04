@@ -16,12 +16,12 @@ class FloatEnvVariableType extends EnvVariableTypeComponent
         return view('components.env-variable-type.float-env-variable-type', ['component' => $this]);
     }
 
-    public static function rules(): array
+    public function rules(): array
     {
         return ['required', 'numeric'];
     }
 
-    public static function messages(string $fieldName = '', $name = ''): array
+    public function messages(string $fieldName = '', $name = ''): array
     {
         return [
             "$fieldName.required" => "O campo $name é obrigatório",

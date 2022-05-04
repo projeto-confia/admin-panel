@@ -16,12 +16,12 @@ class BooleanVariableType extends EnvVariableTypeComponent
         return view('components.env-variable-type.boolean-variable-type', ['component' => $this]);
     }
 
-    public static function rules(): array
+    public function rules(): array
     {
         return ['required', 'boolean'];
     }
 
-    public static function messages(string $fieldName = '', $name = ''): array
+    public function messages(string $fieldName = '', $name = ''): array
     {
         return [
             "$fieldName.required" => "O campo $name é obrigatório",

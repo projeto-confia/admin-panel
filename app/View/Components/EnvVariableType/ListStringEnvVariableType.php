@@ -16,17 +16,17 @@ class ListStringEnvVariableType extends EnvVariableTypeComponent
         return 'array[string]';
     }
 
-    public static function rules(): array
-    {
-        return ['required', 'array'];
-    }
-
     public function getValuesAsArray(): array
     {
         return explode(',', $this->getValue() ?? '');
     }
 
-    public static function messages(): array
+    public function rules(): array
+    {
+        return ['required', 'array'];
+    }
+
+    public function messages(): array
     {
         return [
         ];
