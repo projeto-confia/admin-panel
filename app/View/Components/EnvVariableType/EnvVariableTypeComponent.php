@@ -13,8 +13,10 @@ abstract class EnvVariableTypeComponent extends Component
         private ?string $value,
         private string $customStyleClass = '',
         private bool $isEditing = false,
+        protected string $type = '',
     )
-    {}
+    {
+    }
 
     /**
      * @return string
@@ -56,7 +58,11 @@ abstract class EnvVariableTypeComponent extends Component
         return $this->isEditing;
     }
 
-    abstract public function getType(): string;
+    public function getType(): string
+    {
+        return $this->type ?? throw new \DomainException('If not specified a type, this method should be override');
+    }
+
     abstract public function rules(): array;
     abstract public function messages(): array;
 
