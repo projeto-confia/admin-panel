@@ -8,7 +8,7 @@ class FloatEnvVariableType extends EnvVariableTypeComponent
 {
     public function getType(): string
     {
-        return $this->type || 'float';
+        return $this->type ?: 'float';
     }
 
     public function render(): View

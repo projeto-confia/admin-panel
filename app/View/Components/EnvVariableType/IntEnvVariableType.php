@@ -8,7 +8,7 @@ class IntEnvVariableType extends EnvVariableTypeComponent
 {
     public function getType(): string
     {
-        return 'int';
+        return $this->type ?: 'int';
     }
 
     public function render(): View
