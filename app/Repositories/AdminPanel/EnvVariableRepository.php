@@ -9,7 +9,7 @@ class EnvVariableRepository implements IEnvVariableRepository
 {
     public function all(): array
     {
-        return EnvVariable::query()->orderBy('updated_at', 'desc')->get()->all();
+        return EnvVariable::query()->orderBy('updated_at', 'desc')->orderBy('name')->get()->all();
     }
 
     public function store(array $data): EnvVariable
