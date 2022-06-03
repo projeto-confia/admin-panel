@@ -15,11 +15,11 @@ class CreateTableEnvVariable extends Migration
     {
         Schema::create('env_variable', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
-            $table->string('description');
-            $table->string('type');
-            $table->string('default_value');
-            $table->string('value');
+            $table->string('name', 255)->unique();
+            $table->string('description', 5000);
+            $table->string('type', 255);
+            $table->string('default_value', 5000);
+            $table->string('value', 5000);
             $table->boolean('updated')->default(false);
             $table->timestamps();
         });
