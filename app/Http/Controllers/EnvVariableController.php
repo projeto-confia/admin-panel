@@ -47,7 +47,7 @@ class EnvVariableController extends Controller
 
         $data['value'] = $this->parseValue($request);
         $data['default_value'] = $data['value'];
-
+        $data['updated'] = true;
         $this->envVariableRepository->store($data);
 
         return redirect()->to(route('configuration.index'));
@@ -73,7 +73,7 @@ class EnvVariableController extends Controller
     public function update(EnvVariable $envVariable, UpdateRequest $request): RedirectResponse
     {
         $envVariable->fill([
-            'updated' => false,
+            'updated' => true,
             'value' => $this->parseValue($request),
             'description' => $request->description
         ]);
