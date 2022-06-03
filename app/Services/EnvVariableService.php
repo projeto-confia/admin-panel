@@ -9,17 +9,8 @@ use Illuminate\Support\Arr;
 
 class EnvVariableService implements IEnvVariableService
 {
-    public function __construct(private IEnvVariableRepository $envVariableRepository)
+    public function isSomeUpdated(array $envVariables): bool
     {
+        return Arr::first($envVariables, fn(EnvVariable $envVariable) => $envVariable->updated === true, false);
     }
-
-    public function isUpdated(array $envVariables = null): bool
-    {
-        if (is_null($envVariables)) {
-            throw new \Exception('Método não implementado');
-        }
-
-        return ! Arr::first($envVariables, fn(EnvVariable $envVariable) => $envVariable->updated === false, false);
-    }
-
 }

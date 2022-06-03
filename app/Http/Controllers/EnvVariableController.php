@@ -56,7 +56,7 @@ class EnvVariableController extends Controller
     public function index(): View
     {
         $envVariables = $this->envVariableRepository->all();
-        $isUpdated = $this->envVariableService->isUpdated($envVariables);
+        $isUpdated = $this->envVariableService->isSomeUpdated($envVariables);
 
         return view('pages.envVariable.index', compact('envVariables', 'isUpdated'));
     }

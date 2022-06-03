@@ -4,5 +4,5 @@ namespace App\Services\Interfaces;
 
 interface IEnvVariableService
 {
-    public function isUpdated(array $envVariables = null): bool;
+    public function isSomeUpdated(array $envVariables): bool;
 }
