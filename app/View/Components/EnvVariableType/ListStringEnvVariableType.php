@@ -18,7 +18,7 @@ class ListStringEnvVariableType extends EnvVariableTypeComponent
 
     public function getValuesAsArray(): array
     {
-        return explode(',', $this->getValue() ?? '');
+        return explode(';', $this->getValue() ?? '');
     }
 
     public function rules(): array

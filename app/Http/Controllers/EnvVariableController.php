@@ -107,7 +107,7 @@ class EnvVariableController extends Controller
                 $values = array_map(fn($item) => (float) $item, $request->value);
             }
 
-            $value = join(',', $values ?? array_map(fn($item) => $item, $request->value));
+            $value = join(';', $values ?? $request->value);
         } else {
             if (str_contains($request->type, 'int')) {
                 $value = (int) $request->value;
