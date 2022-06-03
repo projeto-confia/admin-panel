@@ -10,7 +10,7 @@ abstract class EnvVariableTypeComponent extends Component
     public function __construct(
         private string $name,
         private string $label,
-        private ?string $value,
+        protected ?string $value,
         private string $customStyleClass = '',
         private bool $isEditing = false,
         protected string $type = '',

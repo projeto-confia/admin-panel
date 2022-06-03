@@ -16,6 +16,11 @@ class BooleanVariableType extends EnvVariableTypeComponent
         return view('components.env-variable-type.boolean-variable-type', ['component' => $this]);
     }
 
+    public function getValue(): ?string
+    {
+        return $this->value === 'True';
+    }
+
     public function rules(): array
     {
         return ['required', 'boolean'];

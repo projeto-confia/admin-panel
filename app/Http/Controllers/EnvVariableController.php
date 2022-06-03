@@ -118,7 +118,7 @@ class EnvVariableController extends Controller
             }
 
             if (str_contains($request->type, 'bool')) {
-                $value = (bool) $request->value;
+                $value = $request->value ? 'True' : 'False';
             }
         }
 
