@@ -38,6 +38,9 @@
                     <button type="submit" class="btn btn-primary">
                         Salvar
                     </button>
+                    <button type="submit" name="action" value="reset" class="btn btn-default">
+                        Restaurar valor padrão
+                    </button>
                 </div>
 
             </form>

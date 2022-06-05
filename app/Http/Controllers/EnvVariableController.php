@@ -72,13 +72,20 @@ class EnvVariableController extends Controller
 
     public function update(EnvVariable $envVariable, UpdateRequest $request): RedirectResponse
     {
-        $envVariable->fill([
-            'updated' => true,
-            'value' => $this->parseValue($request),
-            'description' => $request->description
-        ]);
-        $envVariable->save();
+        if ($request->action === 'reset') {
+            $envVariable->fill([
+                'updated' => $envVariable->default_value !== $this->parseValue($request),
+                'value' => $envVariable->default_value,
+            ]);
+        } else {
+            $envVariable->fill([
+                'updated' => true,
+                'value' => $this->parseValue($request),
+                'description' => $request->description
+            ]);
+        }
 
+        $envVariable->save();
         return redirect()->to(route('configuration.index'));
     }
 
