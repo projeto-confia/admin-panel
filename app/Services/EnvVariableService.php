@@ -11,6 +11,9 @@ class EnvVariableService implements IEnvVariableService
 {
     public function isSomeUpdated(array $envVariables): bool
     {
-        return Arr::first($envVariables, fn(EnvVariable $envVariable) => $envVariable->updated === true, false);
+        return (bool) Arr::first(
+            $envVariables,
+            fn(EnvVariable $envVariable) => $envVariable->updated === true, false
+        );
     }
 }

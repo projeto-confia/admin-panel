@@ -11,7 +11,7 @@ class EnvVariableType implements Arrayable
         'string' => 'Texto',
         'float' => 'Número flutuante',
         'int' => 'Número inteiro',
-        'bool' => 'Verdadeiro ou falso',
+        'bool' => 'Habilitado ou Desabilitado',
         'array[string]' => 'Lista de nomes',
         'array[int]' => 'Lista de números inteiros',
         'array[float]' => 'Lista de números flutuantes',

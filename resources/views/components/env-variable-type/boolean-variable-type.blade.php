@@ -11,7 +11,7 @@
                 {{ old($component->getName(), $component->getValue()) == true ? 'checked' : '' }}
             >
             <label class="form-check-label" for="{{ $component->getName() }}_true">
-                Verdadeiro
+                Habilitado
             </label>
         </div>
         <div class="form-check form-check-inline">
@@ -24,7 +24,7 @@
                 {{ old($component->getName(), $component->getValue()) == false ? 'checked' : '' }}
             >
             <label class="form-check-label" for="{{ $component->getName() }}_false">
-                Falso
+                Desabilitado
             </label>
         </div>
     </div>

@@ -20,9 +20,10 @@
             @foreach($envVariables as $envVariable)
             <li class="list-group-item">
                 <p class="h5">{{$envVariable->name}} @if($envVariable->updated)<span class="badge bg-warning">Não aplicada</span>@endif</p>
-                <p>{{$envVariable->description}}</p>
+                <p id="{{$envVariable->name}}">{{$envVariable->description}}</p>
                 <p class="mb-0">Valor:</p>
-                <textarea readonly class="m-0 w-100 bg-light rounded border-0" rows="1" >{{$envVariable->value}}</textarea>
+                {{--        @todo(kmoreira620): refactor            --}}
+                <textarea aria-labelledby="#{{$envVariable->name}}" readonly class="m-0 w-100 bg-light rounded border-0" rows="1" >@if($envVariable->type === 'bool'){{$envVariable->value == 'True' ? 'Habilitado' : 'Desabilitado'}}@else{{$envVariable->value}}@endif</textarea>
 
                 <div class="btn-group float-end mt-2" role="group" aria-label="Basic example">
                     <button
