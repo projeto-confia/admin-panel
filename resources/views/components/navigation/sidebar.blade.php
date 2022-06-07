@@ -47,7 +47,9 @@
                 Tag Cloud
             </x-navigation.dropdown-item>
 
-
+            <x-navigation.dropdown-item class="{{ request()->routeIs('intervencoes.index') ? 'active' : '' }}" href="{{ route('intervencoes.index') }}">
+                Intervenção
+            </x-navigation.dropdown-item>
 
         </x-navigation.dropdown>
 
