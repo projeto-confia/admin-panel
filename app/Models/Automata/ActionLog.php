@@ -9,6 +9,10 @@ class ActionLog extends Model
 {
     use HasFactory;
 
+    protected $casts = [
+        'datetime_log' => 'datetime',
+    ];
+
     public function news(): HasOne
     {
         return $this->hasOne(News::class, 'id_news', 'id_news');
