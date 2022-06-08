@@ -9,7 +9,7 @@
         <div class="card mb-3 p-4">
             <form action="{{ route('intervencoes.index') }}" method="GET" class="row g-3">
                 @csrf
-                <div class="col-12">
+                <div class="col-12  col-md-9">
                     <div class="form-floating">
                         <input
                            type="text"
@@ -17,10 +17,23 @@
                            id="news_text_or_code"
                            name="news_text_or_code"
                            placeholder="Digite o texto ou código de notícia para pesquisar"
-                           value="{{ old('news_text_or_code') }}"
+                           value="{{ old('news_text_or_code', '') }}"
                         />
-                        <label for="news_text_or_code">Texto ou código de notícia</label>
+                        <label for="news_text_or_code">Texto ou código da notícia</label>
                     </div>
+                </div>
+                <div class="col-12 col-md-3">
+                    <select name="action_type" class="form-select form-select-lg" aria-label="Tipos de intervenções">
+                        <option {{ old('action_type') ? '' : 'selected'  }} value="">Tipo de intervenção</option>
+                        @foreach($actionTypes as $actionType)
+                            <option
+                                value="{{ data_get($actionType, 'value') }}"
+                                {{ old('action_type') == data_get($actionType, 'value') ? 'selected' : ''  }}
+                            >
+                                {{data_get($actionType, 'label') }}
+                            </option>
+                        @endforeach
+                    </select>
                 </div>
 
                 <div class="col-md-6">
@@ -31,7 +44,7 @@
                             id="start_date"
                             name="start_date"
                             placeholder="dd/mm/yyyy"
-                            value="{{ old('start_date') }}"
+                            value="{{ old('start_date', data_get($defaultDates, 'start')) }}"
                         >
                         <label for="start_date">Data Inicial</label>
                     </div>
@@ -48,7 +61,7 @@
                             id="end_date"
                             name="end_date"
                             placeholder="dd/mm/yyyy"
-                            value="{{ old('end_date') }}"
+                            value="{{ old('end_date', data_get($defaultDates, 'end')) }}"
                         >
                         <label for="end_date">Data Final</label>
                     </div>
