@@ -3,6 +3,7 @@
 namespace App\Repositories\Automata;
 
 use App\Models\Automata\News;
+use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
@@ -36,5 +37,15 @@ class NewsRepository
             ->where('ground_truth_label', true)
             ->whereNotNull('prob_classification')
             ->count();
+    }
+
+    public function newsCheckedFromLastSevenDays(): Collection
+    {
+        $today = Carbon::now();
+        $sevenDaysAgo = $today->subDays(6);
+        return News::checked()
+            ->whereBetween('datetime_publication', [$sevenDaysAgo, $today])
+            ->orderBy('datetime_publication', 'desc')
+            ->get();
     }
 }
