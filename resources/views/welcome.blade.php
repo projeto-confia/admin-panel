@@ -46,7 +46,7 @@
                 </div>
             </section>
 
-            <section class="col-12  col-lg-7 card example-banner">
+            <section class="col-12  col-lg-7 card">
                 <canvas id="lineChart" style="display: block; height: 385px; width: 770px;"></canvas>
             </section>
         </div>
@@ -55,7 +55,7 @@
     <script defer>
        window.addEventListener('load', function () {
            CONFIA.pages.welcome.loadAutomataPerformanceDonut({!! $newsCorrectlyPredictedCount !!}, {!! $totalNewsFakeByAutomata !!});
-           CONFIA.pages.welcome.fakeNewsByTurnLineChart();
+           CONFIA.pages.welcome.fakeNewsByTurnLineChart({!! $fakeNewsByTurn !!});
            CONFIA.pages.welcome.createDonutChartForNewsCount('totalPredicted', {!! $totalNewsCollectedFromSocialNetworks !!}, {!! $totalNewsPredicted !!}, 'Analisadas');
            CONFIA.pages.welcome.createDonutChartForNewsCount('totalChecked', {!! $curatorshipCount !!}, {!! $totalNewsChecked !!}, 'Checadas');
            CONFIA.pages.welcome.createDonutChartForNewsCount('totalToBeChecked', {!! $curatorshipCount !!}, {!! $totalNewsToBeChecked !!}, 'Aguardando');

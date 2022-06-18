@@ -31,30 +31,30 @@ const loadAutomataPerformanceDonut = (newsCorrectlyPredictedCount, totalNewsChec
     });
 }
 
-const fakeNewsByTurnLineChart = () => {
+const fakeNewsByTurnLineChart = ({ dates, countByTurn: { morning, afternoon, night, dawn } }) => {
     const context = document.querySelector('#lineChart').getContext('2d');
 
     new Chart(context, {
         type: 'line',
         data: {
-            labels: ['10/05/2019', '11/05/2019', '12/05/2019', '13/05/2019', '14/05/2019', '15/05/2019', '16/05/2019'],
+            labels: dates,
             datasets: [{
-                data: [106,107,111,133,221,783,2478],
+                data: morning,
                 label: "Manhã",
                 borderColor: "#3e95cd",
                 fill: false
             }, {
-                data: [502,635,809,947,1402,3700,5267],
+                data: afternoon,
                 label: "Tarde",
                 borderColor: "#8e5ea2",
                 fill: false
             }, {
-                data: [190,203,276,408,547,675,734],
+                data: night,
                 label: "Noite",
                 borderColor: "#3cba9f",
                 fill: false
             }, {
-                data: [16,24,38,74,167,508,784],
+                data: dawn,
                 label: "Madrugada",
                 borderColor: "#e8c3b9",
                 fill: false
