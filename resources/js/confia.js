@@ -6,6 +6,7 @@ import { userEdit } from "./pages/user/edit"
 import curate from './pages/curatorship/curate'
 import { create as createConfiguration } from "./pages/configuration/create"
 import { edit as editConfiguration } from "./pages/configuration/edit"
+import searchInterventions from "./pages/intervention";
 
 const CONFIA = {
     pages: {
@@ -18,6 +19,7 @@ const CONFIA = {
         },
         curatorship: { curate },
         configuration: { create: createConfiguration, edit: editConfiguration },
+        interventions: { index: searchInterventions }
     }
 };
 

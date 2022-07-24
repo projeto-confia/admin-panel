@@ -95,6 +95,7 @@
                         <th scope="col">Texto</th>
                         <th scope="col">Ação</th>
                         <th scope="col">Data</th>
+                        <th scope="col">Filtrar</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -104,7 +105,12 @@
                             <td>{{ $actionLog->news->text_news }}</td>
                             <td>{{ $actionLog->actionType->name_action }}</td>
                             <td>{{ $actionLog->datetime_log->format('d/m/Y') }}</td>
-                        </tr>
+                            <td>
+                                <button class="btn" data-news-search="{{ $actionLog->news->id_news }}">
+                                    <x-icons.search style="width: 1rem" />
+                                </button>
+                            </td>
+                    </tr>
                     @endforeach
                     </tbody>
                 </table>
@@ -115,5 +121,13 @@
             </div>
         </div>
     </main>
+
+    @push('scripts')
+        <script defer>
+            window.addEventListener('load', function () {
+                CONFIA.pages.interventions.index();
+            });
+        </script>
+    @endpush
 
 </x-layouts.app>

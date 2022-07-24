@@ -6,6 +6,7 @@ use App\Models\Automata\ActionLog;
 use App\Models\Automata\ActionType;
 use App\Trait\IntervalNavigable;
 use Carbon\Carbon;
+use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
@@ -13,9 +14,8 @@ class InterventionReportController extends Controller
 {
     use IntervalNavigable;
 
-    public function index(Request $request)
+    public function index(Request $request): View
     {
-//        dd($request->all());
         $this->handleIntervalNavigation($request);
 
         $defaultDates = [
@@ -29,9 +29,13 @@ class InterventionReportController extends Controller
                 $request->news_text_or_code,
                 fn (Builder $query) => $query->whereHas(
                     'news',
-                    fn(Builder $newsQuery) => $newsQuery
-                        ->where('id_news', $request->news_text_or_code)
-                        ->orWhere('text_news', 'like', $request->news_text_or_code)
+                    function (Builder $newsQuery) use ($request) {
+                        if (is_numeric($request->news_text_or_code)) {
+                            return $newsQuery->where('id_news', $request->news_text_or_code);
+                        }
+
+                        return $newsQuery->where('text_news', 'ilike', "%$request->news_text_or_code%");
+                    }
                 )
             )
             ->when($request->action_type, fn(Builder $query) => $query->where('id_action', $request->action_type))
