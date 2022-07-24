@@ -25,6 +25,7 @@ class UserStoreRequest extends FormRequest
     {
         return [
             'name' => ['required', 'max:255'],
+            'cpf' => ['required', 'size:11', 'cpf'],
             'email' => ['required', 'email', 'unique:users'],
             'is_admin' => ['sometimes', 'boolean'],
         ];

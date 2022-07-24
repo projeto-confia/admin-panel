@@ -21,7 +21,8 @@ class User extends Authenticatable
         'email',
         'password',
         'is_admin',
-        'is_blocked'
+        'is_blocked',
+        'cpf'
     ];
 
     /**
@@ -60,7 +61,7 @@ class User extends Authenticatable
      *
      * @return void
      */
-    public function sendUserCreatedNotification()
+    public function sendUserCreatedNotification(): void
     {
         $this->notify(new UserCreated);
     }

@@ -36,9 +36,27 @@
                             placeholder="E-mail"
                             value="{{ old('email') }}"
                         >
-                        <label for="name">E-mail</label>
+                        <label for="email">E-mail</label>
                     </div>
                     @error('email')
+                    <span class="text-danger small">{{ $message }}</span>
+                    @enderror()
+                </div>
+
+                <div class="col-12">
+                    <div class="form-floating">
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="cpf"
+                            name="cpf"
+                            placeholder="CPF"
+                            value="{{ old('cpf') }}"
+                            size="11"
+                        >
+                        <label for="cpf">CPF</label>
+                    </div>
+                    @error('cpf')
                     <span class="text-danger small">{{ $message }}</span>
                     @enderror()
                 </div>

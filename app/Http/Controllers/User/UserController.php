@@ -84,7 +84,7 @@ class UserController extends Controller
      */
     public function update(UserUpdateRequest $request, User $user): RedirectResponse
     {
-        $user->update($request->merge([ 'is_admin' => !!$request->is_admin ])->all());
+        $user->update($request->merge([ 'is_admin' => (bool) $request->is_admin ])->all());
         return redirect()->route('usuarios.index');
     }
 
