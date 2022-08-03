@@ -21,7 +21,7 @@
         </x-navigation.nav-item>
 
         <x-navigation.dropdown label="Relatórios" id="actions" class="{{
-            collect(['news.index', 'news_chart.index', 'news_tagcloud.index', 'news_actual_detected.index'])
+            collect(['news.index', 'news_chart.index', 'news_tagcloud.index', 'news_actual_detected.index', 'news-classified'])
                 ->some(fn ($route) => request()->routeIs($route))
                  ? 'show'
                  : ''
@@ -29,6 +29,10 @@
 
             <x-navigation.dropdown-item class="{{ request()->routeIs('news.index') ? 'active' : '' }}" href="{{ url('report/news') }}">
                 Notícias
+            </x-navigation.dropdown-item>
+
+            <x-navigation.dropdown-item class="{{ request()->routeIs('news-classified') ? 'active' : '' }}" href="{{ url('report/news/classified') }}">
+                Notícias classificadas
             </x-navigation.dropdown-item>
 
             <x-navigation.dropdown-item class="{{ request()->routeIs('news_chart.index') ? 'active' : '' }}" href="{{ url('report/news_chart') }}">
@@ -43,7 +47,9 @@
                 Tag Cloud
             </x-navigation.dropdown-item>
 
-
+            <x-navigation.dropdown-item class="{{ request()->routeIs('intervencoes.index') ? 'active' : '' }}" href="{{ route('intervencoes.index') }}">
+                Intervenção
+            </x-navigation.dropdown-item>
 
         </x-navigation.dropdown>
 
@@ -61,5 +67,15 @@
             Gerenciar usuários
         </x-navigation.nav-item>
         @endcan
+
+    @can('viewAny', \App\Models\User::class)
+        <x-navigation.nav-item
+            class="{{ request()->routeIs('configuration.index') ? 'active' : '' }}"
+            href="{{ route('configuration.index') }}"
+        >
+            Configuração do AUTOMATA
+        </x-navigation.nav-item>
+    @endcan
     </ul>
+
 </nav>

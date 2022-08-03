@@ -19,3 +19,6 @@ require __DIR__ . '/auth.php';
 require __DIR__.'/web/report.php';
 require __DIR__.'/web/users.php';
 require __DIR__.'/web/curatorship.php';
+require __DIR__.'/web/env_variable.php';
+require __DIR__.'/web/intervention.php';
+

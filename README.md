@@ -58,5 +58,5 @@ Para acessar a aplicação, acesse o endereço no seu browser: [http://localhost
 ## Documentação
  - [Manual de operação](/docs/manual.pdf).
 
-## Licença
+## Licença 
 [MIT](https://choosealicense.com/licenses/mit/)

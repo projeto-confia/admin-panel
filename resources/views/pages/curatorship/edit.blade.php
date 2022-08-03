@@ -49,7 +49,7 @@ $shouldHideIsNewsFieldWrapper = $curatorshipDTO->hasSimilarCheckedNews()
                 <h2 class="h5">Notícia similar publicada pela agência de checagem</h2>
                 <div class="my-2">
                     <p class="m-0">Agência: <span class="text-muted">{{ $curatorshipDTO->agencyNewsName() }}</span></p>
-                    <a class="link-info" href="{{ $curatorshipDTO->agencyCheckedNewsUrl() }}">Link da publicação</a>
+                    <a class="link-info" referrerpolicy="no-referrer" href="{{ $curatorshipDTO->agencyCheckedNewsUrl() }}">Link da publicação</a>
                 </div>
 
                 <label for="publication_title" class="text-bold">Texto da notícia:</label>
