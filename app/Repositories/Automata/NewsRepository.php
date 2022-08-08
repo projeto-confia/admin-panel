@@ -43,7 +43,6 @@ class NewsRepository
     {
         $today = Carbon::now();
         $sevenDaysAgo = $today->subDays(6);
-        Post
         return News::isFake()
 //            ->whereBetween('datetime_publication', ['2021-09-08', '2021-09-13'])
             ->orderBy('datetime_publication', 'desc')
