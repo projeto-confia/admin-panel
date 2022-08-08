@@ -41,6 +41,7 @@ class NewsRepository
 
     public function newsCheckedFromLastSevenDays(): Collection
     {
+        //@todo: Pegar da lista de postagens
         $today = Carbon::now();
         $sevenDaysAgo = $today->subDays(6);
         return News::isFake()
