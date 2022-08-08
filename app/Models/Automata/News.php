@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @method static predicted()
  * @method static checked()
  * @method static notChecked()
+ * @method static isFake()
  */
 class News extends Model
 {
@@ -22,6 +23,13 @@ class News extends Model
         'datetime_publication' => 'datetime',
     ];
 
+    public function scopeIsFake(Builder $builder): Builder
+    {
+        return $builder
+            ->whereNotNull('classification_outcome')
+            ->whereNotNull('prob_classification')
+            ->where('ground_truth_label', false);
+    }
     public function scopePredicted(Builder $builder): Builder
     {
         return $builder
