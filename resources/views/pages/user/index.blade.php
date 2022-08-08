@@ -11,11 +11,12 @@
                 <a class="btn btn-primary" href="{{ route('usuarios.create') }}">Adicionar Usuário</a>
             </div>
             <div class="table-responsive">
-                <table class="table table-striped align-middle">
+                <table class="table table-striped align-middle" aria-label="Listagem de usuários">
                     <thead>
                     <tr>
                         <th scope="col">Nome</th>
                         <th scope="col">E-mail</th>
+                        <th scope="col">CPF</th>
                         <th scope="col">Perfil</th>
                         <th scope="col">Senha criada</th>
                         <th scope="col">Ações</th>
@@ -26,6 +27,7 @@
                         <tr>
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->email }}</td>
+                            <td>{{ $user->cpf ?: 'Não informado' }}</td>
                             <td>{{ $user->is_admin ? 'Administrador' : 'Comum' }}</td>
                             <td>{{ is_null($user->password) ? 'Não' : 'Sim' }}</td>
                             <td>
