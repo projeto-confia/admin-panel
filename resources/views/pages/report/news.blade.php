@@ -120,6 +120,7 @@
                         <th scope="col">Texto</th>
                         <th scope="col">Publicação</th>
                         <th scope="col">Rótulo</th>
+                        <th scope="col">Por similaridade</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -129,6 +130,7 @@
                             <td>{{ $news_item->text_news }}</td>
                             <td>{{ $news_item->datetime_publication->format('d/m/Y') }}</td>
                             <td>{{ $news_item->ground_truth_label ? 'Fake' : 'Não Fake' }}</td>
+                            <td>{{ $news_item->curatorship->is_similar ? 'Sim' : 'Não' }}</td>
                         </tr>
                     @endforeach
                     </tbody>
