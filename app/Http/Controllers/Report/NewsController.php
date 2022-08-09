@@ -23,6 +23,7 @@ class NewsController extends Controller
     {
         $this->handleIntervalNavigation($request);
         $news = News::query()
+            ->with('curatorship')
             ->whereNotNull('prob_classification')
             ->when(
                 $request->text_news,
